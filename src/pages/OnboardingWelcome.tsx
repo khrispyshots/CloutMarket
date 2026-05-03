@@ -5,7 +5,7 @@ import { PartyPopper, Star, ArrowRight, Zap, Target, Trophy } from 'lucide-react
 
 export const OnboardingWelcome: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
   return (
-    <div className="h-full min-h-0 bg-clout-bg flex flex-col font-sans overflow-hidden">
+    <div className="bg-clout-bg flex flex-col font-sans">
        <header className="px-6 h-24 flex items-center justify-between max-w-2xl mx-auto w-full">
         <span className="font-black italic text-2xl tracking-tighter">CM <span className="text-clout-yellow text-4xl">.</span></span>
         <div className="flex gap-3">

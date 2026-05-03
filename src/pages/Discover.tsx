@@ -82,7 +82,7 @@ export const Discover: React.FC<{ onInvest: () => void; onProfile: () => void }>
                   <span className="text-[10px] font-black text-clout-green">{creator.change}</span>
                 </div>
               </div>
-              <StickerButton onClick={onInvest} fullWidth className="h-10 text-[10px] font-bold">Invest Now</StickerButton>
+              <StickerButton onClick={onInvest} fullWidth className="h-12 text-xs font-black uppercase tracking-tight shadow-lg">Invest Now</StickerButton>
             </BrutalistCard>
           ))}
         </div>
@@ -140,7 +140,7 @@ export const Discover: React.FC<{ onInvest: () => void; onProfile: () => void }>
                   </p>
                 </div>
               </button>
-              <StickerButton onClick={onInvest} variant="secondary" className="h-10 px-4 text-[10px] font-black shrink-0 w-full sm:w-auto">Buy 0.1 ETH</StickerButton>
+              <StickerButton onClick={onInvest} variant="secondary" className="h-12 px-6 text-xs font-black shrink-0 w-full sm:w-auto shadow-md">Buy 0.1 ETH</StickerButton>
             </BrutalistCard>
           ))}
         </div>

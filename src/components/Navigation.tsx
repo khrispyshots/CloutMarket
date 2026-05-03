@@ -41,7 +41,7 @@ export const BottomNavBar: React.FC<NavProps> = ({ activeScreen, onNavigate }) =
               aria-label={item.label}
               className={cn(
                 'flex flex-col items-center justify-center transition-all px-1.5 sm:px-3 py-1.5 rounded-xl sm:rounded-2xl gap-0.5 min-w-0 flex-1 max-w-[5.5rem] touch-manipulation',
-                isActive ? 'bg-clout-yellow border-2 border-border-dark hard-shadow-sm' : 'text-slate-400 hover:text-slate-600'
+                isActive ? 'bg-clout-yellow border-2 border-border-dark hard-shadow-sm' : 'text-border-dark/40 hover:text-border-dark/70'
               )}
             >
               <Icon size={isActive ? 20 : 22} className={cn(isActive && 'fill-current')} aria-hidden />

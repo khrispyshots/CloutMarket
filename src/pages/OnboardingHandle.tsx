@@ -16,7 +16,7 @@ export const OnboardingHandle: React.FC<{ onComplete: () => void; onBack: () => 
   };
 
   return (
-    <div className="h-full min-h-0 bg-clout-bg flex flex-col font-sans overflow-hidden">
+    <div className="bg-clout-bg flex flex-col font-sans">
       <header className="px-6 h-24 flex items-center justify-between max-w-2xl mx-auto w-full">
         <button onClick={onBack} className="w-12 h-12 flex items-center justify-center rounded-2xl border-2 border-border-dark bg-white hard-shadow-sm press-interaction">
           <ArrowLeft size={20} strokeWidth={3} />

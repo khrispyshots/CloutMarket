@@ -193,8 +193,8 @@ export const Feed: React.FC<{ onCreatorSelect: () => void; onInvest: () => void 
                 </button>
               )}
               {post.creatorId !== 'me' && (
-                <StickerButton onClick={onInvest} variant="secondary" className="h-9 px-3 text-[10px] shrink-0">
-                  Invest
+                <StickerButton onClick={onInvest} variant="secondary" className="h-12 px-5 text-xs font-black uppercase tracking-tight shrink-0 shadow-lg">
+                  Buy Clout
                 </StickerButton>
               )}
             </div>

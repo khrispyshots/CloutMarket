@@ -5,7 +5,7 @@ import { TrendingUp, ArrowRight } from 'lucide-react';
 
 export const Splash: React.FC<{ onComplete: () => void; onLogin: () => void }> = ({ onComplete, onLogin }) => {
   return (
-    <div className="h-full min-h-0 flex flex-col items-center justify-between p-5 max-w-4xl mx-auto overflow-hidden">
+    <div className="min-h-0 flex flex-col items-center justify-between p-5 max-w-4xl mx-auto">
       <div className="flex-1 flex flex-col items-center justify-center w-full max-w-md space-y-6 min-h-0">
         <div className="relative w-full max-w-[220px] aspect-square flex items-center justify-center shrink-0">
           <div className="absolute inset-0 bg-clout-green opacity-30 rounded-full blur-[80px] animate-pulse"></div>
@@ -64,7 +64,7 @@ export const Splash: React.FC<{ onComplete: () => void; onLogin: () => void }> =
               <button
                 type="button"
                 onClick={onLogin}
-                className="text-clout-yellow font-black underline underline-offset-4 hover:text-slate-900 transition-colors bg-transparent border-0 p-0 cursor-pointer font-inherit text-inherit"
+                className="text-border-dark font-black underline underline-offset-4 hover:text-clout-purple transition-colors bg-transparent border-0 p-0 cursor-pointer font-inherit text-inherit"
               >
                 Log In
               </button>

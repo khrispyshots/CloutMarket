@@ -18,8 +18,8 @@ export const Signup: React.FC<{ onComplete: () => void }> = ({ onComplete }) => 
   };
 
   return (
-    <div className="h-full min-h-0 bg-clout-bg flex flex-col font-sans px-5 py-6 items-center justify-center overflow-hidden">
-      <header className="absolute top-0 left-0 w-full px-6 h-24 flex items-center justify-between max-w-2xl mx-auto left-1/2 -translate-x-1/2">
+    <div className="bg-clout-bg flex flex-col font-sans px-5 py-6 items-center justify-center">
+      <header className="w-full px-6 h-24 flex items-center justify-between max-w-2xl mx-auto">
         <div className="w-12"></div>
         <div className="flex gap-3">
             <div className="h-2 w-10 rounded-full bg-clout-purple border-2 border-border-dark"></div>

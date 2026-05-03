@@ -27,7 +27,7 @@ export default function App() {
   const renderScreen = () => {
     switch (currentScreen) {
       case Screen.Splash:
-        return <Splash onComplete={() => navigate(Screen.Signup)} onLogin={() => navigate(Screen.Signup)} />;
+        return <Splash onComplete={() => navigate(Screen.Signup)} onLogin={() => navigate(Screen.Feed)} />;
       case Screen.Signup:
         return <Signup onComplete={() => navigate(Screen.Onboarding_Handle)} />;
       case Screen.Onboarding_Handle:
@@ -101,7 +101,7 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.18, ease: 'easeOut' }}
-            className={`w-full max-w-lg mx-auto ${isFullPage ? 'h-full min-h-0 flex flex-col' : 'min-h-0'}`}
+            className={`w-full max-w-xl mx-auto ${isFullPage ? 'h-full min-h-0 flex flex-col' : 'min-h-0'}`}
           >
             {renderScreen()}
           </motion.div>

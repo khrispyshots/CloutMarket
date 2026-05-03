@@ -4,14 +4,14 @@
 @theme {
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
   
-  --color-clout-yellow: #fef08a;
-  --color-clout-green: #b4f0c9;
-  --color-clout-purple: #f6e9ff;
-  --color-clout-pink: #fce4ec;
-  --color-clout-blue: #e0f2fe;
-  --color-clout-bg: #fef9ed;
-  --color-on-surface: #1d1c15;
-  --color-border-dark: #0f172a;
+  --color-clout-yellow: #FFE500;
+  --color-clout-green: #00FF85;
+  --color-clout-purple: #8B5CF6;
+  --color-clout-pink: #FF4D94;
+  --color-clout-blue: #3B82F6;
+  --color-clout-bg: #F8F9FA;
+  --color-on-surface: #0F172A;
+  --color-border-dark: #000000;
 }
 
 @layer base {
