@@ -1,5 +1,6 @@
 import React from 'react';
 import { cn } from '../lib/utils';
+import { useCloutMarket } from '../engine/CloutMarketContext';
 import { AreaChart, Area, ResponsiveContainer } from 'recharts';
 import { BrutalistCard, StickerButton } from '../components/UI';
 import { HOLDINGS } from '../constants';
@@ -16,8 +17,9 @@ const DATA = [
 ];
 
 export const Portfolio: React.FC<{ onShowLeaderboard: () => void; onBuy: () => void; onWithdraw: () => void }> = ({ onShowLeaderboard, onBuy, onWithdraw }) => {
+  const { state } = useCloutMarket();
   return (
-    <div className="px-4 pb-nav space-y-5 pt-3 max-w-2xl mx-auto">
+    <div className="px-3 sm:px-4 pb-nav space-y-4 sm:space-y-5 pt-2 sm:pt-3 w-full max-w-full">
       <section className="bg-clout-green border-2 border-border-dark rounded-lg p-4 hard-shadow space-y-3">
         <div className="flex justify-between items-start">
           <p className="text-[10px] font-black uppercase tracking-widest opacity-60">Total Balance</p>
@@ -25,24 +27,30 @@ export const Portfolio: React.FC<{ onShowLeaderboard: () => void; onBuy: () => v
             +12.5% ↗
           </div>
         </div>
-        <h1 className="text-3xl font-black">$42,850.24</h1>
-        
+        <div className="flex flex-col gap-1">
+          <h1 className="text-2xl sm:text-3xl font-black tabular-nums">$42,850.24</h1>
+          <p className="text-[10px] font-bold text-slate-700 leading-snug">
+            Event engine · ALEX spot <span className="font-black">${state.tokenSpotPrice.toFixed(2)}</span> · Platform fees{' '}
+            <span className="font-black">${state.platformFeesUsd.toFixed(2)}</span>
+          </p>
+        </div>
+
         <div className="w-full h-24 bg-white/40 border-2 border-border-dark rounded-lg relative overflow-hidden">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={DATA}>
               <defs>
                 <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#175034" stopOpacity={0.8}/>
-                  <stop offset="95%" stopColor="#175034" stopOpacity={0}/>
+                  <stop offset="5%" stopColor="#175034" stopOpacity={0.8} />
+                  <stop offset="95%" stopColor="#175034" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <Area 
-                type="monotone" 
-                dataKey="value" 
-                stroke="#175034" 
+              <Area
+                type="monotone"
+                dataKey="value"
+                stroke="#175034"
                 strokeWidth={3}
-                fillOpacity={1} 
-                fill="url(#colorValue)" 
+                fillOpacity={1}
+                fill="url(#colorValue)"
               />
             </AreaChart>
           </ResponsiveContainer>
@@ -69,13 +77,13 @@ export const Portfolio: React.FC<{ onShowLeaderboard: () => void; onBuy: () => v
 
         <div className="space-y-3">
           {HOLDINGS.map((item) => (
-            <BrutalistCard 
-              key={item.id} 
+            <BrutalistCard
+              key={item.id}
               className={cn(
                 'p-4 flex items-center gap-4 transition-transform active:scale-[0.99]',
-                item.color === 'clout-green' ? 'bg-clout-green' : 
-                item.color === 'clout-purple' ? 'bg-clout-purple' : 
-                item.color === 'clout-yellow' ? 'bg-clout-yellow' : 'bg-white'
+                item.color === 'clout-green' ? 'bg-clout-green' :
+                  item.color === 'clout-purple' ? 'bg-clout-purple' :
+                    item.color === 'clout-yellow' ? 'bg-clout-yellow' : 'bg-white'
               )}
             >
               <div className="w-12 h-12 bg-white border-2 border-border-dark rounded-full flex items-center justify-center hard-shadow-sm">
@@ -98,8 +106,8 @@ export const Portfolio: React.FC<{ onShowLeaderboard: () => void; onBuy: () => v
 
       <BrutalistCard variant="purple" className="p-5 space-y-4">
         <div className="flex justify-between items-center">
-           <h3 className="text-sm font-black uppercase tracking-tight">Portfolio Diversity</h3>
-           <button type="button" onClick={onShowLeaderboard} className="text-[10px] font-black underline">Stats</button>
+          <h3 className="text-sm font-black uppercase tracking-tight">Portfolio Diversity</h3>
+          <button type="button" onClick={onShowLeaderboard} className="text-[10px] font-black underline">Stats</button>
         </div>
         <div className="flex h-4 w-full border-2 border-border-dark rounded-full overflow-hidden bg-white">
           <div className="h-full bg-clout-yellow w-[45%] border-r-2 border-border-dark"></div>

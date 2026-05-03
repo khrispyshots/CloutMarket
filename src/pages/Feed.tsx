@@ -1,15 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { flushSync } from 'react-dom';
 import { AnimatePresence, motion } from 'motion/react';
 import { BrutalistCard, StickerButton, Avatar } from '../components/UI';
 import { POSTS } from '../constants';
 import type { Post } from '../types';
 import { Heart, MessageCircle, Plus, Share2, X } from 'lucide-react';
 import { cn, copyTextToClipboard } from '../lib/utils';
+import { useCloutMarket } from '../engine/CloutMarketContext';
+import { DAILY_POINTS_CAP } from '../engine/config';
 
 const ME_AVATAR =
   'https://lh3.googleusercontent.com/aida-public/AB6AXuBPVpsRKHuRuOzQlOqUqi7Bfp7dlrib0uguDeolilblQoO4sMNEWKz6w90n7zWzIP7tTS7vV_irrgb2Dh-jFpUI11phZW1saxp-2N4zKsNCUV8sxFRnMK81JWCiQ7Qag6Jg6XJQUYhY0TeUszJ68O2O0QzSNYukVZ8k63fuL9vnkpaE1C6RG58JJQPqguFPQppk4ux4EeCiuwU7MZz4izu2tedl5VodA9bbjCWYka3DzmUSjPSRqP3g3qHkux157CysxBnmJ_CLw2E';
 
 export const Feed: React.FC<{ onCreatorSelect: () => void; onInvest: () => void }> = ({ onCreatorSelect, onInvest }) => {
+  const { state, dispatch, formatClout } = useCloutMarket();
   const parseCount = (c: string): number => {
     if (c.endsWith('k')) return parseFloat(c) * 1000;
     if (c.endsWith('m')) return parseFloat(c) * 1000000;
@@ -48,36 +52,59 @@ export const Feed: React.FC<{ onCreatorSelect: () => void; onInvest: () => void 
     return () => window.removeEventListener('keydown', onKey);
   }, [composeOpen]);
 
-  const toggleLike = (id: string, e: React.MouseEvent) => {
+  const toggleLike = (post: Post, e: React.MouseEvent) => {
     e.stopPropagation();
-    setLikes((prev) => ({
-      ...prev,
-      [id]: {
-        count: prev[id].active ? prev[id].count - 1 : prev[id].count + 1,
-        active: !prev[id].active,
-      },
-    }));
+    const id = post.id;
+    let wasActive = false;
+    flushSync(() => {
+      setLikes((prev) => {
+        wasActive = prev[id]?.active ?? false;
+        return {
+          ...prev,
+          [id]: {
+            count: wasActive ? Math.max(0, prev[id].count - 1) : prev[id].count + 1,
+            active: !wasActive,
+          },
+        };
+      });
+    });
+    if (!wasActive) dispatch({ type: 'LikeAdded', postId: id, creatorId: post.creatorId });
+    else dispatch({ type: 'LikeRemoved', postId: id, creatorId: post.creatorId });
   };
 
-  const toggleReply = (id: string, e: React.MouseEvent) => {
+  const toggleReply = (post: Post, e: React.MouseEvent) => {
     e.stopPropagation();
-    setReplies((prev) => ({
-      ...prev,
-      [id]: {
-        count: prev[id].active ? prev[id].count - 1 : prev[id].count + 1,
-        active: !prev[id].active,
-      },
-    }));
+    const id = post.id;
+    let wasActive = false;
+    flushSync(() => {
+      setReplies((prev) => {
+        wasActive = prev[id]?.active ?? false;
+        return {
+          ...prev,
+          [id]: {
+            count: wasActive ? Math.max(0, prev[id].count - 1) : prev[id].count + 1,
+            active: !wasActive,
+          },
+        };
+      });
+    });
+    if (!wasActive) dispatch({ type: 'CommentAdded', postId: id, creatorId: post.creatorId });
   };
 
-  const sharePost = async (_id: string, e: React.MouseEvent) => {
+  const sharePost = async (post: Post, e: React.MouseEvent) => {
     e.stopPropagation();
     const url = window.location.href;
     if (navigator.share) {
-      navigator.share({ title: 'Check out this CloutMarket post!', url }).catch(() => {});
+      try {
+        await navigator.share({ title: 'Check out this CloutMarket post!', url });
+        dispatch({ type: 'Repost', postId: post.id, creatorId: post.creatorId });
+      } catch {
+        /* cancelled */
+      }
       return;
     }
     const ok = await copyTextToClipboard(url);
+    if (ok) dispatch({ type: 'Repost', postId: post.id, creatorId: post.creatorId });
     alert(ok ? 'Link copied to clipboard.' : 'Copy not supported in this browser; share manually.');
   };
 
@@ -95,6 +122,7 @@ export const Feed: React.FC<{ onCreatorSelect: () => void; onInvest: () => void 
       comments: '0',
       timestamp: 'Just now',
     };
+    dispatch({ type: 'PostCreated', postId: newPost.id, creatorId: 'me', contentLength: text.length });
     setMyPosts((p) => [newPost, ...p]);
     setLikes((prev) => ({ ...prev, [newPost.id]: { count: 0, active: false } }));
     setReplies((prev) => ({ ...prev, [newPost.id]: { count: 0, active: false } }));
@@ -105,33 +133,36 @@ export const Feed: React.FC<{ onCreatorSelect: () => void; onInvest: () => void 
   const allPosts = [...myPosts, ...POSTS];
 
   return (
-    <div className="px-4 pb-nav max-w-2xl mx-auto pt-3">
+    <div className="px-3 sm:px-4 pb-nav w-full max-w-full pt-2 sm:pt-3">
       <div className="space-y-2 mb-3">
         <h2 className="text-2xl font-black tracking-tight leading-tight">Good Morning!</h2>
         <p className="text-slate-500 font-bold text-sm font-sans">Trade social influence today.</p>
       </div>
 
-      <BrutalistCard variant="yellow" className="flex justify-between items-center gap-3 p-4 mb-3">
+      <BrutalistCard variant="yellow" className="flex justify-between items-center gap-3 p-3 sm:p-4 mb-3">
         <div className="space-y-0.5 min-w-0">
           <span className="text-[9px] font-black uppercase tracking-widest opacity-60">Your Clout Score</span>
           <div className="flex items-baseline gap-2 flex-wrap">
-            <span className="text-2xl font-black">4,892</span>
-            <span className="text-[10px] font-bold text-clout-green bg-border-dark px-1 rounded">+12%</span>
+            <span className="text-xl sm:text-2xl font-black tabular-nums">{formatClout(state.cloutPoints)}</span>
+            <span className="text-[10px] font-bold text-clout-green bg-border-dark px-1 rounded">live</span>
           </div>
+          <p className="text-[9px] font-bold text-slate-600 leading-tight">
+            Today +{Math.round(state.dailyPointsEarned)} / {DAILY_POINTS_CAP} pts cap
+          </p>
         </div>
         <div className="bg-white border-2 border-border-dark p-1.5 rounded-full hard-shadow-sm shrink-0">
           <Avatar size="sm" src={ME_AVATAR} alt="Your profile" />
         </div>
       </BrutalistCard>
 
-      <div className="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide mb-3" role="tablist" aria-label="Feed filters">
-        <button type="button" aria-selected className="whitespace-nowrap px-4 py-2 bg-clout-yellow border-2 border-border-dark rounded-full font-black text-[10px] uppercase hard-shadow-sm press-interaction">
+      <div className="flex gap-2 overflow-x-auto pb-2 -mx-3 px-3 sm:-mx-4 sm:px-4 scrollbar-hide mb-3 snap-x snap-mandatory" role="tablist" aria-label="Feed filters">
+        <button type="button" aria-selected className="snap-start shrink-0 whitespace-nowrap px-4 py-2 bg-clout-yellow border-2 border-border-dark rounded-full font-black text-[10px] uppercase hard-shadow-sm press-interaction">
           Trending
         </button>
-        <button type="button" aria-selected={false} className="whitespace-nowrap px-4 py-2 bg-white border-2 border-border-dark rounded-full font-black text-[10px] uppercase text-slate-500 hover:bg-slate-50 press-interaction">
+        <button type="button" aria-selected={false} className="snap-start shrink-0 whitespace-nowrap px-4 py-2 bg-white border-2 border-border-dark rounded-full font-black text-[10px] uppercase text-slate-500 hover:bg-slate-50 press-interaction">
           Following
         </button>
-        <button type="button" aria-selected={false} className="whitespace-nowrap px-4 py-2 bg-white border-2 border-border-dark rounded-full font-black text-[10px] uppercase text-slate-500 hover:bg-slate-50 press-interaction">
+        <button type="button" aria-selected={false} className="snap-start shrink-0 whitespace-nowrap px-4 py-2 bg-white border-2 border-border-dark rounded-full font-black text-[10px] uppercase text-slate-500 hover:bg-slate-50 press-interaction">
           New
         </button>
       </div>
@@ -180,7 +211,7 @@ export const Feed: React.FC<{ onCreatorSelect: () => void; onInvest: () => void 
               <div className="flex gap-3 shrink-0">
                 <button
                   type="button"
-                  onClick={(e) => toggleLike(post.id, e)}
+                  onClick={(e) => toggleLike(post, e)}
                   className={cn(
                     'flex items-center gap-1 group text-[11px] font-black transition-colors press-interaction',
                     likes[post.id]?.active ? 'text-red-500' : 'text-slate-600'
@@ -191,7 +222,7 @@ export const Feed: React.FC<{ onCreatorSelect: () => void; onInvest: () => void 
                 </button>
                 <button
                   type="button"
-                  onClick={(e) => toggleReply(post.id, e)}
+                  onClick={(e) => toggleReply(post, e)}
                   className={cn(
                     'flex items-center gap-1 group text-[11px] font-black transition-colors press-interaction',
                     replies[post.id]?.active ? 'text-clout-green' : 'text-slate-600'
@@ -203,7 +234,7 @@ export const Feed: React.FC<{ onCreatorSelect: () => void; onInvest: () => void 
                 </button>
                 <button
                   type="button"
-                  onClick={(e) => sharePost(post.id, e)}
+                  onClick={(e) => sharePost(post, e)}
                   className="flex items-center gap-1 group text-[11px] font-black text-slate-600 press-interaction"
                   aria-label="Share post"
                 >
@@ -237,7 +268,7 @@ export const Feed: React.FC<{ onCreatorSelect: () => void; onInvest: () => void 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 bg-black/50"
+            className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-3 sm:p-4 bg-black/50 overscroll-contain"
             onClick={() => setComposeOpen(false)}
           >
             <motion.div
@@ -245,7 +276,7 @@ export const Feed: React.FC<{ onCreatorSelect: () => void; onInvest: () => void 
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: 24, opacity: 0 }}
               transition={{ type: 'spring', damping: 28, stiffness: 320 }}
-              className="w-full max-w-lg bg-clout-bg border-2 border-border-dark rounded-2xl hard-shadow p-4 max-h-[min(85dvh,32rem)] flex flex-col gap-3"
+              className="w-full max-w-lg bg-clout-bg border-2 border-border-dark rounded-2xl hard-shadow p-3 sm:p-4 max-h-[min(90dvh,28rem)] sm:max-h-[min(85dvh,32rem)] flex flex-col gap-3 overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center justify-between gap-2">

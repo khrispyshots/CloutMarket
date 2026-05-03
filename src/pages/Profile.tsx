@@ -3,6 +3,7 @@ import { BrutalistCard, StickerButton, Avatar } from '../components/UI';
 import { CREATORS, POSTS } from '../constants';
 import { ArrowLeft, TrendingUp, UserPlus, Heart, MessageCircle, Settings as SettingsIcon, Check, Repeat, Share2 } from 'lucide-react';
 import { cn, copyTextToClipboard } from '../lib/utils';
+import { useCloutMarket } from '../engine/CloutMarketContext';
 
 const parseCount = (c: string): number => {
   if (c.endsWith('k')) return parseFloat(c) * 1000;
@@ -17,6 +18,7 @@ const formatCount = (n: number): string => {
 };
 
 export const Profile: React.FC<{ onBuy: () => void; onBack: () => void; onSettings: () => void; onSell: () => void }> = ({ onBuy, onBack, onSettings, onSell }) => {
+  const { dispatch } = useCloutMarket();
   const [isFollowing, setIsFollowing] = useState(false);
   const [likes, setLikes] = useState<Record<string, { count: number, active: boolean }>>(
     Object.fromEntries(POSTS.map(p => [p.id, { count: parseCount(p.likes), active: false }]))
@@ -110,7 +112,12 @@ export const Profile: React.FC<{ onBuy: () => void; onBack: () => void; onSettin
               fullWidth 
               variant={isFollowing ? 'outline' : 'secondary'} 
               className="h-12 font-black text-sm" 
-              onClick={() => setIsFollowing(!isFollowing)}
+              onClick={() => {
+                setIsFollowing((prev) => {
+                  if (!prev) dispatch({ type: 'FollowUser', creatorId: creator.id });
+                  return !prev;
+                });
+              }}
               leftIcon={isFollowing ? <Check size={20} /> : <UserPlus size={20} strokeWidth={3} />}
             >
               {isFollowing ? 'Following' : 'Follow'}

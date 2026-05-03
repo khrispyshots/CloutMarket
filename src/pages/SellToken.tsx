@@ -2,18 +2,25 @@ import React, { useState } from 'react';
 import { BrutalistCard, StickerButton, Avatar } from '../components/UI';
 import { ArrowLeft, TrendingDown, CircleDollarSign } from 'lucide-react';
 import { cn } from '../lib/utils';
+import { useCloutMarket } from '../engine/CloutMarketContext';
+import { FEE_SELL_PCT } from '../engine/config';
+
+const CREATOR_ID = '3';
 
 export const SellToken: React.FC<{ onBack: () => void; onComplete: () => void }> = ({ onBack, onComplete }) => {
+  const { state, dispatch } = useCloutMarket();
   const [tokenAmount, setTokenAmount] = useState('');
   const [asset, setAsset] = useState<'CELO' | 'cUSD'>('CELO');
 
-  const priceUsd = 14.2;
+  const priceUsd = state.tokenSpotPrice;
   const tokens = parseFloat(tokenAmount);
   const tokensValid = Number.isFinite(tokens) && tokens > 0;
-  const usdEstimate = tokensValid ? (tokens * priceUsd).toFixed(2) : '0.00';
+  const usdNum = tokensValid ? tokens * priceUsd : 0;
+  const usdEstimate = tokensValid ? usdNum.toFixed(2) : '0.00';
+  const sellFee = usdNum * FEE_SELL_PCT;
 
   return (
-    <div className="h-full min-h-0 flex flex-col bg-clout-bg px-5 max-w-2xl mx-auto">
+    <div className="h-full min-h-0 flex flex-col bg-clout-bg px-4 sm:px-5 w-full">
       <header className="shrink-0 h-14 flex items-center gap-3 pt-[env(safe-area-inset-top,0px)]">
         <button type="button" onClick={onBack} aria-label="Back" className="w-10 h-10 flex items-center justify-center rounded-full border-2 border-border-dark bg-white press-interaction hard-shadow-sm">
           <ArrowLeft size={20} />
@@ -28,7 +35,7 @@ export const SellToken: React.FC<{ onBack: () => void; onComplete: () => void }>
             <h2 className="text-lg font-black">Alex Rivers</h2>
             <div className="flex items-center gap-1.5 text-[10px] font-black uppercase text-slate-500 tracking-wider">
               <TrendingDown size={12} strokeWidth={3} />
-              Price: $14.20 / ALEX
+              Live spot ${priceUsd.toFixed(2)} / ALEX
             </div>
           </div>
         </BrutalistCard>
@@ -85,6 +92,14 @@ export const SellToken: React.FC<{ onBack: () => void; onComplete: () => void }>
             </BrutalistCard>
           </div>
         </div>
+
+        <BrutalistCard variant="surface" className="p-4 bg-white space-y-2">
+          <div className="flex justify-between text-[11px] font-bold uppercase text-slate-500">
+            <span>Est. fee ({(FEE_SELL_PCT * 100).toFixed(1)}%)</span>
+            <span className="font-black text-border-dark">${sellFee.toFixed(2)}</span>
+          </div>
+          <p className="text-[10px] font-bold text-slate-500 leading-snug">Sells apply a small platform fee; minimal Clout points (anti-spam).</p>
+        </BrutalistCard>
       </main>
 
       <div className="shrink-0 p-4 pb-[max(1rem,env(safe-area-inset-bottom,0px))] bg-clout-bg/95 backdrop-blur border-t-2 border-border-dark/10">
@@ -92,7 +107,14 @@ export const SellToken: React.FC<{ onBack: () => void; onComplete: () => void }>
           fullWidth
           variant={tokensValid ? 'secondary' : 'outline'}
           disabled={!tokensValid}
-          onClick={tokensValid ? onComplete : undefined}
+          onClick={
+            tokensValid
+              ? () => {
+                dispatch({ type: 'SellToken', creatorId: CREATOR_ID, tokenAmount: tokens, usdEstimate: usdNum });
+                onComplete();
+              }
+              : undefined
+          }
         >
           {tokensValid ? `Sell ${tokens} ALEX` : 'Enter amount to sell'}
         </StickerButton>

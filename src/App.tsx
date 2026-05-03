@@ -60,9 +60,9 @@ export default function App() {
   };
 
   const isFullPage = [
-    Screen.Splash, 
-    Screen.Onboarding_Handle, 
-    Screen.Onboarding_Welcome, 
+    Screen.Splash,
+    Screen.Onboarding_Handle,
+    Screen.Onboarding_Welcome,
     Screen.Signup,
     Screen.BuyToken,
     Screen.SellToken,
@@ -81,16 +81,16 @@ export default function App() {
   return (
     <div className="h-dvh max-h-dvh flex flex-col overflow-hidden bg-clout-bg selection:bg-clout-yellow selection:text-border-dark">
       {showTopBar && (
-        <TopAppBar 
-          onAvatarClick={() => navigate(Screen.Profile)} 
-          onWalletClick={() => navigate(Screen.Portfolio)} 
+        <TopAppBar
+          onAvatarClick={() => navigate(Screen.Profile)}
+          onWalletClick={() => navigate(Screen.Portfolio)}
         />
       )}
-      
+
       <main
         className={
           showTopBar
-            ? 'flex-1 min-h-0 overflow-y-auto overflow-x-hidden overscroll-y-contain pt-[calc(5rem+env(safe-area-inset-top,0px))]'
+            ? 'flex-1 min-h-0 overflow-y-auto overflow-x-hidden overscroll-y-contain pt-[calc(4.25rem+env(safe-area-inset-top,0px))] sm:pt-[calc(4.75rem+env(safe-area-inset-top,0px))]'
             : 'flex-1 min-h-0 overflow-y-auto overflow-x-hidden overscroll-y-contain'
         }
       >
@@ -101,7 +101,7 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.18, ease: 'easeOut' }}
-            className={isFullPage ? 'h-full min-h-0 flex flex-col' : 'min-h-0'}
+            className={`w-full max-w-lg mx-auto ${isFullPage ? 'h-full min-h-0 flex flex-col' : 'min-h-0'}`}
           >
             {renderScreen()}
           </motion.div>
