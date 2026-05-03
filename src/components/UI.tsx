@@ -10,9 +10,9 @@ interface BrutalistCardProps {
   onClick?: () => void;
 }
 
-export const BrutalistCard: React.FC<BrutalistCardProps> = ({ 
-  children, 
-  variant = 'white', 
+export const BrutalistCard: React.FC<BrutalistCardProps> = ({
+  children,
+  variant = 'white',
   className,
   noShadow = false,
   onClick
@@ -61,9 +61,9 @@ interface StickerButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   rightIcon?: React.ReactNode;
 }
 
-export const StickerButton: React.FC<StickerButtonProps> = ({ 
-  children, 
-  variant = 'primary', 
+export const StickerButton: React.FC<StickerButtonProps> = ({
+  children,
+  variant = 'primary',
   fullWidth = false,
   className,
   leftIcon,
@@ -71,7 +71,7 @@ export const StickerButton: React.FC<StickerButtonProps> = ({
   onClick,
   disabled,
   type = 'button',
-  ...props 
+  ...props
 }) => {
   const variantStyles = {
     primary: 'bg-clout-yellow text-border-dark border-2 border-border-dark hard-shadow-sm',
@@ -81,7 +81,7 @@ export const StickerButton: React.FC<StickerButtonProps> = ({
   };
 
   return (
-    <motion.button 
+    <motion.button
       type={type}
       whileHover={{ scale: 1.01 }}
       whileTap={{ scale: 0.96, x: 2, y: 2 }}

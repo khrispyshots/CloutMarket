@@ -10,24 +10,24 @@ export const Splash: React.FC<{ onComplete: () => void; onLogin: () => void }> =
         <div className="relative w-full max-w-[220px] aspect-square flex items-center justify-center shrink-0">
           <div className="absolute inset-0 bg-clout-green opacity-30 rounded-full blur-[80px] animate-pulse"></div>
           <div className="absolute inset-0 bg-clout-yellow opacity-20 rounded-full blur-[60px] animate-pulse delay-700"></div>
-          
-          <motion.div 
+
+          <motion.div
             initial={{ scale: 0.8, rotate: -10 }}
             animate={{ scale: 1, rotate: 3 }}
             className="w-44 h-44 bg-white border-4 border-border-dark rounded-[32px] flex items-center justify-center relative hard-shadow-lg z-10 overflow-hidden"
           >
-            <img 
+            <img
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1ljtGgGBiRWDfzOdjXS_FeFCBKGddo7ccLVZSFrAjWP73IXdiOv0geVoMLubgkk9bAYT18YOXUmv5ZV9ccjk-IyjZxoVG_JtwKA6Sq-1kKFGFQycPcNJJoZ4Gimm9JneUfvsLCtWW--1STzGOdvNyGd4bNiaHgksicoE-GYYfdBM_tuYaNmukZiwK6ne-uv0EKnyvfjz7OKs0wPMp1qFWRUo75qWvHR4IHS2rpElOwa_5dOFaU6OtaNeEwH3uFrWUNKbu3WBlT-8"
               alt="Hero"
               className="w-full h-full object-cover grayscale-[0.2]"
             />
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="bg-clout-yellow p-4 border-2 border-border-dark rounded-full hard-shadow-sm rotate-3">
-                 <TrendingUp size={44} className="text-border-dark" strokeWidth={3} />
+                <TrendingUp size={44} className="text-border-dark" strokeWidth={3} />
               </div>
             </div>
           </motion.div>
-          
+
           <div className="absolute top-0 right-4 bg-clout-green text-border-dark px-4 py-2 border-2 border-border-dark rounded-xl font-black text-xs hard-shadow-sm rotate-12">
             $CLOUT
           </div>
@@ -36,11 +36,11 @@ export const Splash: React.FC<{ onComplete: () => void; onLogin: () => void }> =
         <div className="text-center space-y-4">
           <div className="space-y-2">
             <h1 className="text-5xl sm:text-6xl font-black italic tracking-tighter leading-[0.9] text-border-dark">
-              TRADE <br/> <span className="text-clout-green">THE CLOUT</span>
+              TRADE <br /> <span className="text-clout-green">THE CLOUT</span>
             </h1>
             <p className="text-slate-500 font-bold uppercase tracking-widest text-[10px]">The People's Market Protocol</p>
           </div>
-          
+
           <BrutalistCard variant="surface" className="inline-block py-2 px-6 border-dashed opacity-80 bg-white">
             <p className="text-[10px] font-black uppercase text-slate-400 tracking-tighter">Powered by Celo · Low Fees · 100% Owned</p>
           </BrutalistCard>
@@ -49,15 +49,15 @@ export const Splash: React.FC<{ onComplete: () => void; onLogin: () => void }> =
 
       <div className="w-full max-w-md space-y-4 pb-[max(1rem,env(safe-area-inset-bottom,0px))] shrink-0">
         <div className="space-y-3">
-          <StickerButton 
-            fullWidth 
-            onClick={onComplete} 
+          <StickerButton
+            fullWidth
+            onClick={onComplete}
             className="h-16 text-lg font-black"
             rightIcon={<ArrowRight size={28} strokeWidth={3} />}
           >
             Claim Genesis Access
           </StickerButton>
-          
+
           <div className="text-center">
             <p className="text-sm font-bold text-slate-400">
               Already a trader?{' '}

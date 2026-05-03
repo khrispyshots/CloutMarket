@@ -22,15 +22,15 @@ export const Signup: React.FC<{ onComplete: () => void }> = ({ onComplete }) => 
       <header className="w-full px-6 h-24 flex items-center justify-between max-w-2xl mx-auto">
         <div className="w-12"></div>
         <div className="flex gap-3">
-            <div className="h-2 w-10 rounded-full bg-clout-purple border-2 border-border-dark"></div>
-            <div className="h-2 w-6 rounded-full bg-slate-200 border-2 border-slate-300"></div>
-            <div className="h-2 w-6 rounded-full bg-slate-200 border-2 border-slate-300"></div>
+          <div className="h-2 w-10 rounded-full bg-clout-purple border-2 border-border-dark"></div>
+          <div className="h-2 w-6 rounded-full bg-slate-200 border-2 border-slate-300"></div>
+          <div className="h-2 w-6 rounded-full bg-slate-200 border-2 border-slate-300"></div>
         </div>
         <div className="w-12"></div>
       </header>
       <AnimatePresence mode="wait">
         {!isConnecting && !isSuccess ? (
-          <motion.div 
+          <motion.div
             key="signup-form"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -39,14 +39,14 @@ export const Signup: React.FC<{ onComplete: () => void }> = ({ onComplete }) => 
           >
             <div className="space-y-4">
               <h1 className="text-5xl font-black italic tracking-tighter text-border-dark leading-tight">
-                Secure your <br/>market spot
+                Secure your <br />market spot
               </h1>
               <p className="text-slate-600 font-bold text-lg">Connect your social identity to start trading.</p>
             </div>
 
             <BrutalistCard variant="purple" className="flex flex-col items-center py-12 space-y-6">
               <div className="w-24 h-24 bg-white border-2 border-border-dark rounded-2xl flex items-center justify-center hard-shadow-sm rotate-3">
-                 <Twitter size={48} className="fill-current text-[#1DA1F2]" />
+                <Twitter size={48} className="fill-current text-[#1DA1F2]" />
               </div>
               <div className="space-y-1">
                 <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">Official Verification</p>
@@ -55,38 +55,38 @@ export const Signup: React.FC<{ onComplete: () => void }> = ({ onComplete }) => 
             </BrutalistCard>
 
             <div className="space-y-4 w-full">
-               <StickerButton 
-                 fullWidth 
-                 onClick={handleTwitterConnect}
-                 className="h-16 text-lg relative overflow-hidden group shadow-lg"
-                 leftIcon={<Twitter size={24} className="fill-current text-[#1DA1F2]" />}
-               >
-                 <span className="relative z-10">Connect with X</span>
-                 <motion.div 
-                   className="absolute inset-0 bg-[#1DA1F2]/10 opacity-0 group-hover:opacity-100 transition-opacity"
-                   whileTap={{ scale: 0.95 }}
-                 />
-               </StickerButton>
-               
-               <StickerButton 
-                 variant="outline" 
-                 fullWidth 
-                 onClick={onComplete}
-                 className="h-16 text-lg"
-                 leftIcon={<Mail size={22} />}
-               >
-                 Continue with Email
-               </StickerButton>
+              <StickerButton
+                fullWidth
+                onClick={handleTwitterConnect}
+                className="h-16 text-lg relative overflow-hidden group shadow-lg"
+                leftIcon={<Twitter size={24} className="fill-current text-[#1DA1F2]" />}
+              >
+                <span className="relative z-10">Connect with X</span>
+                <motion.div
+                  className="absolute inset-0 bg-[#1DA1F2]/10 opacity-0 group-hover:opacity-100 transition-opacity"
+                  whileTap={{ scale: 0.95 }}
+                />
+              </StickerButton>
+
+              <StickerButton
+                variant="outline"
+                fullWidth
+                onClick={onComplete}
+                className="h-16 text-lg"
+                leftIcon={<Mail size={22} />}
+              >
+                Continue with Email
+              </StickerButton>
             </div>
 
             <BrutalistCard variant="green" className="flex items-start gap-4 p-5 text-left bg-[#E8F5E9]">
-               <div className="w-12 h-12 rounded-full bg-white border-2 border-border-dark flex items-center justify-center shrink-0">
-                 <ShieldCheck size={24} className="text-clout-green" />
-               </div>
-               <div>
-                 <h3 className="font-black text-sm uppercase leading-none mb-1">Non-Custodial Security</h3>
-                 <p className="text-xs font-medium text-slate-700 leading-snug">We never store your keys. Your identity remains yours alone while you build your market value.</p>
-               </div>
+              <div className="w-12 h-12 rounded-full bg-white border-2 border-border-dark flex items-center justify-center shrink-0">
+                <ShieldCheck size={24} className="text-clout-green" />
+              </div>
+              <div>
+                <h3 className="font-black text-sm uppercase leading-none mb-1">Non-Custodial Security</h3>
+                <p className="text-xs font-medium text-slate-700 leading-snug">We never store your keys. Your identity remains yours alone while you build your market value.</p>
+              </div>
             </BrutalistCard>
 
             <p className="text-[10px] font-medium text-slate-400 max-w-[280px] mx-auto uppercase tracking-widest">
@@ -94,7 +94,7 @@ export const Signup: React.FC<{ onComplete: () => void }> = ({ onComplete }) => 
             </p>
           </motion.div>
         ) : isConnecting ? (
-          <motion.div 
+          <motion.div
             key="connecting"
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -113,7 +113,7 @@ export const Signup: React.FC<{ onComplete: () => void }> = ({ onComplete }) => 
             </div>
           </motion.div>
         ) : (
-          <motion.div 
+          <motion.div
             key="success"
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
