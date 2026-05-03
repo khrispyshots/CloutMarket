@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  
+  --color-clout-yellow: #fef08a;
+  --color-clout-green: #b4f0c9;
+  --color-clout-purple: #f6e9ff;
+  --color-clout-pink: #fce4ec;
+  --color-clout-blue: #e0f2fe;
+  --color-clout-bg: #fef9ed;
+  --color-on-surface: #1d1c15;
+  --color-border-dark: #0f172a;
+}
+
+@layer base {
+  body {
+    @apply bg-clout-bg text-on-surface font-sans selection:bg-clout-yellow;
+  }
+}
+
+@layer utilities {
+  .hard-shadow {
+    box-shadow: 4px 4px 0px 0px rgba(15, 23, 42, 1);
+  }
+  .hard-shadow-sm {
+    box-shadow: 2px 2px 0px 0px rgba(15, 23, 42, 1);
+  }
+  .press-interaction {
+    @apply transition-all active:translate-x-[2px] active:translate-y-[2px] active:shadow-none;
+  }
+  /** Space for fixed bottom nav + home indicator */
+  .pb-nav {
+    padding-bottom: calc(5.75rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* Hide scrollbars but keep functionality */
+::-webkit-scrollbar {
+  display: none;
+}
+* {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
