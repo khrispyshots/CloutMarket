@@ -60,17 +60,17 @@ export const TopAppBar: React.FC<{ onAvatarClick: () => void; onWalletClick: () 
     <header className="bg-clout-bg/90 backdrop-blur-md fixed top-0 inset-x-0 z-40 border-b-2 border-border-dark pt-[env(safe-area-inset-top,0px)]">
       <div className="max-w-lg mx-auto w-full h-14 sm:h-16 flex items-center justify-between gap-2 px-3 sm:px-4">
         <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
-          <motion.button 
+          <motion.button
             type="button"
             whileTap={{ scale: 0.9 }}
             onClick={onAvatarClick}
             aria-label="Open profile"
             className="w-10 h-10 sm:w-11 sm:h-11 shrink-0 rounded-xl sm:rounded-2xl border-2 border-border-dark overflow-hidden hard-shadow-sm bg-white touch-manipulation"
           >
-            <img 
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuTzJtdQCwJR7pgTlsMWgSyg0ySb1pcvXk7jhJCjKGDNxSentvnY9QinZNHtkucKU2UAEktdhzfWzUkaNkvPZ7N2Ao0zh3YUj8CyFaKhyAS3LoeJE_VIr_mVkK_m3IMPAMrMYeLJyKdSt_xQvxBTOxLiea-CqHjpwyFNK4T3Fmb2HcKrgLZs6lIfGaYWKJMo2u15fL4b_Fe_J24X6OghXOsfWxZSwJsZlMyFo7NscdLQ9nEsjCY9wJhYRS7WPEVumxO-hP9pa_LdU" 
-              alt="" 
-              className="w-full h-full object-cover" 
+            <img
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuTzJtdQCwJR7pgTlsMWgSyg0ySb1pcvXk7jhJCjKGDNxSentvnY9QinZNHtkucKU2UAEktdhzfWzUkaNkvPZ7N2Ao0zh3YUj8CyFaKhyAS3LoeJE_VIr_mVkK_m3IMPAMrMYeLJyKdSt_xQvxBTOxLiea-CqHjpwyFNK4T3Fmb2HcKrgLZs6lIfGaYWKJMo2u15fL4b_Fe_J24X6OghXOsfWxZSwJsZlMyFo7NscdLQ9nEsjCY9wJhYRS7WPEVumxO-hP9pa_LdU"
+              alt=""
+              className="w-full h-full object-cover"
             />
           </motion.button>
           <div className="flex flex-col min-w-0">

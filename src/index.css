@@ -3,7 +3,7 @@
 
 @theme {
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
-  
+
   --color-clout-yellow: #FFE500;
   --color-clout-green: #00FF85;
   --color-clout-purple: #8B5CF6;
@@ -19,6 +19,7 @@
     height: 100%;
     -webkit-text-size-adjust: 100%;
   }
+
   body {
     @apply bg-clout-bg text-on-surface font-sans selection:bg-clout-yellow;
     margin: 0;
@@ -26,6 +27,7 @@
     min-height: 100dvh;
     overflow: hidden;
   }
+
   #root {
     height: 100%;
     min-height: 100dvh;
@@ -36,12 +38,15 @@
   .hard-shadow {
     box-shadow: 4px 4px 0px 0px rgba(15, 23, 42, 1);
   }
+
   .hard-shadow-sm {
     box-shadow: 2px 2px 0px 0px rgba(15, 23, 42, 1);
   }
+
   .press-interaction {
     @apply transition-all active:translate-x-[2px] active:translate-y-[2px] active:shadow-none;
   }
+
   /** Space for fixed bottom nav + home indicator */
   .pb-nav {
     padding-bottom: calc(5.75rem + env(safe-area-inset-bottom, 0px));
@@ -52,7 +57,11 @@
 ::-webkit-scrollbar {
   display: none;
 }
+
 * {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+scrollbar-width: none;
 }
