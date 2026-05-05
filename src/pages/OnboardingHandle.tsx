@@ -1,96 +1,93 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { motion } from 'motion/react';
 import { StickerButton, BrutalistCard, Avatar } from '../components/UI';
-import { Check, ArrowLeft, Loader2, AtSign } from 'lucide-react';
+import { Check, ArrowLeft, Loader2, AtSign, ShieldCheck } from 'lucide-react';
 
-export const OnboardingHandle: React.FC<{ onComplete: () => void; onBack: () => void }> = ({ onComplete, onBack }) => {
-  const [handle, setHandle] = useState('frosthub');
-  const [isValidating, setIsValidating] = useState(false);
+export const OnboardingHandle: React.FC<{ xHandle: string; onComplete: () => void; onBack: () => void }> = ({ xHandle, onComplete, onBack }) => {
+  const cleanHandle = useMemo(() => xHandle.toLowerCase().replace(/[^a-z0-9_]/g, '') || 'frosthub', [xHandle]);
+  const cloutName = `${cleanHandle}.clout`;
+  const [isClaiming, setIsClaiming] = useState(false);
 
   const handleSubmit = () => {
-    setIsValidating(true);
+    setIsClaiming(true);
     setTimeout(() => {
-      setIsValidating(false);
+      setIsClaiming(false);
       onComplete();
-    }, 1200);
+    }, 1000);
   };
 
   return (
-    <div className="bg-clout-bg flex flex-col font-sans">
-      <header className="px-6 h-24 flex items-center justify-between max-w-2xl mx-auto w-full">
-        <button onClick={onBack} className="w-12 h-12 flex items-center justify-center rounded-2xl border border-slate-200 bg-white hard-shadow-sm press-interaction">
+    <div className="bg-clout-bg flex flex-col font-sans min-h-0">
+      <header className="px-6 h-20 flex items-center justify-between max-w-2xl mx-auto w-full">
+        <button onClick={onBack} className="w-11 h-11 flex items-center justify-center rounded-2xl border border-slate-200 bg-white hard-shadow-sm press-interaction" aria-label="Back">
           <ArrowLeft size={20} strokeWidth={3} />
         </button>
-        <div className="flex gap-3">
+        <div className="flex gap-2">
           <div className="h-2 w-10 rounded-full bg-border-dark"></div>
-          <div className="h-2 w-10 rounded-full bg-slate-300"></div>
-          <div className="h-2 w-6 rounded-full bg-slate-200"></div>
+          <div className="h-2 w-10 rounded-full bg-border-dark"></div>
+          <div className="h-2 w-10 rounded-full bg-clout-green"></div>
         </div>
-        <div className="w-12"></div>
+        <div className="w-11"></div>
       </header>
 
-      <main className="flex-1 px-8 flex flex-col items-center justify-center max-w-md mx-auto w-full pb-20">
+      <main className="flex-1 px-6 flex flex-col items-center justify-center max-w-md mx-auto w-full pb-24">
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="w-full space-y-10 text-center"
+          className="w-full space-y-8 text-center"
         >
-          <div className="space-y-4">
-            <h1 className="text-5xl font-black italic tracking-tighter leading-none text-border-dark">Claim your <br />social vault</h1>
-            <p className="text-slate-500 font-bold text-lg">Every great trader needs a handle.</p>
+          <div className="space-y-3">
+            <h1 className="text-4xl sm:text-5xl font-black tracking-tight leading-tight text-border-dark">Claim your clout name</h1>
+            <p className="text-slate-600 font-bold text-base">Your X username is reserved for you.</p>
           </div>
 
-          <BrutalistCard variant="white" className="w-full flex flex-col items-center p-10 text-center space-y-8 bg-white overflow-visible">
-            <div className="relative -mt-20">
-              <Avatar size="xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrm0Zxh40hN1IObGQqX5dbXLesrIP3MjSs2eakjeKbfEPIVfGq4qb1tDbvCU21MK4UZtBD9lW8cHhbLnrjdqFZa6-cUpfcDcQyzdJz34T38seTbBXXwfzBn5BBK8jNOnSRQp6OCq1H5hA34JuV_3L8kP_gP1mLQ6UdobKAGH8YSuIB3-fY0XrFEfo8mr9cLCz8lE85Qznl8i9XYKCVpjyP5COwXnZNC9U1ACWWuETq9hFP_XhxPes5Hl0zf25tpxfQeyoP4mxLnDM" className="hard-shadow-lg scale-125 border-4 border-white" />
-              <div className="absolute -bottom-4 -right-4 bg-clout-green border border-white rounded-2xl p-2 hard-shadow scale-110">
-                <Check size={28} strokeWidth={4} className="text-white" />
+          <BrutalistCard variant="white" className="w-full p-6 text-center space-y-6">
+            <Avatar
+              size="xl"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrm0Zxh40hN1IObGQqX5dbXLesrIP3MjSs2eakjeKbfEPIVfGq4qb1tDbvCU21MK4UZtBD9lW8cHhbLnrjdqFZa6-cUpfcDcQyzdJz34T38seTbBXXwfzBn5BBK8jNOnSRQp6OCq1H5hA34JuV_3L8kP_gP1mLQ6UdobKAGH8YSuIB3-fY0XrFEfo8mr9cLCz8lE85Qznl8i9XYKCVpjyP5COwXnZNC9U1ACWWuETq9hFP_XhxPes5Hl0zf25tpxfQeyoP4mxLnDM"
+              isVerified
+            />
+
+            <div className="space-y-3">
+              <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Linked from X</p>
+              <div className="flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <AtSign size={20} className="text-slate-400" />
+                <span className="text-2xl font-black tracking-tight">{cloutName}</span>
+              </div>
+              <div className="inline-flex items-center gap-2 bg-emerald-50 text-clout-green px-4 py-2 rounded-full border border-emerald-100">
+                <Check size={14} strokeWidth={3} />
+                <span className="text-[10px] font-black uppercase tracking-widest">Free claim available</span>
               </div>
             </div>
 
-            <div className="space-y-4 pt-10 w-full">
-              <div className="relative group w-full">
-                <div className="absolute left-6 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                  <AtSign className="text-slate-400" size={24} strokeWidth={4} />
-                </div>
-                <input
-                  type="text"
-                  value={handle}
-                  onChange={(e) => setHandle(e.target.value.toLowerCase())}
-                  className="w-full h-20 bg-white border border-slate-200 rounded-2xl pl-16 pr-6 text-2xl font-black outline-none transition-all hard-shadow focus:ring-2 focus:ring-border-dark/10"
-                  placeholder="yourname"
-                />
+            <div className="grid grid-cols-3 gap-2">
+              <div className="rounded-xl bg-slate-50 p-3">
+                <p className="text-lg font-black">1</p>
+                <p className="text-[8px] font-black uppercase text-slate-400">You own</p>
               </div>
-              <div className="flex flex-col items-center gap-3">
-                <div className="inline-flex items-center gap-2 bg-clout-green/10 text-clout-green px-4 py-2 rounded-full border-2 border-clout-green/20">
-                  <div className="w-2 h-2 rounded-full bg-clout-green animate-pulse"></div>
-                  <span className="text-[10px] font-black uppercase tracking-widest italic">Handle Available</span>
-                </div>
-                <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">Secured on decentralized ledger</p>
+              <div className="rounded-xl bg-slate-50 p-3">
+                <p className="text-lg font-black">10k</p>
+                <p className="text-[8px] font-black uppercase text-slate-400">Max shares</p>
+              </div>
+              <div className="rounded-xl bg-slate-50 p-3">
+                <p className="text-lg font-black">$1.00</p>
+                <p className="text-[8px] font-black uppercase text-slate-400">Start price</p>
               </div>
             </div>
           </BrutalistCard>
 
-          <div className="w-full pt-4 space-y-6">
-            <StickerButton
-              fullWidth
-              onClick={handleSubmit}
-              disabled={isValidating || handle.length < 3}
-              className="h-16 text-lg"
-            >
-              {isValidating ? <Loader2 className="animate-spin" /> : 'Confirm Registration'}
-            </StickerButton>
-
-            <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 group cursor-pointer hover:text-border-dark transition-colors">
-              Registration Fee: <span className="text-clout-green">$0.00 (Promo)</span>
+          <BrutalistCard variant="white" className="flex items-start gap-3 p-4 text-left">
+            <ShieldCheck size={22} className="text-clout-green shrink-0 mt-0.5" />
+            <p className="text-xs font-bold text-slate-600 leading-relaxed">
+              Your claimed share is tradable. Other users can buy your remaining shares, and the bonding curve updates the price automatically.
             </p>
-          </div>
+          </BrutalistCard>
+
+          <StickerButton fullWidth onClick={handleSubmit} disabled={isClaiming} className="h-14 text-sm">
+            {isClaiming ? <Loader2 className="animate-spin" /> : `Claim ${cloutName}`}
+          </StickerButton>
         </motion.div>
       </main>
-
-      <footer className="h-20 flex items-center justify-center border-t border-slate-200">
-        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-300">Permanent decentralized registration</p>
-      </footer>
     </div>
   );
 };

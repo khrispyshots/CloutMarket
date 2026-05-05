@@ -1,5 +1,6 @@
 import {
   CREATOR_FEE_SHARE,
+  INITIAL_OWNED_SHARES,
   DIMINISH_FACTOR,
   DAILY_POINTS_CAP,
   FEE_BUY_PCT,
@@ -96,6 +97,8 @@ export function createInitialEngineState(): EngineState {
     actionStamps: {},
     lastTradeAt: null,
     tokenSpotPrice: 14.2,
+    shareSupply: { me: INITIAL_OWNED_SHARES, '1': 842, '2': 611, '3': 1288 },
+    shareHoldings: { me: INITIAL_OWNED_SHARES, '3': 1 },
     platformFeesUsd: 0,
     creatorAccruedUsd: {},
     pulse: seed,
@@ -193,6 +196,8 @@ export function reduceEngine(state: EngineState, event: CloutEvent, now = Date.n
         ...s,
         lastTradeAt: now,
         platformFeesUsd: s.platformFeesUsd + fee,
+        shareSupply: { ...s.shareSupply, [event.creatorId]: (s.shareSupply[event.creatorId] ?? 1) + event.usdAmount / s.tokenSpotPrice },
+        shareHoldings: { ...s.shareHoldings, [event.creatorId]: (s.shareHoldings[event.creatorId] ?? 0) + event.usdAmount / s.tokenSpotPrice },
         creatorAccruedUsd: { ...s.creatorAccruedUsd, [event.creatorId]: (s.creatorAccruedUsd[event.creatorId] ?? 0) + creatorCut },
         tokenSpotPrice: s.tokenSpotPrice + event.usdAmount * PRICE_BUY_IMPACT,
         pulse: bumpPulse(
@@ -225,6 +230,8 @@ export function reduceEngine(state: EngineState, event: CloutEvent, now = Date.n
         ...s,
         lastTradeAt: now,
         platformFeesUsd: s.platformFeesUsd + fee,
+        shareSupply: { ...s.shareSupply, [event.creatorId]: Math.max(1, (s.shareSupply[event.creatorId] ?? 1) - event.tokenAmount) },
+        shareHoldings: { ...s.shareHoldings, [event.creatorId]: Math.max(0, (s.shareHoldings[event.creatorId] ?? 0) - event.tokenAmount) },
         tokenSpotPrice: Math.max(0.5, s.tokenSpotPrice - event.usdEstimate * PRICE_SELL_IMPACT),
         pulse: bumpPulse(s.pulse, event.creatorId, { investmentUsd: Math.max(0, p.investmentUsd - event.usdEstimate * 0.3), velocity: Math.max(0.1, p.velocity - 0.05) }, now),
       };

@@ -1,4 +1,8 @@
-/** Tunable economy — client-side simulation until backend exists */
+/** Tunable economy - client-side simulation until backend exists */
+export const MAX_SHARES_PER_CREATOR = 10_000;
+export const INITIAL_OWNED_SHARES = 1;
+export const BONDING_CURVE_BASE_PRICE = 1;
+
 export const FEE_BUY_PCT = 0.035; // 3.5% platform on buys
 export const FEE_SELL_PCT = 0.025;
 export const CREATOR_FEE_SHARE = 0.01; // 1% of buy to creator (display / accrual)

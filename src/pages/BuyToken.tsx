@@ -15,7 +15,7 @@ export const BuyToken: React.FC<{ onBack: () => void; onComplete: () => void }> 
    const spot = state.tokenSpotPrice;
    const usd = parseFloat(amount);
    const usdValid = Number.isFinite(usd) && usd > 0;
-   const tokenAmount = usdValid ? (usd / spot).toFixed(4) : '0.00';
+   const shareAmount = usdValid ? (usd / spot).toFixed(4) : '0.00';
    const feeUsd = usdValid ? usd * FEE_BUY_PCT : 0;
    const creatorShare = usdValid ? usd * CREATOR_FEE_SHARE : 0;
    const inCooldown = state.lastTradeAt != null && Date.now() - state.lastTradeAt < TRADE_COOLDOWN_MS;
@@ -26,7 +26,7 @@ export const BuyToken: React.FC<{ onBack: () => void; onComplete: () => void }> 
             <button type="button" onClick={onBack} aria-label="Back" className="w-10 h-10 flex items-center justify-center rounded-full border border-slate-200 bg-white press-interaction hard-shadow-sm">
                <ArrowLeft size={20} />
             </button>
-            <h1 className="text-2xl font-black italic tracking-tighter">Buy Token</h1>
+            <h1 className="text-2xl font-black tracking-tight">Buy shares</h1>
          </header>
 
          <main className="flex-1 min-h-0 overflow-y-auto mt-2 space-y-6 pb-36">
@@ -36,7 +36,7 @@ export const BuyToken: React.FC<{ onBack: () => void; onComplete: () => void }> 
                   <h2 className="text-xl font-black">@alex_creativ</h2>
                   <div className="flex items-center gap-1.5 text-[10px] font-black uppercase text-slate-500 tracking-wider">
                      <TrendingUp size={12} strokeWidth={3} />
-                     Live spot ${spot.toFixed(2)} / ALEX
+                     Bonding curve spot ${spot.toFixed(2)} / share
                   </div>
                </div>
             </BrutalistCard>
@@ -44,13 +44,13 @@ export const BuyToken: React.FC<{ onBack: () => void; onComplete: () => void }> 
             <section className="text-center space-y-1">
                <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">You are buying</p>
                <div className="flex items-center justify-center gap-2">
-                  <span className="text-4xl font-black tracking-tighter">{tokenAmount}</span>
-                  <span className="text-xl font-black text-slate-400">ALEX</span>
+                  <span className="text-4xl font-black tracking-tighter">{shareAmount}</span>
+                  <span className="text-xl font-black text-slate-400">shares</span>
                </div>
             </section>
 
             <div className="space-y-3">
-               <label className="text-[10px] font-black uppercase tracking-widest text-slate-900 px-1 font-sans">Amount to Invest ($)</label>
+               <label className="text-[10px] font-black uppercase tracking-widest text-slate-900 px-1 font-sans">Amount to invest ($)</label>
                <div className="relative">
                   <input
                      type="number"
@@ -107,7 +107,7 @@ export const BuyToken: React.FC<{ onBack: () => void; onComplete: () => void }> 
                   <span className="font-black text-border-dark tabular-nums">${feeUsd.toFixed(2)}</span>
                </div>
                <div className="flex justify-between text-[11px] font-bold text-slate-500 font-sans uppercase gap-2">
-                  <span className="tracking-wide shrink">Creator share ({(CREATOR_FEE_SHARE * 100).toFixed(1)}%)</span>
+                  <span className="tracking-wide shrink">Creator fee ({(CREATOR_FEE_SHARE * 100).toFixed(1)}%)</span>
                   <span className="font-black text-clout-green tabular-nums">${creatorShare.toFixed(2)}</span>
                </div>
                <div className="flex justify-between text-[11px] font-bold text-slate-500 font-sans uppercase">
@@ -137,7 +137,7 @@ export const BuyToken: React.FC<{ onBack: () => void; onComplete: () => void }> 
                }
                rightIcon={<ShoppingCart size={20} />}
             >
-               {usdValid ? `Buy $${usd.toFixed(2)} worth of ALEX` : 'Enter amount'}
+               {usdValid ? `Buy $${usd.toFixed(2)} of shares` : 'Enter amount'}
             </StickerButton>
          </div>
       </div>

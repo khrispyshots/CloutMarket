@@ -1,89 +1,101 @@
-import React from 'react';
-import { motion } from 'motion/react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { BrutalistCard, StickerButton } from '../components/UI';
-import { Star, ArrowRight, Zap, Target, Trophy } from 'lucide-react';
+import { ArrowRight, BarChart3, MessageSquare, UsersRound } from 'lucide-react';
+
+const slides = [
+  {
+    icon: MessageSquare,
+    title: 'Your social account becomes a market',
+    body: 'Connect X, claim your clout name, and let people back your public reputation without crypto clutter.',
+  },
+  {
+    icon: UsersRound,
+    title: 'Every profile has 10,000 shares',
+    body: 'You receive 1 share when you register. The remaining supply can be bought and sold by the community.',
+  },
+  {
+    icon: BarChart3,
+    title: 'Prices move on a bonding curve',
+    body: 'When demand rises, the next share costs more. When shares are sold, the curve adjusts the price down.',
+  },
+];
 
 export const OnboardingWelcome: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
+  const [index, setIndex] = useState(0);
+  const slide = slides[index];
+  const Icon = slide.icon;
+  const isLast = index === slides.length - 1;
+
   return (
-    <div className="bg-clout-bg flex flex-col font-sans">
-      <header className="px-6 h-24 flex items-center justify-between max-w-2xl mx-auto w-full">
-        <span className="font-black italic text-2xl tracking-tighter">CloutMarket</span>
-        <div className="flex gap-3">
-          <div className="h-2 w-10 rounded-full bg-border-dark"></div>
-          <div className="h-2 w-10 rounded-full bg-slate-300"></div>
-          <div className="h-2 w-10 rounded-full bg-clout-green"></div>
+    <div className="bg-clout-bg flex flex-col font-sans min-h-0">
+      <header className="px-6 h-20 flex items-center justify-between max-w-2xl mx-auto w-full">
+        <span className="font-black italic text-xl tracking-tighter">CloutMarket</span>
+        <div className="flex gap-2" aria-label={`Onboarding step ${index + 1} of ${slides.length}`}>
+          {slides.map((_, i) => (
+            <div
+              key={i}
+              className={`h-2 rounded-full transition-all ${i === index ? 'w-9 bg-border-dark' : 'w-5 bg-slate-200'}`}
+            />
+          ))}
         </div>
       </header>
 
-      <main className="flex-1 px-8 flex flex-col items-center justify-center max-w-lg mx-auto w-full pb-24 text-center">
-        <motion.div
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          className="w-full space-y-12"
-        >
-          <div className="space-y-6 relative">
-            <div className="inline-flex h-20 w-20 items-center justify-center rounded-3xl bg-clout-green border border-white hard-shadow rotate-3 relative z-10">
-              <Trophy size={40} className="text-white" strokeWidth={3} />
-            </div>
-            <div className="space-y-2">
-              <h1 className="text-5xl font-black italic tracking-tighter leading-none">You're in!</h1>
-              <p className="text-slate-500 font-bold text-lg uppercase tracking-widest text-sm italic">Status: verified explorer</p>
-            </div>
-          </div>
-
-          <BrutalistCard className="w-full bg-white p-10 text-center space-y-6 relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-2 bg-border-dark"></div>
-
-            <div className="space-y-1">
-              <span className="text-[11px] font-black uppercase tracking-[0.3em] text-slate-400">Genesis Reward</span>
-              <h2 className="text-6xl font-black tracking-tighter text-slate-900">+500 PTS</h2>
-            </div>
-
-            <div className="inline-flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-full px-8 py-3 hard-shadow-sm rotate-1">
-              <Star size={20} fill="currentColor" strokeWidth={3} />
-              <span className="font-black text-base uppercase italic">Genesis Badge</span>
-            </div>
-
-            <div className="w-full pt-8 space-y-3">
-              <div className="flex justify-between items-end text-[10px] font-black uppercase tracking-widest opacity-60">
-                <span>Level Progress</span>
-                <span className="text-clout-green">Alpha Phase</span>
-              </div>
-              <div className="h-8 w-full bg-slate-50 border border-slate-200 rounded-2xl p-1 relative overflow-hidden">
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={{ width: '40%' }}
-                  transition={{ duration: 1.5, ease: "easeOut" }}
-                  className="h-full bg-clout-green rounded-xl"
-                />
-              </div>
-            </div>
-          </BrutalistCard>
-
-          <div className="grid grid-cols-2 gap-4">
-            <BrutalistCard variant="white" className="flex flex-col items-center gap-2 py-6 bg-white border-dashed">
-              <Zap size={24} className="text-clout-purple" strokeWidth={3} />
-              <span className="text-[10px] font-black uppercase tracking-widest">Early Access</span>
-            </BrutalistCard>
-            <BrutalistCard variant="white" className="flex flex-col items-center gap-2 py-6 bg-white border-dashed">
-              <Target size={24} className="text-clout-green" strokeWidth={3} />
-              <span className="text-[10px] font-black uppercase tracking-widest">Airdrop Ready</span>
-            </BrutalistCard>
-          </div>
-
-          <StickerButton
-            fullWidth
-            onClick={onComplete}
-            rightIcon={<ArrowRight size={24} strokeWidth={3} />}
-            className="h-20 text-xl font-black shadow-xl"
+      <main className="flex-1 px-6 flex flex-col items-center justify-center max-w-lg mx-auto w-full pb-24 text-center">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={index}
+            initial={{ x: 24, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: -24, opacity: 0 }}
+            transition={{ duration: 0.2, ease: 'easeOut' }}
+            className="w-full space-y-8"
           >
-            Start Trading
-          </StickerButton>
-        </motion.div>
+            <div className="mx-auto h-20 w-20 rounded-3xl bg-white border border-slate-200 hard-shadow flex items-center justify-center">
+              <Icon size={34} strokeWidth={2.5} />
+            </div>
+
+            <div className="space-y-3">
+              <h1 className="text-4xl sm:text-5xl font-black tracking-tight leading-tight">{slide.title}</h1>
+              <p className="text-slate-600 font-bold text-base leading-relaxed">{slide.body}</p>
+            </div>
+
+            <BrutalistCard variant="white" className="p-4 text-left">
+              <div className="grid grid-cols-3 gap-3 text-center">
+                <div>
+                  <p className="text-xl font-black">10k</p>
+                  <p className="text-[9px] font-black uppercase text-slate-400">Max supply</p>
+                </div>
+                <div>
+                  <p className="text-xl font-black">1</p>
+                  <p className="text-[9px] font-black uppercase text-slate-400">Free claim</p>
+                </div>
+                <div>
+                  <p className="text-xl font-black">Curve</p>
+                  <p className="text-[9px] font-black uppercase text-slate-400">Pricing</p>
+                </div>
+              </div>
+            </BrutalistCard>
+          </motion.div>
+        </AnimatePresence>
       </main>
 
-      <footer className="h-20 flex items-center justify-center border-t border-slate-200">
-        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-300">Permanent decentralized registration</p>
+      <footer className="shrink-0 px-5 pb-[max(1rem,env(safe-area-inset-bottom,0px))]">
+        <div className="max-w-lg mx-auto flex gap-3">
+          {index > 0 && (
+            <StickerButton variant="outline" onClick={() => setIndex((i) => i - 1)} className="h-14 px-6">
+              Back
+            </StickerButton>
+          )}
+          <StickerButton
+            fullWidth
+            onClick={isLast ? onComplete : () => setIndex((i) => i + 1)}
+            rightIcon={<ArrowRight size={20} strokeWidth={3} />}
+            className="h-14 text-sm"
+          >
+            {isLast ? 'Continue with X' : 'Next'}
+          </StickerButton>
+        </div>
       </footer>
     </div>
   );

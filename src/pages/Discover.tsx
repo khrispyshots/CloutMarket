@@ -76,13 +76,13 @@ export const Discover: React.FC<{ onInvest: () => void; onProfile: () => void }>
                         </div>
                      </div>
                      <div className="bg-slate-50 rounded-xl p-3 border border-slate-200 shadow-sm">
-                        <p className="text-[8px] font-black uppercase text-slate-500 mb-1">Clout Price</p>
+                        <p className="text-[8px] font-black uppercase text-slate-500 mb-1">Share Price</p>
                         <div className="flex items-baseline gap-2">
                            <span className="text-2xl font-black">{creator.price}</span>
                            <span className="text-[10px] font-black text-clout-green">{creator.change}</span>
                         </div>
                      </div>
-                     <StickerButton onClick={onInvest} fullWidth className="h-12 text-xs font-black uppercase tracking-tight shadow-lg">Invest Now</StickerButton>
+                     <StickerButton onClick={onInvest} fullWidth className="h-12 text-xs font-black uppercase tracking-tight shadow-lg">Buy shares</StickerButton>
                   </BrutalistCard>
                ))}
             </div>
@@ -140,7 +140,7 @@ export const Discover: React.FC<{ onInvest: () => void; onProfile: () => void }>
                            </p>
                         </div>
                      </button>
-                     <StickerButton onClick={onInvest} variant="secondary" className="h-12 px-6 text-xs font-black shrink-0 w-full sm:w-auto shadow-md">Buy Clout</StickerButton>
+                     <StickerButton onClick={onInvest} variant="secondary" className="h-12 px-6 text-xs font-black shrink-0 w-full sm:w-auto shadow-md">Buy shares</StickerButton>
                   </BrutalistCard>
                ))}
             </div>

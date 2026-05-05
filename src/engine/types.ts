@@ -25,6 +25,8 @@ export type EngineState = {
   actionStamps: Record<string, number[]>;
   lastTradeAt: number | null;
   tokenSpotPrice: number;
+  shareSupply: Record<string, number>;
+  shareHoldings: Record<string, number>;
   platformFeesUsd: number;
   creatorAccruedUsd: Record<string, number>;
   pulse: Record<string, CreatorPulse>;

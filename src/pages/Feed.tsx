@@ -136,7 +136,7 @@ export const Feed: React.FC<{ onCreatorSelect: () => void; onInvest: () => void 
       <div className="px-3 sm:px-4 pb-nav w-full max-w-full pt-2 sm:pt-3">
          <div className="space-y-2 mb-3">
             <h2 className="text-2xl font-black tracking-tight leading-tight">Good Morning!</h2>
-            <p className="text-slate-500 font-bold text-sm font-sans">Trade social influence today.</p>
+            <p className="text-slate-500 font-bold text-sm font-sans">Discover people, posts, and tradable shares.</p>
          </div>
 
          <BrutalistCard variant="white" className="flex justify-between items-center gap-3 p-3 sm:p-4 mb-3">
@@ -194,7 +194,7 @@ export const Feed: React.FC<{ onCreatorSelect: () => void; onInvest: () => void 
                      )}
                      {post.creatorId !== 'me' && (
                         <StickerButton onClick={onInvest} variant="secondary" className="h-12 px-5 text-xs font-black uppercase tracking-tight shrink-0 shadow-lg">
-                           Buy Clout
+                           Buy shares
                         </StickerButton>
                      )}
                   </div>

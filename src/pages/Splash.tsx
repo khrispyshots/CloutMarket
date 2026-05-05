@@ -32,10 +32,10 @@ export const Splash: React.FC<{ onComplete: () => void; onLogin: () => void }> =
 
         <div className="text-center space-y-4">
           <div className="space-y-2">
-            <h1 className="text-5xl sm:text-6xl font-black italic tracking-tighter leading-[0.9] text-border-dark">
-              TRADE <br /> <span className="text-clout-green">THE CLOUT</span>
+            <h1 className="text-5xl sm:text-6xl font-black tracking-tight leading-[0.95] text-border-dark">
+              Own your <br />social market
             </h1>
-            <p className="text-slate-500 font-bold uppercase tracking-widest text-[10px]">The People's Market Protocol</p>
+            <p className="text-slate-500 font-bold text-sm">Claim your profile share and trade creator shares with a clean SocialFi flow.</p>
           </div>
 
           <BrutalistCard variant="surface" className="inline-block py-2 px-6 border-dashed opacity-80 bg-white">
@@ -52,7 +52,7 @@ export const Splash: React.FC<{ onComplete: () => void; onLogin: () => void }> =
             className="h-16 text-lg font-black"
             rightIcon={<ArrowRight size={28} strokeWidth={3} />}
           >
-            Claim Genesis Access
+            Get Started
           </StickerButton>
 
           <div className="text-center">

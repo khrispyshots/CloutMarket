@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { StickerButton, BrutalistCard } from '../components/UI';
-import { Twitter, ShieldCheck, Mail, Loader2, CheckCircle2 } from 'lucide-react';
+import { Twitter, ShieldCheck, Loader2, CheckCircle2 } from 'lucide-react';
 
-export const Signup: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
+export const Signup: React.FC<{ onComplete: (handle: string) => void }> = ({ onComplete }) => {
   const [isConnecting, setIsConnecting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const linkedHandle = 'frosthub';
 
   const handleTwitterConnect = () => {
     setIsConnecting(true);
@@ -13,7 +14,7 @@ export const Signup: React.FC<{ onComplete: () => void }> = ({ onComplete }) => 
     setTimeout(() => {
       setIsConnecting(false);
       setIsSuccess(true);
-      setTimeout(onComplete, 1500);
+      setTimeout(() => onComplete(linkedHandle), 1500);
     }, 2000);
   };
 
@@ -38,10 +39,10 @@ export const Signup: React.FC<{ onComplete: () => void }> = ({ onComplete }) => 
             className="w-full max-w-md space-y-10 text-center"
           >
             <div className="space-y-4">
-              <h1 className="text-5xl font-black italic tracking-tighter text-border-dark leading-tight">
-                Secure your <br />market spot
+              <h1 className="text-5xl font-black tracking-tight text-border-dark leading-tight">
+                Sign in with X
               </h1>
-              <p className="text-slate-600 font-bold text-lg">Connect your social identity to start trading.</p>
+              <p className="text-slate-600 font-bold text-lg">We use your X username to create your clout name.</p>
             </div>
 
             <BrutalistCard variant="white" className="flex flex-col items-center py-12 space-y-6">
@@ -49,7 +50,7 @@ export const Signup: React.FC<{ onComplete: () => void }> = ({ onComplete }) => 
                 <Twitter size={48} className="fill-current text-[#1DA1F2]" />
               </div>
               <div className="space-y-1">
-                <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">Official Verification</p>
+                <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">X identity check</p>
                 <div className="h-1 w-12 bg-border-dark mx-auto rounded-full"></div>
               </div>
             </BrutalistCard>
@@ -68,15 +69,9 @@ export const Signup: React.FC<{ onComplete: () => void }> = ({ onComplete }) => 
                 />
               </StickerButton>
 
-              <StickerButton
-                variant="outline"
-                fullWidth
-                onClick={onComplete}
-                className="h-16 text-lg"
-                leftIcon={<Mail size={22} />}
-              >
-                Continue with Email
-              </StickerButton>
+              <p className="text-xs font-bold text-slate-500 leading-relaxed">
+                Email login can be added later. Claiming a tradable clout name starts with X so the username is verifiable.
+              </p>
             </div>
 
             <BrutalistCard variant="white" className="flex items-start gap-4 p-5 text-left bg-white">
@@ -84,8 +79,8 @@ export const Signup: React.FC<{ onComplete: () => void }> = ({ onComplete }) => 
                 <ShieldCheck size={24} className="text-clout-green" />
               </div>
               <div>
-                <h3 className="font-black text-sm uppercase leading-none mb-1">Non-Custodial Security</h3>
-                <p className="text-xs font-medium text-slate-700 leading-snug">We never store your keys. Your identity remains yours alone while you build your market value.</p>
+                <h3 className="font-black text-sm uppercase leading-none mb-1">Free first share</h3>
+                <p className="text-xs font-medium text-slate-700 leading-snug">After X sign in, you claim 1 of your 10,000 profile shares. The rest trade on your bonding curve.</p>
               </div>
             </BrutalistCard>
 
@@ -107,8 +102,8 @@ export const Signup: React.FC<{ onComplete: () => void }> = ({ onComplete }) => 
               </div>
             </div>
             <div className="text-center space-y-2">
-              <h2 className="text-3xl font-black italic">Connecting X...</h2>
-              <p className="text-slate-500 font-bold uppercase text-xs tracking-widest">Authenticating your profile</p>
+              <h2 className="text-3xl font-black">Connecting X...</h2>
+              <p className="text-slate-500 font-bold uppercase text-xs tracking-widest">Reading @{linkedHandle}</p>
             </div>
           </motion.div>
         ) : (
@@ -122,8 +117,8 @@ export const Signup: React.FC<{ onComplete: () => void }> = ({ onComplete }) => 
               <CheckCircle2 size={64} className="text-clout-green" />
             </div>
             <div className="text-center space-y-2">
-              <h2 className="text-4xl font-black italic">Verified!</h2>
-              <p className="text-slate-500 font-bold uppercase text-xs tracking-widest">Welcome to the market</p>
+              <h2 className="text-4xl font-black">Verified</h2>
+              <p className="text-slate-500 font-bold uppercase text-xs tracking-widest">@{linkedHandle} found</p>
             </div>
           </motion.div>
         )}

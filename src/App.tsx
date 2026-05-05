@@ -19,6 +19,7 @@ import { Signup } from './pages/Signup';
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>(Screen.Splash);
+  const [xHandle, setXHandle] = useState('frosthub');
 
   const navigate = (screen: Screen) => {
     setCurrentScreen(screen);
@@ -27,13 +28,16 @@ export default function App() {
   const renderScreen = () => {
     switch (currentScreen) {
       case Screen.Splash:
-        return <Splash onComplete={() => navigate(Screen.Signup)} onLogin={() => navigate(Screen.Feed)} />;
+        return <Splash onComplete={() => navigate(Screen.Onboarding_Welcome)} onLogin={() => navigate(Screen.Feed)} />;
       case Screen.Signup:
-        return <Signup onComplete={() => navigate(Screen.Onboarding_Welcome)} />;
+        return <Signup onComplete={(handle) => {
+          setXHandle(handle);
+          navigate(Screen.Onboarding_Handle);
+        }} />;
       case Screen.Onboarding_Handle:
-        return <OnboardingHandle onComplete={() => navigate(Screen.Onboarding_Welcome)} onBack={() => navigate(Screen.Signup)} />;
+        return <OnboardingHandle xHandle={xHandle} onComplete={() => navigate(Screen.Feed)} onBack={() => navigate(Screen.Signup)} />;
       case Screen.Onboarding_Welcome:
-        return <OnboardingWelcome onComplete={() => navigate(Screen.Feed)} />;
+        return <OnboardingWelcome onComplete={() => navigate(Screen.Signup)} />;
 
       case Screen.Feed:
         return <Feed onCreatorSelect={() => navigate(Screen.Profile)} onInvest={() => navigate(Screen.BuyToken)} />;

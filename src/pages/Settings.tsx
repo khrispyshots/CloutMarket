@@ -8,9 +8,9 @@ export const Settings: React.FC<{ onBack: () => void; onLogout: () => void }> = 
   };
 
   return (
-    <div className="bg-clout-blue pb-nav font-sans min-h-0">
-      <header className="px-5 h-16 flex items-center justify-between border-b-2 border-border-dark bg-clout-bg">
-        <button type="button" onClick={onBack} aria-label="Back" className="w-10 h-10 flex items-center justify-center rounded-full border-2 border-border-dark bg-white press-interaction hard-shadow-sm">
+    <div className="bg-clout-bg pb-nav font-sans min-h-0">
+      <header className="px-5 h-16 flex items-center justify-between border-b border-slate-200 bg-clout-bg">
+        <button type="button" onClick={onBack} aria-label="Back" className="w-10 h-10 flex items-center justify-center rounded-full border border-slate-200 bg-white press-interaction hard-shadow-sm">
           <ArrowLeft size={20} />
         </button>
         <span className="font-black italic text-xl">Settings</span>
@@ -24,18 +24,18 @@ export const Settings: React.FC<{ onBack: () => void; onLogout: () => void }> = 
 
       <div className="space-y-6">
         {[
-          { icon: User, label: 'Account', sub: 'Profile, Email, Currency', color: 'yellow' },
-          { icon: Bell, label: 'Notifications', sub: 'Push, Email, Price Alerts', color: 'green' },
-          { icon: Shield, label: 'Security', sub: 'Password, 2FA, Devices', color: 'purple' },
+          { icon: User, label: 'Account', sub: 'Profile, Email, Currency' },
+          { icon: Bell, label: 'Notifications', sub: 'Push, Email, Price Alerts' },
+          { icon: Shield, label: 'Security', sub: 'Password, 2FA, Devices' },
         ].map((item, i) => (
           <BrutalistCard 
             key={i} 
-            variant={item.color as any} 
+            variant="white" 
             onClick={() => handleItemClick(item.label)}
             className="p-4 flex items-center justify-between cursor-pointer group"
           >
             <div className="flex items-center gap-5">
-              <div className="w-14 h-14 bg-white border-2 border-border-dark rounded-full flex items-center justify-center hard-shadow-sm">
+              <div className="w-14 h-14 bg-slate-50 border border-slate-200 rounded-full flex items-center justify-center hard-shadow-sm">
                 <item.icon size={24} />
               </div>
               <div>
@@ -52,7 +52,7 @@ export const Settings: React.FC<{ onBack: () => void; onLogout: () => void }> = 
           className="p-4 flex items-center justify-between cursor-pointer group bg-white"
         >
           <div className="flex items-center gap-5">
-            <div className="w-14 h-14 bg-clout-pink border-2 border-border-dark rounded-full flex items-center justify-center hard-shadow-sm">
+            <div className="w-14 h-14 bg-slate-50 border border-slate-200 rounded-full flex items-center justify-center hard-shadow-sm">
               <LogOut size={24} className="text-border-dark" />
             </div>
             <div>
@@ -64,7 +64,7 @@ export const Settings: React.FC<{ onBack: () => void; onLogout: () => void }> = 
         </BrutalistCard>
       </div>
 
-      <div className="mt-12 bg-white border-2 border-border-dark rounded-lg p-6 hard-shadow-sm space-y-4">
+      <div className="mt-12 bg-white border border-slate-200 rounded-lg p-6 hard-shadow-sm space-y-4">
         <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Support</h4>
         <div className="space-y-1">
           {['Help Center', 'Privacy Policy', 'Terms of Service'].map((link) => (
@@ -72,7 +72,7 @@ export const Settings: React.FC<{ onBack: () => void; onLogout: () => void }> = 
               key={link}
               type="button"
               onClick={() => handleItemClick(link)}
-              className="w-full flex justify-between items-center py-3 border-b-2 border-slate-50 last:border-0 cursor-pointer hover:bg-slate-50 transition-colors text-left bg-transparent"
+              className="w-full flex justify-between items-center py-3 border-b border-slate-100 last:border-0 cursor-pointer hover:bg-slate-50 transition-colors text-left bg-transparent"
             >
               <span className="text-sm font-black text-slate-700">{link}</span>
               <ExternalLink size={14} className="opacity-30 shrink-0" aria-hidden />

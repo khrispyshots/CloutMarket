@@ -74,7 +74,7 @@ export const Profile: React.FC<{ onBuy: () => void; onBack: () => void; onSettin
 
             <section className="grid grid-cols-2 md:grid-cols-3 gap-3">
                <BrutalistCard variant="white" className="flex flex-col justify-between min-h-[6.5rem] p-3">
-                  <span className="text-[10px] font-black uppercase opacity-60">Price</span>
+                  <span className="text-[10px] font-black uppercase opacity-60">Share price</span>
                   <div>
                      <span className="text-xl font-black">{creator.price}</span>
                      <p className="text-[10px] font-bold text-clout-green flex items-center gap-1">
@@ -84,7 +84,7 @@ export const Profile: React.FC<{ onBuy: () => void; onBack: () => void; onSettin
                </BrutalistCard>
 
                <BrutalistCard variant="white" className="flex flex-col justify-between min-h-[6.5rem] p-3">
-                  <span className="text-[10px] font-black uppercase opacity-60">Holders</span>
+                  <span className="text-[10px] font-black uppercase opacity-60">Shareholders</span>
                   <div>
                      <span className="text-xl font-black">1,248</span>
                      <p className="text-[10px] font-bold opacity-60">Active Community</p>
@@ -92,12 +92,12 @@ export const Profile: React.FC<{ onBuy: () => void; onBack: () => void; onSettin
                </BrutalistCard>
 
                <BrutalistCard variant="white" className="flex flex-col justify-between min-h-[6.5rem] p-3 col-span-2 md:col-span-1">
-                  <span className="text-[10px] font-black uppercase opacity-60">Growth</span>
+                  <span className="text-[10px] font-black uppercase opacity-60">Supply sold</span>
                   <div>
                      <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
                         <div className="w-[75%] h-full bg-clout-green"></div>
                      </div>
-                     <p className="mt-2 text-[10px] font-bold opacity-70">75% Clout Score</p>
+                     <p className="mt-2 text-[10px] font-bold opacity-70">1,288 / 10,000 shares</p>
                   </div>
                </BrutalistCard>
             </section>
