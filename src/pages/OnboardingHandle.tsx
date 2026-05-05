@@ -1,9 +1,11 @@
 import React, { useMemo, useState } from 'react';
 import { motion } from 'motion/react';
 import { StickerButton, BrutalistCard, Avatar } from '../components/UI';
-import { Check, ArrowLeft, Loader2, AtSign, ShieldCheck } from 'lucide-react';
+import { Check, ArrowLeft, Loader2, AtSign, ShieldCheck, Wallet } from 'lucide-react';
 
-export const OnboardingHandle: React.FC<{ xHandle: string; onComplete: () => void; onBack: () => void }> = ({ xHandle, onComplete, onBack }) => {
+const shortAddress = (address: string) => `${address.slice(0, 6)}...${address.slice(-4)}`;
+
+export const OnboardingHandle: React.FC<{ xHandle: string; walletAddress?: string; onComplete: () => void; onBack: () => void }> = ({ xHandle, walletAddress, onComplete, onBack }) => {
   const cleanHandle = useMemo(() => xHandle.toLowerCase().replace(/[^a-z0-9_]/g, '') || 'frosthub', [xHandle]);
   const cloutName = `${cleanHandle}.clout`;
   const [isClaiming, setIsClaiming] = useState(false);
@@ -58,6 +60,12 @@ export const OnboardingHandle: React.FC<{ xHandle: string; onComplete: () => voi
                 <Check size={14} strokeWidth={3} />
                 <span className="text-[10px] font-black uppercase tracking-widest">Free claim available</span>
               </div>
+              {walletAddress && (
+                <div className="mx-auto flex max-w-full items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white p-3">
+                  <Wallet size={18} className="text-clout-green shrink-0" strokeWidth={3} />
+                  <span className="truncate text-xs font-black text-slate-700">Celo wallet {shortAddress(walletAddress)}</span>
+                </div>
+              )}
             </div>
 
             <div className="grid grid-cols-3 gap-2">

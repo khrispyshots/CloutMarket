@@ -14,6 +14,7 @@ import { BuyToken } from './pages/BuyToken';
 import { SellToken } from './pages/SellToken';
 import { Withdraw } from './pages/Withdraw';
 import { OnboardingHandle } from './pages/OnboardingHandle';
+import { OnboardingWallet } from './pages/OnboardingWallet';
 import { OnboardingWelcome } from './pages/OnboardingWelcome';
 import { Signup } from './pages/Signup';
 import { DEFAULT_USER_AVATAR, NOTIFICATIONS } from './constants';
@@ -87,10 +88,21 @@ export default function App() {
       case Screen.Signup:
         return <Signup onComplete={(handle) => {
           setCurrentUser(createCurrentUser(handle));
-          navigate(Screen.Onboarding_Handle);
+          navigate(Screen.Onboarding_Wallet);
         }} />;
+      case Screen.Onboarding_Wallet:
+        return (
+          <OnboardingWallet
+            xHandle={currentUser.handle}
+            onComplete={(walletAddress) => {
+              setCurrentUser((user) => ({ ...user, walletAddress, walletChainId: 42220 }));
+              navigate(Screen.Onboarding_Handle);
+            }}
+            onBack={() => navigate(Screen.Signup)}
+          />
+        );
       case Screen.Onboarding_Handle:
-        return <OnboardingHandle xHandle={currentUser.handle} onComplete={() => navigate(Screen.Feed)} onBack={() => navigate(Screen.Signup)} />;
+        return <OnboardingHandle xHandle={currentUser.handle} walletAddress={currentUser.walletAddress} onComplete={() => navigate(Screen.Feed)} onBack={() => navigate(Screen.Onboarding_Wallet)} />;
       case Screen.Onboarding_Welcome:
         return <OnboardingWelcome onComplete={() => navigate(Screen.Signup)} />;
 
@@ -134,6 +146,7 @@ export default function App() {
   const isFullPage = [
     Screen.Splash,
     Screen.Onboarding_Handle,
+    Screen.Onboarding_Wallet,
     Screen.Onboarding_Welcome,
     Screen.Signup,
     Screen.BuyToken,

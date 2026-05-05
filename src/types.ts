@@ -1,6 +1,7 @@
 export enum Screen {
   Splash = 'splash',
   Onboarding_Handle = 'onboarding_handle',
+  Onboarding_Wallet = 'onboarding_wallet',
   Onboarding_Welcome = 'onboarding_welcome',
   Feed = 'feed',
   Discover = 'discover',
@@ -40,6 +41,8 @@ export interface CurrentUser {
   bio: string;
   joinedAt: string;
   isVerified: boolean;
+  walletAddress?: string;
+  walletChainId?: number;
 }
 
 export interface Post {
