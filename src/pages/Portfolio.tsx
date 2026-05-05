@@ -30,7 +30,7 @@ export const Portfolio: React.FC<{ onShowLeaderboard: () => void; onBuy: () => v
             <div className="flex flex-col gap-1">
                <h1 className="text-2xl sm:text-3xl font-black tabular-nums">$42,850.24</h1>
                <p className="text-[10px] font-bold text-slate-600 leading-snug">
-                  Event engine · ALEX spot <span className="font-black">${state.tokenSpotPrice.toFixed(2)}</span> · Platform fees{' '}
+                  Event engine - ALEX spot <span className="font-black">${state.tokenSpotPrice.toFixed(2)}</span> - Platform fees{' '}
                   <span className="font-black">${state.platformFeesUsd.toFixed(2)}</span>
                </p>
             </div>
@@ -107,12 +107,12 @@ export const Portfolio: React.FC<{ onShowLeaderboard: () => void; onBuy: () => v
             <div className="flex h-4 w-full border border-slate-200 rounded-full overflow-hidden bg-white">
                <div className="h-full bg-border-dark w-[45%] border-r border-white"></div>
                <div className="h-full bg-clout-green w-[30%] border-r border-white"></div>
-               <div className="h-full bg-clout-yellow w-[25%]"></div>
+               <div className="h-full bg-slate-300 w-[25%]"></div>
             </div>
             <div className="flex justify-between text-[8px] font-black uppercase text-slate-500">
                <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-border-dark"></div> ETH</div>
                <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-clout-green"></div> CLOUT</div>
-               <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-clout-yellow"></div> PASSES</div>
+               <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-slate-300"></div> PASSES</div>
             </div>
          </BrutalistCard>
       </div>

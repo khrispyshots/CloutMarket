@@ -19,33 +19,33 @@ export const Signup: React.FC<{ onComplete: (handle: string) => void }> = ({ onC
   };
 
   return (
-    <div className="bg-clout-bg flex flex-col font-sans px-5 py-6 items-center justify-center">
-      <header className="w-full px-6 h-24 flex items-center justify-between max-w-2xl mx-auto">
-        <div className="w-12"></div>
+    <div className="h-full min-h-0 bg-clout-bg flex flex-col font-sans">
+      <header className="shrink-0 w-full px-5 h-16 flex items-center justify-between max-w-2xl mx-auto">
+        <img src="/logo.svg" alt="CloutMarket" className="h-8 w-[9rem] object-contain object-left" />
         <div className="flex gap-3">
           <div className="h-2 w-10 rounded-full bg-border-dark"></div>
           <div className="h-2 w-6 rounded-full bg-slate-200"></div>
           <div className="h-2 w-6 rounded-full bg-slate-200"></div>
         </div>
-        <div className="w-12"></div>
       </header>
-      <AnimatePresence mode="wait">
-        {!isConnecting && !isSuccess ? (
-          <motion.div
-            key="signup-form"
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: -20, opacity: 0 }}
-            className="w-full max-w-md space-y-10 text-center"
-          >
+      <main className="flex-1 min-h-0 overflow-y-auto px-5 py-4 flex items-center justify-center">
+        <AnimatePresence mode="wait">
+          {!isConnecting && !isSuccess ? (
+            <motion.div
+              key="signup-form"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -20, opacity: 0 }}
+              className="w-full max-w-md space-y-6 text-center"
+            >
             <div className="space-y-4">
-              <h1 className="text-5xl font-black tracking-tight text-border-dark leading-tight">
+              <h1 className="text-4xl sm:text-5xl font-black tracking-tight text-border-dark leading-tight">
                 Sign in with X
               </h1>
               <p className="text-slate-600 font-bold text-lg">We use your X username to create your clout name.</p>
             </div>
 
-            <BrutalistCard variant="white" className="flex flex-col items-center py-12 space-y-6">
+            <BrutalistCard variant="white" className="flex flex-col items-center py-8 sm:py-12 space-y-6">
               <div className="w-24 h-24 bg-slate-50 border border-slate-200 rounded-2xl flex items-center justify-center hard-shadow-sm rotate-3">
                 <Twitter size={48} className="fill-current text-[#1DA1F2]" />
               </div>
@@ -87,9 +87,9 @@ export const Signup: React.FC<{ onComplete: (handle: string) => void }> = ({ onC
             <p className="text-[10px] font-medium text-slate-400 max-w-[280px] mx-auto uppercase tracking-widest">
               By continuing, you agree to our <a href="#" className="underline text-border-dark font-black">Terms</a> & <a href="#" className="underline text-border-dark font-black">Privacy</a>
             </p>
-          </motion.div>
-        ) : isConnecting ? (
-          <motion.div
+            </motion.div>
+          ) : isConnecting ? (
+            <motion.div
             key="connecting"
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -105,9 +105,9 @@ export const Signup: React.FC<{ onComplete: (handle: string) => void }> = ({ onC
               <h2 className="text-3xl font-black">Connecting X...</h2>
               <p className="text-slate-500 font-bold uppercase text-xs tracking-widest">Reading @{linkedHandle}</p>
             </div>
-          </motion.div>
-        ) : (
-          <motion.div
+            </motion.div>
+          ) : (
+            <motion.div
             key="success"
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -120,9 +120,10 @@ export const Signup: React.FC<{ onComplete: (handle: string) => void }> = ({ onC
               <h2 className="text-4xl font-black">Verified</h2>
               <p className="text-slate-500 font-bold uppercase text-xs tracking-widest">@{linkedHandle} found</p>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </main>
     </div>
   );
 };

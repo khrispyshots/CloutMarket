@@ -17,8 +17,8 @@ export const OnboardingHandle: React.FC<{ xHandle: string; onComplete: () => voi
   };
 
   return (
-    <div className="bg-clout-bg flex flex-col font-sans min-h-0">
-      <header className="px-6 h-20 flex items-center justify-between max-w-2xl mx-auto w-full">
+    <div className="h-full min-h-0 bg-clout-bg flex flex-col font-sans">
+      <header className="shrink-0 px-5 h-16 flex items-center justify-between max-w-2xl mx-auto w-full">
         <button onClick={onBack} className="w-11 h-11 flex items-center justify-center rounded-2xl border border-slate-200 bg-white hard-shadow-sm press-interaction" aria-label="Back">
           <ArrowLeft size={20} strokeWidth={3} />
         </button>
@@ -30,18 +30,18 @@ export const OnboardingHandle: React.FC<{ xHandle: string; onComplete: () => voi
         <div className="w-11"></div>
       </header>
 
-      <main className="flex-1 px-6 flex flex-col items-center justify-center max-w-md mx-auto w-full pb-24">
+      <main className="flex-1 min-h-0 overflow-y-auto px-6 py-4 flex flex-col items-center justify-center max-w-md mx-auto w-full">
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="w-full space-y-8 text-center"
+          className="w-full space-y-5 sm:space-y-8 text-center"
         >
           <div className="space-y-3">
-            <h1 className="text-4xl sm:text-5xl font-black tracking-tight leading-tight text-border-dark">Claim your clout name</h1>
+            <h1 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight text-border-dark">Claim your clout name</h1>
             <p className="text-slate-600 font-bold text-base">Your X username is reserved for you.</p>
           </div>
 
-          <BrutalistCard variant="white" className="w-full p-6 text-center space-y-6">
+          <BrutalistCard variant="white" className="w-full p-5 sm:p-6 text-center space-y-5 sm:space-y-6">
             <Avatar
               size="xl"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrm0Zxh40hN1IObGQqX5dbXLesrIP3MjSs2eakjeKbfEPIVfGq4qb1tDbvCU21MK4UZtBD9lW8cHhbLnrjdqFZa6-cUpfcDcQyzdJz34T38seTbBXXwfzBn5BBK8jNOnSRQp6OCq1H5hA34JuV_3L8kP_gP1mLQ6UdobKAGH8YSuIB3-fY0XrFEfo8mr9cLCz8lE85Qznl8i9XYKCVpjyP5COwXnZNC9U1ACWWuETq9hFP_XhxPes5Hl0zf25tpxfQeyoP4mxLnDM"

@@ -28,9 +28,9 @@ export const OnboardingWelcome: React.FC<{ onComplete: () => void }> = ({ onComp
   const isLast = index === slides.length - 1;
 
   return (
-    <div className="bg-clout-bg flex flex-col font-sans min-h-0">
-      <header className="px-6 h-20 flex items-center justify-between max-w-2xl mx-auto w-full">
-        <span className="font-black italic text-xl tracking-tighter">CloutMarket</span>
+    <div className="h-full min-h-0 bg-clout-bg flex flex-col font-sans">
+      <header className="shrink-0 px-5 h-16 flex items-center justify-between max-w-2xl mx-auto w-full">
+        <img src="/logo.svg" alt="CloutMarket" className="h-8 w-[9.5rem] object-contain object-left" />
         <div className="flex gap-2" aria-label={`Onboarding step ${index + 1} of ${slides.length}`}>
           {slides.map((_, i) => (
             <div
@@ -41,7 +41,7 @@ export const OnboardingWelcome: React.FC<{ onComplete: () => void }> = ({ onComp
         </div>
       </header>
 
-      <main className="flex-1 px-6 flex flex-col items-center justify-center max-w-lg mx-auto w-full pb-24 text-center">
+      <main className="flex-1 min-h-0 overflow-y-auto px-6 py-4 flex flex-col items-center justify-center max-w-lg mx-auto w-full text-center">
         <AnimatePresence mode="wait">
           <motion.div
             key={index}
@@ -49,14 +49,14 @@ export const OnboardingWelcome: React.FC<{ onComplete: () => void }> = ({ onComp
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: -24, opacity: 0 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
-            className="w-full space-y-8"
+            className="w-full space-y-6 sm:space-y-8"
           >
-            <div className="mx-auto h-20 w-20 rounded-3xl bg-white border border-slate-200 hard-shadow flex items-center justify-center">
+            <div className="mx-auto h-16 w-16 sm:h-20 sm:w-20 rounded-3xl bg-white border border-slate-200 hard-shadow flex items-center justify-center">
               <Icon size={34} strokeWidth={2.5} />
             </div>
 
             <div className="space-y-3">
-              <h1 className="text-4xl sm:text-5xl font-black tracking-tight leading-tight">{slide.title}</h1>
+              <h1 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight">{slide.title}</h1>
               <p className="text-slate-600 font-bold text-base leading-relaxed">{slide.body}</p>
             </div>
 
@@ -80,7 +80,7 @@ export const OnboardingWelcome: React.FC<{ onComplete: () => void }> = ({ onComp
         </AnimatePresence>
       </main>
 
-      <footer className="shrink-0 px-5 pb-[max(1rem,env(safe-area-inset-bottom,0px))]">
+      <footer className="shrink-0 px-5 safe-bottom pt-3 bg-clout-bg/95 border-t border-slate-200">
         <div className="max-w-lg mx-auto flex gap-3">
           {index > 0 && (
             <StickerButton variant="outline" onClick={() => setIndex((i) => i - 1)} className="h-14 px-6">

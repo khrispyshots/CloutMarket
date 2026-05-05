@@ -28,8 +28,9 @@ export const BrutalistCard: React.FC<BrutalistCardProps> = ({
   };
 
   const classNameMerged = cn(
-    'border border-slate-200 rounded-lg p-5 text-left block w-full overflow-hidden',
+    'border border-slate-200 rounded-xl p-5 text-left block w-full overflow-hidden',
     !noShadow && 'hard-shadow',
+    onClick && 'cursor-pointer transition-colors hover:border-slate-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-dark/15',
     variantStyles[variant],
     className
   );
@@ -39,7 +40,7 @@ export const BrutalistCard: React.FC<BrutalistCardProps> = ({
       <motion.button
         type="button"
         onClick={onClick}
-        whileTap={{ scale: 0.98, x: 2, y: 2 }}
+        whileTap={{ scale: 0.985 }}
         className={classNameMerged}
       >
         {children}
@@ -74,21 +75,21 @@ export const StickerButton: React.FC<StickerButtonProps> = ({
   ...props
 }) => {
   const variantStyles = {
-    primary: 'bg-border-dark text-white border border-border-dark hard-shadow-sm hover:bg-slate-800',
-    secondary: 'bg-clout-green text-white border border-clout-green hard-shadow-sm hover:bg-emerald-700',
-    outline: 'bg-white text-border-dark border border-slate-300 hard-shadow-sm hover:bg-slate-50',
+    primary: 'bg-border-dark text-white border border-border-dark button-shadow hover:bg-slate-800',
+    secondary: 'bg-clout-green text-white border border-clout-green button-shadow hover:bg-emerald-700',
+    outline: 'bg-white text-border-dark border border-slate-300 button-shadow hover:bg-slate-50',
     ghost: 'bg-transparent text-border-dark hover:bg-black/5',
   };
 
   return (
     <motion.button
       type={type}
-      whileHover={{ scale: 1.01 }}
-      whileTap={{ scale: 0.96, x: 2, y: 2 }}
+      whileHover={disabled ? undefined : { y: -1 }}
+      whileTap={disabled ? undefined : { scale: 0.985, y: 2 }}
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        'rounded-full font-extrabold tracking-tight flex items-center justify-center gap-3 px-8 transition-colors disabled:opacity-30 disabled:pointer-events-none',
+        'min-h-11 rounded-xl font-extrabold tracking-tight flex items-center justify-center gap-3 px-5 py-3 transition-all cursor-pointer touch-manipulation disabled:cursor-not-allowed disabled:opacity-45 disabled:pointer-events-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-dark/20',
         fullWidth ? 'w-full' : 'w-auto',
         variantStyles[variant],
         className

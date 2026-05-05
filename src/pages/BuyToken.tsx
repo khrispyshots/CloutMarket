@@ -29,7 +29,7 @@ export const BuyToken: React.FC<{ onBack: () => void; onComplete: () => void }> 
             <h1 className="text-2xl font-black tracking-tight">Buy shares</h1>
          </header>
 
-         <main className="flex-1 min-h-0 overflow-y-auto mt-2 space-y-6 pb-36">
+         <main className="flex-1 min-h-0 overflow-y-auto mt-2 space-y-5 pb-6">
             <BrutalistCard variant="white" className="flex items-center gap-4 p-5">
                <Avatar size="lg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAGAmwU4PxJuhxgzmB8cNdIKTqleuKvmnFM5XwvCGD9CyPpUgjBaremodzH0foGG8UZowwBKUtSPsJLmo8ZJILUe7vdKTC8s1ta4lnPL91YO5lllU7sTGJtyCSJx4a6wVQTgqlhpN-PVlIxtW60vCjdhugvoKDz2mI-oqQjc7aZIQN_K2-ia4BXtQlim_8C8wNEPZaPV6l0vCATpZbsBxukb7cXQBGYlSBxG98ZzfCkZtg9Ps_SE1Iiy6Bc7ScCCb3_gz4LJKYAaM" isVerified />
                <div>
@@ -122,11 +122,12 @@ export const BuyToken: React.FC<{ onBack: () => void; onComplete: () => void }> 
             </BrutalistCard>
          </main>
 
-         <div className="shrink-0 p-4 pb-[max(1rem,env(safe-area-inset-bottom,0px))] bg-clout-bg/95 backdrop-blur border-t border-slate-200">
+         <div className="shrink-0 p-4 safe-bottom bg-clout-bg/95 backdrop-blur border-t border-slate-200">
             <StickerButton
-               variant={usdValid ? "secondary" : "outline"}
+               variant={usdValid ? "primary" : "outline"}
                fullWidth
                disabled={!usdValid}
+               className="h-14 text-sm"
                onClick={
                   usdValid
                      ? () => {

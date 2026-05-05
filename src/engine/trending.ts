@@ -1,6 +1,6 @@
 import type { CreatorPulse } from './types';
 
-/** Trending = (Engagement × Velocity) + Investment + FollowerGrowth (scaled) */
+/** Trending = (Engagement x Velocity) + Investment + FollowerGrowth (scaled) */
 export function trendingScore(p: CreatorPulse): number {
   const engagement = p.engagement;
   const velocity = Math.max(0.2, p.velocity);

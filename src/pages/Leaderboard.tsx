@@ -141,7 +141,7 @@ export const Leaderboard: React.FC<{ onBack: () => void; onProfileSelect: () => 
                <Avatar size="md" src={rank.avatar} />
                <div>
                  <p className="font-black text-sm">@{rank.handle}</p>
-                 <p className="text-[10px] font-bold opacity-60 uppercase">{rank.amount}{' · '}{rank.category}</p>
+                 <p className="text-[10px] font-bold opacity-60 uppercase">{rank.amount}{' - '}{rank.category}</p>
                </div>
              </div>
              <div className={cn(

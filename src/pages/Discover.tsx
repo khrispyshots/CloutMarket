@@ -44,7 +44,7 @@ export const Discover: React.FC<{ onInvest: () => void; onProfile: () => void }>
             </div>
             <input
                type="text"
-               placeholder="Search creators, tokens, or tags..."
+               placeholder="Search creators, shares, or tags..."
                className="w-full h-12 pl-11 pr-3 bg-white border border-slate-200 rounded-2xl text-sm font-bold hard-shadow transition-all focus:shadow-none outline-none focus:ring-2 focus:ring-border-dark/10"
             />
          </div>
@@ -106,7 +106,7 @@ export const Discover: React.FC<{ onInvest: () => void; onProfile: () => void }>
                <div className="p-5 flex justify-between items-center">
                   <div>
                      <h3 className="text-lg font-black leading-tight text-slate-900">CryptoPunk #4412</h3>
-                     <p className="text-slate-500 text-[10px] font-bold uppercase font-sans">Tokenized Asset</p>
+                     <p className="text-slate-500 text-[10px] font-bold uppercase font-sans">Tradable Asset</p>
                   </div>
                   <div className="text-right">
                      <p className="font-black text-xl text-slate-900 leading-none">12.5 ETH</p>

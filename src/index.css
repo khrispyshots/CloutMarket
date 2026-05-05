@@ -32,6 +32,16 @@
     height: 100%;
     min-height: 100dvh;
   }
+
+  button {
+    font: inherit;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+  }
 }
 
 @layer utilities {
@@ -43,13 +53,21 @@
     box-shadow: 0 8px 24px rgba(15, 23, 42, 0.07);
   }
 
+  .button-shadow {
+    box-shadow: 0 6px 0 rgba(15, 23, 42, 0.14), 0 14px 28px rgba(15, 23, 42, 0.08);
+  }
+
   .press-interaction {
     @apply transition-all active:scale-[0.98];
   }
 
   /** Space for fixed bottom nav + home indicator */
   .pb-nav {
-    padding-bottom: calc(7.5rem + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(6.75rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .safe-bottom {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom, 0px));
   }
 }
 
