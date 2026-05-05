@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Screen } from './types';
+import { CurrentUser, Post, Screen } from './types';
 import { BottomNavBar, TopAppBar } from './components/Navigation';
 import { Splash } from './pages/Splash';
 import { Feed } from './pages/Feed';
@@ -16,13 +16,68 @@ import { Withdraw } from './pages/Withdraw';
 import { OnboardingHandle } from './pages/OnboardingHandle';
 import { OnboardingWelcome } from './pages/OnboardingWelcome';
 import { Signup } from './pages/Signup';
+import { DEFAULT_USER_AVATAR, NOTIFICATIONS } from './constants';
+
+const cleanHandle = (handle: string) => handle.toLowerCase().replace(/[^a-z0-9_]/g, '') || 'frosthub';
+
+const nameFromHandle = (handle: string) =>
+  cleanHandle(handle)
+    .split('_')
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ') || 'Frosthub';
+
+const createCurrentUser = (handle: string): CurrentUser => {
+  const cleaned = cleanHandle(handle);
+  return {
+    id: 'me',
+    name: nameFromHandle(cleaned),
+    handle: cleaned,
+    cloutName: `${cleaned}.clout`,
+    followers: '0',
+    price: '$1.00',
+    change: '+0.0%',
+    avatar: DEFAULT_USER_AVATAR,
+    bio: 'Verified creator profile powered by your signup identity.',
+    joinedAt: 'Today',
+    isVerified: true,
+  };
+};
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>(Screen.Splash);
-  const [xHandle, setXHandle] = useState('frosthub');
+  const [currentUser, setCurrentUser] = useState<CurrentUser>(() => createCurrentUser('frosthub'));
+  const [selectedCreatorId, setSelectedCreatorId] = useState<string>('me');
+  const [notificationReturnScreen, setNotificationReturnScreen] = useState<Screen>(Screen.Feed);
+  const [myPosts, setMyPosts] = useState<Post[]>([]);
 
   const navigate = (screen: Screen) => {
     setCurrentScreen(screen);
+  };
+
+  const navigateFromBottom = (screen: Screen) => {
+    if (screen === Screen.Profile) setSelectedCreatorId('me');
+    setCurrentScreen(screen);
+  };
+
+  const openProfile = (creatorId = 'me') => {
+    setSelectedCreatorId(creatorId);
+    navigate(Screen.Profile);
+  };
+
+  const openBuy = (creatorId = selectedCreatorId) => {
+    setSelectedCreatorId(creatorId === 'me' ? '3' : creatorId);
+    navigate(Screen.BuyToken);
+  };
+
+  const openSell = (creatorId = selectedCreatorId) => {
+    setSelectedCreatorId(creatorId === 'me' ? '3' : creatorId);
+    navigate(Screen.SellToken);
+  };
+
+  const openNotifications = () => {
+    setNotificationReturnScreen(currentScreen === Screen.Notifications ? Screen.Feed : currentScreen);
+    navigate(Screen.Notifications);
   };
 
   const renderScreen = () => {
@@ -31,36 +86,48 @@ export default function App() {
         return <Splash onComplete={() => navigate(Screen.Onboarding_Welcome)} onLogin={() => navigate(Screen.Feed)} />;
       case Screen.Signup:
         return <Signup onComplete={(handle) => {
-          setXHandle(handle);
+          setCurrentUser(createCurrentUser(handle));
           navigate(Screen.Onboarding_Handle);
         }} />;
       case Screen.Onboarding_Handle:
-        return <OnboardingHandle xHandle={xHandle} onComplete={() => navigate(Screen.Feed)} onBack={() => navigate(Screen.Signup)} />;
+        return <OnboardingHandle xHandle={currentUser.handle} onComplete={() => navigate(Screen.Feed)} onBack={() => navigate(Screen.Signup)} />;
       case Screen.Onboarding_Welcome:
         return <OnboardingWelcome onComplete={() => navigate(Screen.Signup)} />;
 
       case Screen.Feed:
-        return <Feed onCreatorSelect={() => navigate(Screen.Profile)} onInvest={() => navigate(Screen.BuyToken)} />;
+        return <Feed currentUser={currentUser} myPosts={myPosts} onPostCreated={(post) => setMyPosts((items) => [post, ...items])} onCreatorSelect={openProfile} onInvest={openBuy} />;
       case Screen.Discover:
-        return <Discover onInvest={() => navigate(Screen.BuyToken)} onProfile={() => navigate(Screen.Profile)} />;
+        return <Discover onInvest={openBuy} onProfile={openProfile} />;
       case Screen.Portfolio:
         return <Portfolio onShowLeaderboard={() => navigate(Screen.Leaderboard)} onBuy={() => navigate(Screen.Discover)} onWithdraw={() => navigate(Screen.Withdraw)} />;
       case Screen.Profile:
-        return <Profile onBuy={() => navigate(Screen.BuyToken)} onBack={() => navigate(Screen.Feed)} onSettings={() => navigate(Screen.Settings)} onSell={() => navigate(Screen.SellToken)} />;
+        return (
+          <Profile
+            currentUser={currentUser}
+            selectedCreatorId={selectedCreatorId}
+            myPosts={myPosts}
+            onBuy={() => openBuy(selectedCreatorId)}
+            onBack={() => navigate(Screen.Feed)}
+            onSettings={() => navigate(Screen.Settings)}
+            onSell={() => openSell(selectedCreatorId)}
+            onPortfolio={() => navigate(Screen.Portfolio)}
+            onNotifications={openNotifications}
+          />
+        );
       case Screen.BuyToken:
-        return <BuyToken onBack={() => navigate(Screen.Profile)} onComplete={() => navigate(Screen.Portfolio)} />;
+        return <BuyToken creatorId={selectedCreatorId} onBack={() => openProfile(selectedCreatorId)} onComplete={() => navigate(Screen.Portfolio)} />;
       case Screen.SellToken:
-        return <SellToken onBack={() => navigate(Screen.Profile)} onComplete={() => navigate(Screen.Portfolio)} />;
+        return <SellToken creatorId={selectedCreatorId} onBack={() => openProfile(selectedCreatorId)} onComplete={() => navigate(Screen.Portfolio)} />;
       case Screen.Withdraw:
         return <Withdraw onBack={() => navigate(Screen.Portfolio)} onComplete={() => navigate(Screen.Portfolio)} />;
       case Screen.Notifications:
-        return <Notifications />;
+        return <Notifications onBack={() => navigate(notificationReturnScreen)} />;
       case Screen.Settings:
         return <Settings onBack={() => navigate(Screen.Profile)} onLogout={() => navigate(Screen.Splash)} />;
       case Screen.Leaderboard:
-        return <Leaderboard onBack={() => navigate(Screen.Portfolio)} onProfileSelect={() => navigate(Screen.Profile)} />;
+        return <Leaderboard onProfileSelect={openProfile} />;
       default:
-        return <Feed onCreatorSelect={() => navigate(Screen.Profile)} onInvest={() => navigate(Screen.BuyToken)} />;
+        return <Feed currentUser={currentUser} myPosts={myPosts} onPostCreated={(post) => setMyPosts((items) => [post, ...items])} onCreatorSelect={openProfile} onInvest={openBuy} />;
     }
   };
 
@@ -75,7 +142,6 @@ export default function App() {
   ].includes(currentScreen);
 
   const showTopBar = !isFullPage && ![
-    Screen.Leaderboard,
     Screen.Profile,
     Screen.Settings,
     Screen.Notifications
@@ -87,8 +153,10 @@ export default function App() {
     <div className="h-dvh max-h-dvh flex flex-col overflow-hidden bg-clout-bg selection:bg-clout-yellow selection:text-border-dark">
       {showTopBar && (
         <TopAppBar
-          onAvatarClick={() => navigate(Screen.Profile)}
-          onWalletClick={() => navigate(Screen.Portfolio)}
+          currentUser={currentUser}
+          unreadCount={NOTIFICATIONS.filter((n) => !n.isRead).length}
+          onAvatarClick={() => openProfile('me')}
+          onNotificationsClick={openNotifications}
         />
       )}
 
@@ -113,7 +181,7 @@ export default function App() {
         </AnimatePresence>
       </main>
 
-      {showBottomBar && <BottomNavBar activeScreen={currentScreen} onNavigate={navigate} />}
+      {showBottomBar && <BottomNavBar activeScreen={currentScreen} onNavigate={navigateFromBottom} />}
     </div>
   );
 }

@@ -9,7 +9,7 @@ export const Settings: React.FC<{ onBack: () => void; onLogout: () => void }> = 
 
   return (
     <div className="bg-clout-bg pb-nav font-sans min-h-0">
-      <header className="px-5 h-16 flex items-center justify-between border-b border-slate-200 bg-clout-bg">
+      <header className="sticky top-0 z-30 px-5 h-16 flex items-center justify-between border-b border-slate-200 bg-clout-bg/95 backdrop-blur-xl">
         <button type="button" onClick={onBack} aria-label="Back" className="w-10 h-10 flex items-center justify-center rounded-full border border-slate-200 bg-white press-interaction hard-shadow-sm">
           <ArrowLeft size={20} />
         </button>

@@ -28,6 +28,20 @@ export interface Creator {
   isVerified?: boolean;
 }
 
+export interface CurrentUser {
+  id: 'me';
+  name: string;
+  handle: string;
+  cloutName: string;
+  followers: string;
+  price: string;
+  change: string;
+  avatar: string;
+  bio: string;
+  joinedAt: string;
+  isVerified: boolean;
+}
+
 export interface Post {
   id: string;
   creatorId: string;

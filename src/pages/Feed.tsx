@@ -3,16 +3,46 @@ import { flushSync } from 'react-dom';
 import { AnimatePresence, motion } from 'motion/react';
 import { BrutalistCard, StickerButton, Avatar } from '../components/UI';
 import { POSTS } from '../constants';
-import type { Post } from '../types';
-import { Heart, MessageCircle, Plus, Share2, X } from 'lucide-react';
+import type { CurrentUser, Post } from '../types';
+import { Heart, MessageCircle, Plus, SendHorizontal, Share2, X } from 'lucide-react';
 import { cn, copyTextToClipboard } from '../lib/utils';
 import { useCloutMarket } from '../engine/CloutMarketContext';
 import { DAILY_POINTS_CAP } from '../engine/config';
 
-const ME_AVATAR =
-   'https://lh3.googleusercontent.com/aida-public/AB6AXuBPVpsRKHuRuOzQlOqUqi7Bfp7dlrib0uguDeolilblQoO4sMNEWKz6w90n7zWzIP7tTS7vV_irrgb2Dh-jFpUI11phZW1saxp-2N4zKsNCUV8sxFRnMK81JWCiQ7Qag6Jg6XJQUYhY0TeUszJ68O2O0QzSNYukVZ8k63fuL9vnkpaE1C6RG58JJQPqguFPQppk4ux4EeCiuwU7MZz4izu2tedl5VodA9bbjCWYka3DzmUSjPSRqP3g3qHkux157CysxBnmJ_CLw2E';
+type FeedFilter = 'Trending' | 'Following' | 'New';
 
-export const Feed: React.FC<{ onCreatorSelect: () => void; onInvest: () => void }> = ({ onCreatorSelect, onInvest }) => {
+const NEW_FEED_POSTS: Post[] = [
+   {
+      id: 'new-feed-1',
+      creatorId: '2',
+      creatorName: 'DevGiga',
+      creatorHandle: 'DevGiga',
+      creatorAvatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAA270-EOu9bdBR0zCaLw3t05e0hwxLLYkL4foz-Umx0lfawfeSAy8comTm80eKLaPpZGi-Wyi8Uv9vLC05CkEWs3S3X94Fzi32832AMcayP2Tl1jX9n0t78EILULwvGYkb6QxlEs3Hnv060PwLHlEYx5QspM0BhZMjUI0jPRbZxuoJeBvACQnkzLk435viISzDtSs5tibgj3RM3KQhrqnWG7w3RDK7TWmlq4yclrTfHVCSL6ZwkzYvlrz17vZCsuKECbKS2JN-rCo',
+      content: 'Opened my creator shares today. Early holders get first access to the build log and private AMAs.',
+      likes: '41',
+      comments: '9',
+      timestamp: '12m ago',
+   },
+   {
+      id: 'new-feed-2',
+      creatorId: '1',
+      creatorName: 'SatoshiArt',
+      creatorHandle: 'SatoshiArt',
+      creatorAvatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCqyUaMqZxnFpjBPROPLCX1EjsNpNSIzMvlMiS-SwEMJ-HYghGBZBtx_SZqwnIxm1opq6c7xAoGIz7JqbHzFZdopT1NYIwtcmARcswFcSyALrf_BoYS4y6PFShsBCcByxTYBOIpP2Z6XfFGMQmwQeFGWc5XrbmmvcRLf1gShOYfIqSALqEO2W0UqZn2y6NspAULmadRgLDgJ5SFAhfDPqJwC5t7P09RTnXo1FfVMUhJ7ES3Ju0JAeNaeyvl09O-JtMAkIltNto64Ss',
+      content: 'Fresh drop is live. I am tracking holder rewards by share age, not just share size.',
+      likes: '76',
+      comments: '14',
+      timestamp: '28m ago',
+   },
+];
+
+export const Feed: React.FC<{
+   currentUser: CurrentUser;
+   myPosts: Post[];
+   onPostCreated: (post: Post) => void;
+   onCreatorSelect: (creatorId: string) => void;
+   onInvest: (creatorId: string) => void;
+}> = ({ currentUser, myPosts, onPostCreated, onCreatorSelect, onInvest }) => {
    const { state, dispatch, formatClout } = useCloutMarket();
    const parseCount = (c: string): number => {
       if (c.endsWith('k')) return parseFloat(c) * 1000;
@@ -32,9 +62,9 @@ export const Feed: React.FC<{ onCreatorSelect: () => void; onInvest: () => void 
    const [replies, setReplies] = useState<Record<string, { count: number; active: boolean }>>(
       Object.fromEntries(POSTS.map((p) => [p.id, { count: parseCount(p.comments), active: false }]))
    );
-   const [myPosts, setMyPosts] = useState<Post[]>([]);
    const [composeOpen, setComposeOpen] = useState(false);
    const [draft, setDraft] = useState('');
+   const [activeFilter, setActiveFilter] = useState<FeedFilter>('Trending');
    const textareaRef = useRef<HTMLTextAreaElement>(null);
 
    useEffect(() => {
@@ -58,11 +88,12 @@ export const Feed: React.FC<{ onCreatorSelect: () => void; onInvest: () => void 
       let wasActive = false;
       flushSync(() => {
          setLikes((prev) => {
-            wasActive = prev[id]?.active ?? false;
+            const current = prev[id] ?? { count: parseCount(post.likes), active: false };
+            wasActive = current.active;
             return {
                ...prev,
                [id]: {
-                  count: wasActive ? Math.max(0, prev[id].count - 1) : prev[id].count + 1,
+                  count: wasActive ? Math.max(0, current.count - 1) : current.count + 1,
                   active: !wasActive,
                },
             };
@@ -78,11 +109,12 @@ export const Feed: React.FC<{ onCreatorSelect: () => void; onInvest: () => void 
       let wasActive = false;
       flushSync(() => {
          setReplies((prev) => {
-            wasActive = prev[id]?.active ?? false;
+            const current = prev[id] ?? { count: parseCount(post.comments), active: false };
+            wasActive = current.active;
             return {
                ...prev,
                [id]: {
-                  count: wasActive ? Math.max(0, prev[id].count - 1) : prev[id].count + 1,
+                  count: wasActive ? Math.max(0, current.count - 1) : current.count + 1,
                   active: !wasActive,
                },
             };
@@ -114,16 +146,16 @@ export const Feed: React.FC<{ onCreatorSelect: () => void; onInvest: () => void 
       const newPost: Post = {
          id: `me-${Date.now()}`,
          creatorId: 'me',
-         creatorName: 'You',
-         creatorHandle: 'you.clout',
-         creatorAvatar: ME_AVATAR,
+         creatorName: currentUser.name,
+         creatorHandle: currentUser.cloutName,
+         creatorAvatar: currentUser.avatar,
          content: text,
          likes: '0',
          comments: '0',
          timestamp: 'Just now',
       };
       dispatch({ type: 'PostCreated', postId: newPost.id, creatorId: 'me', contentLength: text.length });
-      setMyPosts((p) => [newPost, ...p]);
+      onPostCreated(newPost);
       setLikes((prev) => ({ ...prev, [newPost.id]: { count: 0, active: false } }));
       setReplies((prev) => ({ ...prev, [newPost.id]: { count: 0, active: false } }));
       setDraft('');
@@ -131,6 +163,94 @@ export const Feed: React.FC<{ onCreatorSelect: () => void; onInvest: () => void 
    };
 
    const allPosts = [...myPosts, ...POSTS];
+   const followingPosts = [...myPosts, ...POSTS.filter((post) => ['3', '2'].includes(post.creatorId))];
+   const newPosts = [...myPosts, ...NEW_FEED_POSTS];
+   const visiblePosts = activeFilter === 'Trending' ? allPosts : activeFilter === 'Following' ? followingPosts : newPosts;
+   const tabSummary =
+      activeFilter === 'Trending'
+         ? 'Live market conversation'
+         : activeFilter === 'Following'
+            ? 'Creators you follow'
+            : 'Recently joined creators';
+   const tabs: FeedFilter[] = ['Trending', 'Following', 'New'];
+
+   const renderPost = (post: Post) => (
+      <BrutalistCard
+         key={post.id}
+         variant="white"
+         className="p-4 space-y-3"
+      >
+         <div className="flex justify-between items-start gap-2">
+            {post.creatorId === 'me' ? (
+               <div className="flex items-center gap-2 text-left min-w-0">
+                  <Avatar src={post.creatorAvatar} alt={post.creatorName} />
+                  <div className="min-w-0">
+                     <p className="font-bold text-slate-900 leading-tight text-sm truncate">{post.creatorName}</p>
+                     <p className="text-[11px] font-medium text-slate-500 truncate">@{post.creatorHandle}</p>
+                  </div>
+               </div>
+            ) : (
+               <button type="button" className="flex items-center gap-2 cursor-pointer text-left min-w-0" onClick={() => onCreatorSelect(post.creatorId)}>
+                  <Avatar src={post.creatorAvatar} alt={post.creatorName} />
+                  <div className="min-w-0">
+                     <p className="font-bold text-slate-900 leading-tight text-sm truncate">{post.creatorName}</p>
+                     <p className="text-[11px] font-medium text-slate-500 truncate">@{post.creatorHandle}</p>
+                  </div>
+               </button>
+            )}
+            {post.creatorId !== 'me' && (
+               <StickerButton onClick={() => onInvest(post.creatorId)} variant="secondary" className="h-10 sm:h-12 px-3 sm:px-5 text-[10px] sm:text-xs font-black uppercase tracking-tight shrink-0 shadow-lg">
+                  Buy shares
+               </StickerButton>
+            )}
+         </div>
+
+         {post.image && (
+            <div className="rounded-lg border border-slate-200 overflow-hidden h-36 hard-shadow-sm">
+               <img src={post.image} alt="" className="w-full h-full object-cover" loading="lazy" />
+            </div>
+         )}
+
+         <p className="font-medium text-slate-800 leading-snug text-sm">{post.content}</p>
+
+         <div className="flex justify-between items-center pt-1 gap-2">
+            <div className="flex gap-3 shrink-0">
+               <button
+                  type="button"
+                  onClick={(e) => toggleLike(post, e)}
+                  className={cn(
+                     'flex items-center gap-1 group text-[11px] font-black transition-colors press-interaction',
+                     likes[post.id]?.active ? 'text-red-500' : 'text-slate-600'
+                  )}
+               >
+                  <Heart size={15} fill={likes[post.id]?.active ? 'currentColor' : 'none'} strokeWidth={3} />{' '}
+                  {formatCount(likes[post.id]?.count ?? parseCount(post.likes))}
+               </button>
+               <button
+                  type="button"
+                  onClick={(e) => toggleReply(post, e)}
+                  className={cn(
+                     'flex items-center gap-1 group text-[11px] font-black transition-colors press-interaction',
+                     replies[post.id]?.active ? 'text-clout-green' : 'text-slate-600'
+                  )}
+                  aria-label={replies[post.id]?.active ? 'Undo reply' : 'Reply'}
+               >
+                  <MessageCircle size={15} strokeWidth={3} className={cn(replies[post.id]?.active && 'scale-110 transition-transform')} />{' '}
+                  {formatCount(replies[post.id]?.count ?? parseCount(post.comments))}
+               </button>
+               <button
+                  type="button"
+                  onClick={(e) => sharePost(post, e)}
+                  className="flex items-center gap-1 group text-[11px] font-black text-slate-600 press-interaction"
+                  aria-label="Share post"
+               >
+                  <Share2 size={15} strokeWidth={3} />
+               </button>
+            </div>
+            <span className="text-[8px] font-black uppercase text-slate-400 tracking-tighter whitespace-nowrap">{post.timestamp}</span>
+         </div>
+      </BrutalistCard>
+   );
 
    return (
       <div className="px-3 sm:px-4 pb-nav w-full max-w-full pt-2 sm:pt-3">
@@ -151,100 +271,56 @@ export const Feed: React.FC<{ onCreatorSelect: () => void; onInvest: () => void 
                </p>
             </div>
             <div className="bg-white border border-slate-200 p-1.5 rounded-full hard-shadow-sm shrink-0">
-               <Avatar size="sm" src={ME_AVATAR} alt="Your profile" />
+               <Avatar size="sm" src={currentUser.avatar} alt={`${currentUser.cloutName} profile`} />
             </div>
          </BrutalistCard>
 
-         <div className="flex gap-2 overflow-x-auto pb-2 -mx-3 px-3 sm:-mx-4 sm:px-4 scrollbar-hide mb-3 snap-x snap-mandatory" role="tablist" aria-label="Feed filters">
-            <button type="button" aria-selected className="snap-start shrink-0 whitespace-nowrap px-4 py-2 bg-border-dark text-white border border-border-dark rounded-full font-black text-[10px] uppercase hard-shadow-sm press-interaction">
-               Trending
-            </button>
-            <button type="button" aria-selected={false} className="snap-start shrink-0 whitespace-nowrap px-4 py-2 bg-white border border-slate-200 rounded-full font-black text-[10px] uppercase text-slate-500 hover:bg-slate-50 press-interaction">
-               Following
-            </button>
-            <button type="button" aria-selected={false} className="snap-start shrink-0 whitespace-nowrap px-4 py-2 bg-white border border-slate-200 rounded-full font-black text-[10px] uppercase text-slate-500 hover:bg-slate-50 press-interaction">
-               New
-            </button>
+         <div className="mb-3 flex justify-center">
+            <div className="inline-flex max-w-full items-center justify-center gap-1 rounded-full border border-slate-200 bg-white p-1 hard-shadow-sm" role="tablist" aria-label="Feed filters">
+               {tabs.map((tab) => {
+                  const isActive = activeFilter === tab;
+                  return (
+                     <button
+                        key={tab}
+                        type="button"
+                        onClick={() => setActiveFilter(tab)}
+                        aria-selected={isActive}
+                        className={cn(
+                           'relative h-9 min-w-[5.25rem] whitespace-nowrap rounded-full px-3 text-[10px] font-black uppercase transition-colors duration-200 press-interaction',
+                           isActive ? 'text-white' : 'text-slate-500 hover:text-border-dark'
+                        )}
+                     >
+                        {isActive && (
+                           <motion.span
+                              layoutId="feed-active-tab"
+                              className="absolute inset-0 rounded-full bg-border-dark hard-shadow-sm"
+                              transition={{ type: 'spring', stiffness: 420, damping: 34 }}
+                           />
+                        )}
+                        <span className="relative z-10">{tab}</span>
+                     </button>
+                  );
+               })}
+            </div>
          </div>
 
          <section className="space-y-3">
-            {allPosts.map((post) => (
-               <BrutalistCard
-                  key={post.id}
-                  variant="white"
-                  className="p-4 space-y-3"
+            <AnimatePresence mode="wait">
+               <motion.div
+                  key={activeFilter}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.2, ease: 'easeOut' }}
+                  className="space-y-3"
                >
-                  <div className="flex justify-between items-start gap-2">
-                     {post.creatorId === 'me' ? (
-                        <div className="flex items-center gap-2 text-left min-w-0">
-                           <Avatar src={post.creatorAvatar} alt={post.creatorName} />
-                           <div className="min-w-0">
-                              <p className="font-bold text-slate-900 leading-tight text-sm truncate">{post.creatorName}</p>
-                              <p className="text-[11px] font-medium text-slate-500">@{post.creatorHandle}</p>
-                           </div>
-                        </div>
-                     ) : (
-                        <button type="button" className="flex items-center gap-2 cursor-pointer text-left min-w-0" onClick={onCreatorSelect}>
-                           <Avatar src={post.creatorAvatar} alt={post.creatorName} />
-                           <div className="min-w-0">
-                              <p className="font-bold text-slate-900 leading-tight text-sm truncate">{post.creatorName}</p>
-                              <p className="text-[11px] font-medium text-slate-500">@{post.creatorHandle}</p>
-                           </div>
-                        </button>
-                     )}
-                     {post.creatorId !== 'me' && (
-                        <StickerButton onClick={onInvest} variant="secondary" className="h-12 px-5 text-xs font-black uppercase tracking-tight shrink-0 shadow-lg">
-                           Buy shares
-                        </StickerButton>
-                     )}
+                  <div className="flex items-center justify-between px-1">
+                     <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">{tabSummary}</p>
+                     <span className="text-[10px] font-black text-slate-400 tabular-nums">{visiblePosts.length}</span>
                   </div>
-
-                  {post.image && (
-                     <div className="rounded-lg border border-slate-200 overflow-hidden h-36 hard-shadow-sm">
-                        <img src={post.image} alt="" className="w-full h-full object-cover" loading="lazy" />
-                     </div>
-                  )}
-
-                  <p className="font-medium text-slate-800 leading-snug text-sm">{post.content}</p>
-
-                  <div className="flex justify-between items-center pt-1 gap-2">
-                     <div className="flex gap-3 shrink-0">
-                        <button
-                           type="button"
-                           onClick={(e) => toggleLike(post, e)}
-                           className={cn(
-                              'flex items-center gap-1 group text-[11px] font-black transition-colors press-interaction',
-                              likes[post.id]?.active ? 'text-red-500' : 'text-slate-600'
-                           )}
-                        >
-                           <Heart size={15} fill={likes[post.id]?.active ? 'currentColor' : 'none'} strokeWidth={3} />{' '}
-                           {formatCount(likes[post.id]?.count ?? 0)}
-                        </button>
-                        <button
-                           type="button"
-                           onClick={(e) => toggleReply(post, e)}
-                           className={cn(
-                              'flex items-center gap-1 group text-[11px] font-black transition-colors press-interaction',
-                              replies[post.id]?.active ? 'text-clout-green' : 'text-slate-600'
-                           )}
-                           aria-label={replies[post.id]?.active ? 'Undo reply' : 'Reply'}
-                        >
-                           <MessageCircle size={15} strokeWidth={3} className={cn(replies[post.id]?.active && 'scale-110 transition-transform')} />{' '}
-                           {formatCount(replies[post.id]?.count ?? 0)}
-                        </button>
-                        <button
-                           type="button"
-                           onClick={(e) => sharePost(post, e)}
-                           className="flex items-center gap-1 group text-[11px] font-black text-slate-600 press-interaction"
-                           aria-label="Share post"
-                        >
-                           <Share2 size={15} strokeWidth={3} />
-                        </button>
-                     </div>
-                     <span className="text-[8px] font-black uppercase text-slate-400 tracking-tighter whitespace-nowrap">{post.timestamp}</span>
-                  </div>
-               </BrutalistCard>
-            ))}
+                  {visiblePosts.map(renderPost)}
+               </motion.div>
+            </AnimatePresence>
          </section>
 
          <button
@@ -304,8 +380,15 @@ export const Feed: React.FC<{ onCreatorSelect: () => void; onInvest: () => void 
                      <div className="flex justify-between items-center text-[10px] font-bold text-slate-500">
                         <span>{280 - draft.length} left</span>
                      </div>
-                     <StickerButton fullWidth onClick={publishPost} disabled={!draft.trim()} variant={draft.trim() ? 'primary' : 'outline'}>
-                        Post
+                     <StickerButton
+                        fullWidth
+                        onClick={publishPost}
+                        disabled={!draft.trim()}
+                        variant={draft.trim() ? 'primary' : 'outline'}
+                        className="h-12 text-sm"
+                        rightIcon={<SendHorizontal size={18} strokeWidth={3} />}
+                     >
+                        Send post
                      </StickerButton>
                   </motion.div>
                </motion.div>

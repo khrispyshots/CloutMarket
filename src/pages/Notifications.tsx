@@ -1,22 +1,25 @@
 import React from 'react';
 import { BrutalistCard } from '../components/UI';
 import { NOTIFICATIONS } from '../constants';
-import { Bell } from 'lucide-react';
+import { ArrowLeft, Bell } from 'lucide-react';
 import { cn } from '../lib/utils';
 
-export const Notifications: React.FC = () => {
+export const Notifications: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   const [readIds, setReadIds] = React.useState<string[]>([]);
 
   return (
-    <div className="px-4 pb-nav space-y-4 pt-3 max-w-2xl mx-auto">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-black italic tracking-tighter">Notifications</h1>
+    <div className="pb-nav max-w-2xl mx-auto">
+      <header className="sticky top-0 z-30 px-4 h-16 flex items-center justify-between border-b border-slate-200 bg-clout-bg/95 backdrop-blur-xl">
+        <button type="button" onClick={onBack} aria-label="Back" className="w-10 h-10 flex items-center justify-center rounded-full border border-slate-200 bg-white hard-shadow-sm press-interaction">
+          <ArrowLeft size={20} />
+        </button>
+        <h1 className="text-xl font-black italic tracking-tighter">Notifications</h1>
         <span className="bg-white text-border-dark font-black text-[10px] uppercase px-3 py-1 rounded-full border border-slate-200 hard-shadow-sm">
           {Math.max(0, NOTIFICATIONS.length - readIds.length)} NEW
         </span>
-      </div>
+      </header>
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 px-4 pt-4">
         {NOTIFICATIONS.map((notif) => (
           <BrutalistCard 
             key={notif.id}
@@ -45,7 +48,7 @@ export const Notifications: React.FC = () => {
         ))}
       </div>
 
-      <div className="flex justify-center pt-8">
+      <div className="flex justify-center pt-8 px-4">
         <button 
           type="button"
           onClick={() => alert('No older notifications yet!')}

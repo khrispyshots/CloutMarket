@@ -4,13 +4,13 @@ import { ArrowLeft, ShoppingCart, TrendingUp, CircleDollarSign } from 'lucide-re
 import { cn } from '../lib/utils';
 import { useCloutMarket } from '../engine/CloutMarketContext';
 import { CREATOR_FEE_SHARE, FEE_BUY_PCT, TRADE_COOLDOWN_MS } from '../engine/config';
+import { CREATORS } from '../constants';
 
-const CREATOR_ID = '3';
-
-export const BuyToken: React.FC<{ onBack: () => void; onComplete: () => void }> = ({ onBack, onComplete }) => {
+export const BuyToken: React.FC<{ creatorId: string; onBack: () => void; onComplete: () => void }> = ({ creatorId, onBack, onComplete }) => {
    const { state, dispatch } = useCloutMarket();
    const [amount, setAmount] = useState('');
    const [asset, setAsset] = useState<'CELO' | 'cUSD'>('CELO');
+   const creator = CREATORS.find((item) => item.id === creatorId) ?? CREATORS[2];
 
    const spot = state.tokenSpotPrice;
    const usd = parseFloat(amount);
@@ -31,9 +31,9 @@ export const BuyToken: React.FC<{ onBack: () => void; onComplete: () => void }> 
 
          <main className="flex-1 min-h-0 overflow-y-auto mt-2 space-y-5 pb-6">
             <BrutalistCard variant="white" className="flex items-center gap-4 p-5">
-               <Avatar size="lg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAGAmwU4PxJuhxgzmB8cNdIKTqleuKvmnFM5XwvCGD9CyPpUgjBaremodzH0foGG8UZowwBKUtSPsJLmo8ZJILUe7vdKTC8s1ta4lnPL91YO5lllU7sTGJtyCSJx4a6wVQTgqlhpN-PVlIxtW60vCjdhugvoKDz2mI-oqQjc7aZIQN_K2-ia4BXtQlim_8C8wNEPZaPV6l0vCATpZbsBxukb7cXQBGYlSBxG98ZzfCkZtg9Ps_SE1Iiy6Bc7ScCCb3_gz4LJKYAaM" isVerified />
+               <Avatar size="lg" src={creator.avatar} isVerified={creator.isVerified} alt={creator.name} />
                <div>
-                  <h2 className="text-xl font-black">@alex_creativ</h2>
+                  <h2 className="text-xl font-black">@{creator.handle}</h2>
                   <div className="flex items-center gap-1.5 text-[10px] font-black uppercase text-slate-500 tracking-wider">
                      <TrendingUp size={12} strokeWidth={3} />
                      Bonding curve spot ${spot.toFixed(2)} / share
@@ -131,7 +131,7 @@ export const BuyToken: React.FC<{ onBack: () => void; onComplete: () => void }> 
                onClick={
                   usdValid
                      ? () => {
-                        dispatch({ type: 'BuyToken', creatorId: CREATOR_ID, usdAmount: usd });
+                        dispatch({ type: 'BuyToken', creatorId: creator.id, usdAmount: usd });
                         onComplete();
                      }
                      : undefined

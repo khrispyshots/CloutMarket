@@ -22,7 +22,7 @@ export const Portfolio: React.FC<{ onShowLeaderboard: () => void; onBuy: () => v
       <div className="px-3 sm:px-4 pb-nav space-y-4 sm:space-y-5 pt-2 sm:pt-3 w-full max-w-full">
          <section className="bg-white border border-slate-200 rounded-lg p-4 hard-shadow space-y-3">
             <div className="flex justify-between items-start gap-3">
-               <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">Total Balance</p>
+               <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">Holdings balance</p>
                <div className="bg-emerald-50 text-clout-green px-2 py-1 border border-emerald-100 rounded-full text-[10px] font-bold">
                   +12.5% up
                </div>
@@ -71,8 +71,8 @@ export const Portfolio: React.FC<{ onShowLeaderboard: () => void; onBuy: () => v
 
          <section className="space-y-4">
             <div className="flex justify-between items-center px-1">
-               <h2 className="text-xl font-black">Your Holdings</h2>
-               <button type="button" onClick={onBuy} className="text-[10px] font-black uppercase text-slate-700 underline underline-offset-4">View All</button>
+               <h2 className="text-xl font-black">My Holdings</h2>
+               <button type="button" onClick={onBuy} className="text-[10px] font-black uppercase text-slate-700 underline underline-offset-4">Browse</button>
             </div>
 
             <div className="space-y-3">
@@ -101,7 +101,7 @@ export const Portfolio: React.FC<{ onShowLeaderboard: () => void; onBuy: () => v
 
          <BrutalistCard variant="white" className="p-5 space-y-4">
             <div className="flex justify-between items-center">
-               <h3 className="text-sm font-black uppercase tracking-tight">Portfolio Diversity</h3>
+               <h3 className="text-sm font-black uppercase tracking-tight">Holdings mix</h3>
                <button type="button" onClick={onShowLeaderboard} className="text-[10px] font-black underline">Stats</button>
             </div>
             <div className="flex h-4 w-full border border-slate-200 rounded-full overflow-hidden bg-white">

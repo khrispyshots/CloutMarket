@@ -15,7 +15,7 @@ const zeroPulse = (now: number): CreatorPulse => ({
    lastActivityAt: now,
 });
 
-export const Discover: React.FC<{ onInvest: () => void; onProfile: () => void }> = ({ onInvest, onProfile }) => {
+export const Discover: React.FC<{ onInvest: (creatorId: string) => void; onProfile: (creatorId: string) => void }> = ({ onInvest, onProfile }) => {
    const { state } = useCloutMarket();
 
    const hotCreators = useMemo(() => {
@@ -82,7 +82,7 @@ export const Discover: React.FC<{ onInvest: () => void; onProfile: () => void }>
                            <span className="text-[10px] font-black text-clout-green">{creator.change}</span>
                         </div>
                      </div>
-                     <StickerButton onClick={onInvest} fullWidth className="h-12 text-xs font-black uppercase tracking-tight shadow-lg">Buy shares</StickerButton>
+                     <StickerButton onClick={() => onInvest(creator.id)} fullWidth className="h-12 text-xs font-black uppercase tracking-tight shadow-lg">Buy shares</StickerButton>
                   </BrutalistCard>
                ))}
             </div>
@@ -92,7 +92,7 @@ export const Discover: React.FC<{ onInvest: () => void; onProfile: () => void }>
             <div className="flex justify-between items-end px-1">
                <h2 className="text-2xl font-black">Exploding</h2>
             </div>
-            <BrutalistCard onClick={onProfile} className="relative overflow-hidden p-0 hard-shadow cursor-pointer">
+            <BrutalistCard onClick={() => onProfile('3')} className="relative overflow-hidden p-0 hard-shadow cursor-pointer">
                <div className="h-32 sm:h-40 w-full overflow-hidden">
                   <img
                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeIpvbHx8ZzHGshDLMokbVLJf675XS_KYmVp4SBc9pXHv2-YTPxGMkU-PQvwFPCavJ4fNheMMiqDLliijQIuadidYiXWgPRDYm-hMepG9jpDHfiKlAMvMZ06pryR76aAEp8nF3H3anqH3Aa5tSJFBHp8z7PJMBNjTOBrVFla9WGVhOOSJ2RUfdk_hOFoCmG8ISyVIBzWGKUeADddJAuvCXB8lvYGjy3xEWm_PrB6O2BioW7JOyZUAzJ9DZ5emuJ_TXoJzH42QxcmI"
@@ -131,7 +131,7 @@ export const Discover: React.FC<{ onInvest: () => void; onProfile: () => void }>
             <div className="space-y-3 sm:space-y-4">
                {newCreatorsRanked.map((creator) => (
                   <BrutalistCard key={creator.id} className="p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 min-w-0">
-                     <button type="button" className="flex items-center gap-3 cursor-pointer text-left min-w-0" onClick={onProfile}>
+                     <button type="button" className="flex items-center gap-3 cursor-pointer text-left min-w-0" onClick={() => onProfile(creator.id)}>
                         <Avatar size="lg" src={creator.avatar} />
                         <div className="min-w-0">
                            <h4 className="font-bold text-slate-900 leading-tight truncate">@{creator.handle}</h4>
@@ -140,7 +140,7 @@ export const Discover: React.FC<{ onInvest: () => void; onProfile: () => void }>
                            </p>
                         </div>
                      </button>
-                     <StickerButton onClick={onInvest} variant="secondary" className="h-12 px-6 text-xs font-black shrink-0 w-full sm:w-auto shadow-md">Buy shares</StickerButton>
+                     <StickerButton onClick={() => onInvest(creator.id)} variant="secondary" className="h-12 px-6 text-xs font-black shrink-0 w-full sm:w-auto shadow-md">Buy shares</StickerButton>
                   </BrutalistCard>
                ))}
             </div>

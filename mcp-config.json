@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "celo-mcp": {
+      "command": "uvx",
+      "args": ["--refresh", "celo-mcp"]
+    }
+  }
+}

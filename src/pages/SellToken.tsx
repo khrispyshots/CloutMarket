@@ -4,13 +4,13 @@ import { ArrowLeft, TrendingDown, CircleDollarSign } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { useCloutMarket } from '../engine/CloutMarketContext';
 import { FEE_SELL_PCT } from '../engine/config';
+import { CREATORS } from '../constants';
 
-const CREATOR_ID = '3';
-
-export const SellToken: React.FC<{ onBack: () => void; onComplete: () => void }> = ({ onBack, onComplete }) => {
+export const SellToken: React.FC<{ creatorId: string; onBack: () => void; onComplete: () => void }> = ({ creatorId, onBack, onComplete }) => {
   const { state, dispatch } = useCloutMarket();
   const [shareAmount, setShareAmount] = useState('');
   const [asset, setAsset] = useState<'CELO' | 'cUSD'>('CELO');
+  const creator = CREATORS.find((item) => item.id === creatorId) ?? CREATORS[2];
 
   const priceUsd = state.tokenSpotPrice;
   const shares = parseFloat(shareAmount);
@@ -30,9 +30,9 @@ export const SellToken: React.FC<{ onBack: () => void; onComplete: () => void }>
 
       <main className="flex-1 min-h-0 overflow-y-auto space-y-5 py-4 pb-6">
         <BrutalistCard variant="white" className="flex items-center gap-3 p-4">
-          <Avatar size="lg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDaH8uQYDQu4nDQ-w-CN1e_m2xXl92IV1ry2K-bWpiUKYYF-T_apF7pMyMJRPrhmaKmMpKxSzzwjIOYd3M93Zi8kzV8la6l0dh0BstHLqwGlwagKbmXSWj9PnlwDavjOyMJ2SeHnu7hhaHbwEt8LC9eyPg8xWk2ietY4VSzkiuNyHsgzO4bku1VlGZ3DBtZ8lPz7Wwbx3UUnYyWyGHpPdVxXYN11ZnKB5KptlMB0F8n30-xNPREkGPjtu5K1Cg4FX-Ajd-Bodi2QU" isVerified />
+          <Avatar size="lg" src={creator.avatar} isVerified={creator.isVerified} alt={creator.name} />
           <div>
-            <h2 className="text-lg font-black">Alex Rivers</h2>
+            <h2 className="text-lg font-black">{creator.name}</h2>
             <div className="flex items-center gap-1.5 text-[10px] font-black uppercase text-slate-500 tracking-wider">
               <TrendingDown size={12} strokeWidth={3} />
               Bonding curve spot ${priceUsd.toFixed(2)} / share
@@ -43,7 +43,7 @@ export const SellToken: React.FC<{ onBack: () => void; onComplete: () => void }>
         <section className="text-center space-y-1">
           <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">You receive (est.)</p>
           <p className="text-4xl font-black tracking-tighter">${usdEstimate}</p>
-          <p className="text-xs font-bold text-slate-500">Holdings: {(state.shareHoldings[CREATOR_ID] ?? 1).toFixed(4)} shares</p>
+          <p className="text-xs font-bold text-slate-500">Holdings: {(state.shareHoldings[creator.id] ?? 1).toFixed(4)} shares</p>
         </section>
 
         <div className="space-y-2">
@@ -60,7 +60,7 @@ export const SellToken: React.FC<{ onBack: () => void; onComplete: () => void }>
               placeholder="0.00"
               className="w-full h-16 bg-white border border-slate-200 rounded-xl px-4 pr-24 text-xl font-black outline-none focus:ring-2 focus:ring-border-dark/10 transition-colors hard-shadow-sm font-mono"
             />
-            <button type="button" onClick={() => setShareAmount(((state.shareHoldings[CREATOR_ID] ?? 1) / 2).toFixed(4))} className="absolute right-3 top-1/2 -translate-y-1/2 bg-slate-100 px-3 py-1.5 border border-slate-200 rounded-full text-[10px] font-black uppercase hard-shadow-sm press-interaction">
+            <button type="button" onClick={() => setShareAmount(((state.shareHoldings[creator.id] ?? 1) / 2).toFixed(4))} className="absolute right-3 top-1/2 -translate-y-1/2 bg-slate-100 px-3 py-1.5 border border-slate-200 rounded-full text-[10px] font-black uppercase hard-shadow-sm press-interaction">
               HALF
             </button>
           </div>
@@ -111,7 +111,7 @@ export const SellToken: React.FC<{ onBack: () => void; onComplete: () => void }>
           onClick={
             sharesValid
               ? () => {
-                dispatch({ type: 'SellToken', creatorId: CREATOR_ID, tokenAmount: shares, usdEstimate: usdNum });
+                dispatch({ type: 'SellToken', creatorId: creator.id, tokenAmount: shares, usdEstimate: usdNum });
                 onComplete();
               }
               : undefined

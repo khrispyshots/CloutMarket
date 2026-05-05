@@ -1,6 +1,6 @@
 import React from 'react';
-import { Screen } from '../types';
-import { Home, Compass, Wallet, Bell, User } from 'lucide-react';
+import { CurrentUser, Screen } from '../types';
+import { Home, Compass, Trophy, Bell, User } from 'lucide-react';
 import { motion } from 'motion/react';
 import { cn } from '../lib/utils';
 import { useCloutMarket } from '../engine/CloutMarketContext';
@@ -11,14 +11,11 @@ interface NavProps {
 }
 
 export const BottomNavBar: React.FC<NavProps> = ({ activeScreen, onNavigate }) => {
-  // Redundant check removed as parent App.tsx now handles conditional rendering
-
   const NAV_ITEMS = [
     { id: Screen.Feed, label: 'Home', icon: Home },
     { id: Screen.Discover, label: 'Discover', icon: Compass },
-    { id: Screen.Portfolio, label: 'Portfolio', icon: Wallet },
-    { id: Screen.Notifications, label: 'Alerts', icon: Bell },
-    { id: Screen.Profile, label: 'Profile', icon: User },
+    { id: Screen.Leaderboard, label: 'Leaders', icon: Trophy },
+    { id: Screen.Profile, label: 'Profile', icon: User, featured: true },
   ];
 
   return (
@@ -41,11 +38,18 @@ export const BottomNavBar: React.FC<NavProps> = ({ activeScreen, onNavigate }) =
               aria-label={item.label}
               className={cn(
                 'flex flex-col items-center justify-center transition-all px-1.5 sm:px-3 py-1.5 rounded-xl gap-0.5 min-w-0 flex-1 max-w-[5.5rem] touch-manipulation',
-                isActive ? 'bg-slate-950 text-white hard-shadow-sm' : 'text-slate-400 hover:text-slate-700'
+                isActive
+                  ? 'bg-slate-950 text-white hard-shadow-sm'
+                  : item.featured
+                    ? 'text-border-dark bg-white border border-border-dark/20 hard-shadow-sm'
+                    : 'text-slate-400 hover:text-slate-700'
               )}
             >
               <Icon size={isActive ? 20 : 22} aria-hidden />
-              <span className="font-extrabold text-[7px] sm:text-[8px] uppercase tracking-wide sm:tracking-widest truncate w-full text-center leading-tight">{item.label}</span>
+              <span className={cn(
+                'text-[7px] sm:text-[8px] uppercase tracking-wide sm:tracking-widest truncate w-full text-center leading-tight',
+                item.featured ? 'font-black' : 'font-extrabold'
+              )}>{item.label}</span>
             </motion.button>
           );
         })}
@@ -54,7 +58,12 @@ export const BottomNavBar: React.FC<NavProps> = ({ activeScreen, onNavigate }) =
   );
 };
 
-export const TopAppBar: React.FC<{ onAvatarClick: () => void; onWalletClick: () => void }> = ({ onAvatarClick, onWalletClick }) => {
+export const TopAppBar: React.FC<{
+  currentUser: CurrentUser;
+  unreadCount: number;
+  onAvatarClick: () => void;
+  onNotificationsClick: () => void;
+}> = ({ currentUser, unreadCount, onAvatarClick, onNotificationsClick }) => {
   const { state, formatClout } = useCloutMarket();
   return (
     <header className="bg-clout-bg/92 backdrop-blur-xl fixed top-0 inset-x-0 z-40 border-b border-slate-200 pt-[env(safe-area-inset-top,0px)]">
@@ -69,22 +78,27 @@ export const TopAppBar: React.FC<{ onAvatarClick: () => void; onWalletClick: () 
           <motion.button
             type="button"
             whileTap={{ scale: 0.96 }}
-            onClick={onWalletClick}
-            aria-label="Open portfolio"
-            className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl border border-border-dark bg-border-dark flex items-center justify-center hard-shadow-sm touch-manipulation"
+            onClick={onNotificationsClick}
+            aria-label="Open notifications"
+            className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-xl border border-slate-200 bg-white flex items-center justify-center hard-shadow-sm touch-manipulation"
           >
-            <Wallet size={20} strokeWidth={2.5} className="text-white" aria-hidden />
+            <Bell size={20} strokeWidth={2.5} className="text-border-dark" aria-hidden />
+            {unreadCount > 0 && (
+              <span className="absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full bg-clout-green text-white border border-white text-[9px] font-black flex items-center justify-center tabular-nums">
+                {unreadCount}
+              </span>
+            )}
           </motion.button>
           <motion.button
             type="button"
             whileTap={{ scale: 0.96 }}
             onClick={onAvatarClick}
             aria-label="Open profile"
-            className="w-10 h-10 sm:w-11 sm:h-11 shrink-0 rounded-xl border border-slate-200 overflow-hidden hard-shadow-sm bg-white touch-manipulation"
+            className="w-11 h-11 sm:w-12 sm:h-12 shrink-0 rounded-xl border-2 border-border-dark overflow-hidden hard-shadow-sm bg-white touch-manipulation"
           >
             <img
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuTzJtdQCwJR7pgTlsMWgSyg0ySb1pcvXk7jhJCjKGDNxSentvnY9QinZNHtkucKU2UAEktdhzfWzUkaNkvPZ7N2Ao0zh3YUj8CyFaKhyAS3LoeJE_VIr_mVkK_m3IMPAMrMYeLJyKdSt_xQvxBTOxLiea-CqHjpwyFNK4T3Fmb2HcKrgLZs6lIfGaYWKJMo2u15fL4b_Fe_J24X6OghXOsfWxZSwJsZlMyFo7NscdLQ9nEsjCY9wJhYRS7WPEVumxO-hP9pa_LdU"
-              alt="Your profile"
+              src={currentUser.avatar}
+              alt={`${currentUser.cloutName} profile`}
               className="w-full h-full object-cover"
             />
           </motion.button>

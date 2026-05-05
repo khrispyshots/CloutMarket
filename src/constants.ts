@@ -1,5 +1,8 @@
 import { Screen, Creator, Post, Holding, Notification } from './types';
 
+export const DEFAULT_USER_AVATAR =
+  'https://lh3.googleusercontent.com/aida-public/AB6AXuBPVpsRKHuRuOzQlOqUqi7Bfp7dlrib0uguDeolilblQoO4sMNEWKz6w90n7zWzIP7tTS7vV_irrgb2Dh-jFpUI11phZW1saxp-2N4zKsNCUV8sxFRnMK81JWCiQ7Qag6Jg6XJQUYhY0TeUszJ68O2O0QzSNYukVZ8k63fuL9vnkpaE1C6RG58JJQPqguFPQppk4ux4EeCiuwU7MZz4izu2tedl5VodA9bbjCWYka3DzmUSjPSRqP3g3qHkux157CysxBnmJ_CLw2E';
+
 export const CREATORS: Creator[] = [
   {
     id: '1',
