@@ -18,13 +18,13 @@ export const OnboardingHandle: React.FC<{ onComplete: () => void; onBack: () => 
   return (
     <div className="bg-clout-bg flex flex-col font-sans">
       <header className="px-6 h-24 flex items-center justify-between max-w-2xl mx-auto w-full">
-        <button onClick={onBack} className="w-12 h-12 flex items-center justify-center rounded-2xl border-2 border-border-dark bg-white hard-shadow-sm press-interaction">
+        <button onClick={onBack} className="w-12 h-12 flex items-center justify-center rounded-2xl border border-slate-200 bg-white hard-shadow-sm press-interaction">
           <ArrowLeft size={20} strokeWidth={3} />
         </button>
         <div className="flex gap-3">
-          <div className="h-2 w-10 rounded-full bg-clout-purple border-2 border-border-dark"></div>
-          <div className="h-2 w-10 rounded-full bg-clout-yellow border-2 border-border-dark"></div>
-          <div className="h-2 w-6 rounded-full bg-slate-200 border-2 border-slate-300"></div>
+          <div className="h-2 w-10 rounded-full bg-border-dark"></div>
+          <div className="h-2 w-10 rounded-full bg-slate-300"></div>
+          <div className="h-2 w-6 rounded-full bg-slate-200"></div>
         </div>
         <div className="w-12"></div>
       </header>
@@ -40,11 +40,10 @@ export const OnboardingHandle: React.FC<{ onComplete: () => void; onBack: () => 
             <p className="text-slate-500 font-bold text-lg">Every great trader needs a handle.</p>
           </div>
 
-          <BrutalistCard variant="yellow" className="w-full flex flex-col items-center p-10 text-center space-y-8 bg-white overflow-visible">
+          <BrutalistCard variant="white" className="w-full flex flex-col items-center p-10 text-center space-y-8 bg-white overflow-visible">
             <div className="relative -mt-20">
-              <div className="absolute inset-0 bg-clout-yellow blur-2xl opacity-40 rounded-full"></div>
               <Avatar size="xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrm0Zxh40hN1IObGQqX5dbXLesrIP3MjSs2eakjeKbfEPIVfGq4qb1tDbvCU21MK4UZtBD9lW8cHhbLnrjdqFZa6-cUpfcDcQyzdJz34T38seTbBXXwfzBn5BBK8jNOnSRQp6OCq1H5hA34JuV_3L8kP_gP1mLQ6UdobKAGH8YSuIB3-fY0XrFEfo8mr9cLCz8lE85Qznl8i9XYKCVpjyP5COwXnZNC9U1ACWWuETq9hFP_XhxPes5Hl0zf25tpxfQeyoP4mxLnDM" className="hard-shadow-lg scale-125 border-4 border-white" />
-              <div className="absolute -bottom-4 -right-4 bg-clout-green border-2 border-border-dark rounded-2xl p-2 hard-shadow scale-110">
+              <div className="absolute -bottom-4 -right-4 bg-clout-green border border-white rounded-2xl p-2 hard-shadow scale-110">
                 <Check size={28} strokeWidth={4} className="text-white" />
               </div>
             </div>
@@ -52,13 +51,13 @@ export const OnboardingHandle: React.FC<{ onComplete: () => void; onBack: () => 
             <div className="space-y-4 pt-10 w-full">
               <div className="relative group w-full">
                 <div className="absolute left-6 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                  <AtSign className="text-clout-yellow" size={24} strokeWidth={4} />
+                  <AtSign className="text-slate-400" size={24} strokeWidth={4} />
                 </div>
                 <input
                   type="text"
                   value={handle}
                   onChange={(e) => setHandle(e.target.value.toLowerCase())}
-                  className="w-full h-20 bg-white border-2 border-border-dark rounded-2xl pl-16 pr-6 text-2xl font-black focus:bg-clout-purple/5 outline-none transition-all hard-shadow focus:translate-x-[2px] focus:translate-y-[2px] focus:shadow-none"
+                  className="w-full h-20 bg-white border border-slate-200 rounded-2xl pl-16 pr-6 text-2xl font-black outline-none transition-all hard-shadow focus:ring-2 focus:ring-border-dark/10"
                   placeholder="yourname"
                 />
               </div>
@@ -89,7 +88,7 @@ export const OnboardingHandle: React.FC<{ onComplete: () => void; onBack: () => 
         </motion.div>
       </main>
 
-      <footer className="h-20 flex items-center justify-center border-t-2 border-border-dark/5">
+      <footer className="h-20 flex items-center justify-center border-t border-slate-200">
         <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-300">Permanent decentralized registration</p>
       </footer>
     </div>

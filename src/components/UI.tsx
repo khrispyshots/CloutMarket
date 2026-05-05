@@ -18,8 +18,8 @@ export const BrutalistCard: React.FC<BrutalistCardProps> = ({
   onClick
 }) => {
   const variantStyles = {
-    yellow: 'bg-clout-yellow text-border-dark',
-    green: 'bg-clout-green text-border-dark',
+    yellow: 'bg-[#FFF8DC] text-border-dark',
+    green: 'bg-[#E9F8EF] text-border-dark',
     purple: 'bg-clout-purple text-border-dark',
     pink: 'bg-clout-pink text-border-dark',
     blue: 'bg-clout-blue text-border-dark',
@@ -28,7 +28,7 @@ export const BrutalistCard: React.FC<BrutalistCardProps> = ({
   };
 
   const classNameMerged = cn(
-    'border-2 border-border-dark rounded-xl p-5 text-left block w-full overflow-hidden',
+    'border border-slate-200 rounded-lg p-5 text-left block w-full overflow-hidden',
     !noShadow && 'hard-shadow',
     variantStyles[variant],
     className
@@ -74,9 +74,9 @@ export const StickerButton: React.FC<StickerButtonProps> = ({
   ...props
 }) => {
   const variantStyles = {
-    primary: 'bg-clout-yellow text-border-dark border-2 border-border-dark hard-shadow-sm',
-    secondary: 'bg-clout-green text-border-dark border-2 border-border-dark hard-shadow-sm',
-    outline: 'bg-white text-border-dark border-2 border-border-dark hard-shadow-sm',
+    primary: 'bg-border-dark text-white border border-border-dark hard-shadow-sm hover:bg-slate-800',
+    secondary: 'bg-clout-green text-white border border-clout-green hard-shadow-sm hover:bg-emerald-700',
+    outline: 'bg-white text-border-dark border border-slate-300 hard-shadow-sm hover:bg-slate-50',
     ghost: 'bg-transparent text-border-dark hover:bg-black/5',
   };
 
@@ -88,7 +88,7 @@ export const StickerButton: React.FC<StickerButtonProps> = ({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        'rounded-full font-black uppercase tracking-tight flex items-center justify-center gap-3 px-8 transition-colors disabled:opacity-30 disabled:pointer-events-none',
+        'rounded-full font-extrabold tracking-tight flex items-center justify-center gap-3 px-8 transition-colors disabled:opacity-30 disabled:pointer-events-none',
         fullWidth ? 'w-full' : 'w-auto',
         variantStyles[variant],
         className
@@ -113,14 +113,14 @@ export const Avatar: React.FC<{ src: string; size?: 'sm' | 'md' | 'lg' | 'xl'; c
   return (
     <div className={cn('relative inline-block', className)}>
       <div className={cn(
-        'rounded-full border-2 border-border-dark overflow-hidden bg-white hard-shadow-sm',
+        'rounded-full border border-slate-200 overflow-hidden bg-white hard-shadow-sm',
         sizes[size]
       )}>
         <img src={src} alt={alt} className="w-full h-full object-cover" loading="lazy" />
       </div>
       {isVerified && (
-        <div className="absolute -bottom-1 -right-1 bg-clout-green border-2 border-border-dark rounded-full px-1 py-0.5 text-[8px] font-bold shadow-sm">
-          VERIFIED
+        <div className="absolute -bottom-1 -right-1 bg-clout-green border border-white rounded-full px-1.5 py-0.5 text-[8px] font-bold text-white shadow-sm">
+          Verified
         </div>
       )}
     </div>

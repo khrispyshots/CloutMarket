@@ -8,13 +8,10 @@ export const Splash: React.FC<{ onComplete: () => void; onLogin: () => void }> =
     <div className="min-h-0 flex flex-col items-center justify-between p-5 max-w-4xl mx-auto">
       <div className="flex-1 flex flex-col items-center justify-center w-full max-w-md space-y-6 min-h-0">
         <div className="relative w-full max-w-[220px] aspect-square flex items-center justify-center shrink-0">
-          <div className="absolute inset-0 bg-clout-green opacity-30 rounded-full blur-[80px] animate-pulse"></div>
-          <div className="absolute inset-0 bg-clout-yellow opacity-20 rounded-full blur-[60px] animate-pulse delay-700"></div>
-
           <motion.div
             initial={{ scale: 0.8, rotate: -10 }}
             animate={{ scale: 1, rotate: 3 }}
-            className="w-44 h-44 bg-white border-4 border-border-dark rounded-[32px] flex items-center justify-center relative hard-shadow-lg z-10 overflow-hidden"
+            className="w-44 h-44 bg-white border border-slate-200 rounded-[28px] flex items-center justify-center relative hard-shadow z-10 overflow-hidden"
           >
             <img
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1ljtGgGBiRWDfzOdjXS_FeFCBKGddo7ccLVZSFrAjWP73IXdiOv0geVoMLubgkk9bAYT18YOXUmv5ZV9ccjk-IyjZxoVG_JtwKA6Sq-1kKFGFQycPcNJJoZ4Gimm9JneUfvsLCtWW--1STzGOdvNyGd4bNiaHgksicoE-GYYfdBM_tuYaNmukZiwK6ne-uv0EKnyvfjz7OKs0wPMp1qFWRUo75qWvHR4IHS2rpElOwa_5dOFaU6OtaNeEwH3uFrWUNKbu3WBlT-8"
@@ -22,13 +19,13 @@ export const Splash: React.FC<{ onComplete: () => void; onLogin: () => void }> =
               className="w-full h-full object-cover grayscale-[0.2]"
             />
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="bg-clout-yellow p-4 border-2 border-border-dark rounded-full hard-shadow-sm rotate-3">
-                <TrendingUp size={44} className="text-border-dark" strokeWidth={3} />
+              <div className="bg-border-dark p-4 border border-border-dark rounded-full hard-shadow-sm rotate-3">
+                <TrendingUp size={44} className="text-white" strokeWidth={3} />
               </div>
             </div>
           </motion.div>
 
-          <div className="absolute top-0 right-4 bg-clout-green text-border-dark px-4 py-2 border-2 border-border-dark rounded-xl font-black text-xs hard-shadow-sm rotate-12">
+          <div className="absolute top-0 right-4 bg-white text-border-dark px-4 py-2 border border-slate-200 rounded-xl font-black text-xs hard-shadow-sm rotate-12">
             $CLOUT
           </div>
         </div>
@@ -42,7 +39,7 @@ export const Splash: React.FC<{ onComplete: () => void; onLogin: () => void }> =
           </div>
 
           <BrutalistCard variant="surface" className="inline-block py-2 px-6 border-dashed opacity-80 bg-white">
-            <p className="text-[10px] font-black uppercase text-slate-400 tracking-tighter">Powered by Celo · Low Fees · 100% Owned</p>
+            <p className="text-[10px] font-black uppercase text-slate-400 tracking-tighter">Powered by Celo · Low fees · 100% owned</p>
           </BrutalistCard>
         </div>
       </div>

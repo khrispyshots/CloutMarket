@@ -45,7 +45,7 @@ export const Discover: React.FC<{ onInvest: () => void; onProfile: () => void }>
             <input
                type="text"
                placeholder="Search creators, tokens, or tags..."
-               className="w-full h-12 pl-11 pr-3 bg-white border-2 border-border-dark rounded-2xl text-sm font-bold hard-shadow transition-all focus:translate-x-[1px] focus:translate-y-[1px] focus:shadow-none outline-none"
+               className="w-full h-12 pl-11 pr-3 bg-white border border-slate-200 rounded-2xl text-sm font-bold hard-shadow transition-all focus:shadow-none outline-none focus:ring-2 focus:ring-border-dark/10"
             />
          </div>
 
@@ -53,16 +53,16 @@ export const Discover: React.FC<{ onInvest: () => void; onProfile: () => void }>
             <div className="flex justify-between items-end px-1 gap-2">
                <div>
                   <h2 className="text-xl sm:text-2xl font-black leading-tight">Hot Right Now</h2>
-                  <p className="text-[9px] font-bold text-slate-500 uppercase tracking-wide mt-0.5">Trending = engagement × velocity + buys + growth</p>
+                  <p className="text-[9px] font-bold text-slate-500 uppercase tracking-wide mt-0.5">Trending = engagement x velocity + buys + growth</p>
                </div>
-               <span className="text-[10px] font-black uppercase text-clout-yellow underline underline-offset-4 cursor-pointer shrink-0">View All</span>
+               <span className="text-[10px] font-black uppercase text-slate-700 underline underline-offset-4 cursor-pointer shrink-0">View All</span>
             </div>
 
             <div className="flex overflow-x-auto gap-3 sm:gap-4 pb-3 -mx-3 px-3 sm:-mx-4 sm:px-4 select-none snap-x snap-mandatory">
                {hotCreators.map((creator, i) => (
                   <BrutalistCard
                      key={creator.id}
-                     variant={i % 2 === 0 ? 'purple' : 'green'}
+                     variant="white"
                      className="flex-shrink-0 snap-start w-[min(18rem,calc(100vw-2.75rem))] max-w-[18rem] p-4 sm:p-5 space-y-3 sm:space-y-4"
                   >
                      <div className="flex items-center gap-2 sm:gap-3">
@@ -75,7 +75,7 @@ export const Discover: React.FC<{ onInvest: () => void; onProfile: () => void }>
                            <p className="text-[9px] font-black uppercase text-slate-500 tracking-wider font-sans truncate">{creator.followers} Followers</p>
                         </div>
                      </div>
-                     <div className="bg-white/50 rounded-xl p-3 border-2 border-border-dark shadow-sm">
+                     <div className="bg-slate-50 rounded-xl p-3 border border-slate-200 shadow-sm">
                         <p className="text-[8px] font-black uppercase text-slate-500 mb-1">Clout Price</p>
                         <div className="flex items-baseline gap-2">
                            <span className="text-2xl font-black">{creator.price}</span>
@@ -99,7 +99,7 @@ export const Discover: React.FC<{ onInvest: () => void; onProfile: () => void }>
                      alt="trending"
                      className="w-full h-full object-cover transition-transform hover:scale-105 duration-500"
                   />
-                  <div className="absolute top-4 left-4 bg-clout-yellow border-2 border-border-dark px-3 py-1 rounded-full text-[10px] font-black uppercase hard-shadow-sm">
+                  <div className="absolute top-4 left-4 bg-white/95 border border-slate-200 px-3 py-1 rounded-full text-[10px] font-black uppercase hard-shadow-sm">
                      Top Gainer +240%
                   </div>
                </div>
@@ -123,7 +123,7 @@ export const Discover: React.FC<{ onInvest: () => void; onProfile: () => void }>
                   type="button"
                   aria-label="Filter new creators"
                   onClick={() => alert('Filters coming soon!')}
-                  className="w-10 h-10 rounded-xl border-2 border-border-dark bg-white flex items-center justify-center hard-shadow-sm press-interaction text-slate-600"
+                  className="w-10 h-10 rounded-xl border border-slate-200 bg-white flex items-center justify-center hard-shadow-sm press-interaction text-slate-600"
                >
                   <SlidersHorizontal size={20} aria-hidden />
                </button>
@@ -140,7 +140,7 @@ export const Discover: React.FC<{ onInvest: () => void; onProfile: () => void }>
                            </p>
                         </div>
                      </button>
-                     <StickerButton onClick={onInvest} variant="secondary" className="h-12 px-6 text-xs font-black shrink-0 w-full sm:w-auto shadow-md">Buy 0.1 ETH</StickerButton>
+                     <StickerButton onClick={onInvest} variant="secondary" className="h-12 px-6 text-xs font-black shrink-0 w-full sm:w-auto shadow-md">Buy Clout</StickerButton>
                   </BrutalistCard>
                ))}
             </div>

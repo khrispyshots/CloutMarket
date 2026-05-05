@@ -50,14 +50,14 @@ export const Profile: React.FC<{ onBuy: () => void; onBack: () => void; onSettin
    };
 
    return (
-      <div className="bg-clout-pink pb-nav font-sans min-h-0">
-         <header className="px-5 h-16 flex items-center justify-between border-b-2 border-border-dark bg-clout-bg">
-            <button type="button" onClick={onBack} className="w-10 h-10 flex items-center justify-center rounded-full border-2 border-border-dark bg-white press-interaction hard-shadow-sm" aria-label="Back">
+      <div className="bg-clout-bg pb-nav font-sans min-h-0">
+         <header className="px-5 h-16 flex items-center justify-between border-b border-slate-200 bg-clout-bg">
+            <button type="button" onClick={onBack} className="w-10 h-10 flex items-center justify-center rounded-full border border-slate-200 bg-white press-interaction hard-shadow-sm" aria-label="Back">
                <ArrowLeft size={20} />
             </button>
             <span className="font-black italic text-xl">CloutMarket</span>
             <div className="flex gap-2">
-               <button type="button" onClick={onSettings} className="w-10 h-10 flex items-center justify-center rounded-full border-2 border-border-dark bg-white press-interaction hard-shadow-sm" aria-label="Settings">
+               <button type="button" onClick={onSettings} className="w-10 h-10 flex items-center justify-center rounded-full border border-slate-200 bg-white press-interaction hard-shadow-sm" aria-label="Settings">
                   <SettingsIcon size={18} />
                </button>
             </div>
@@ -73,7 +73,7 @@ export const Profile: React.FC<{ onBuy: () => void; onBack: () => void; onSettin
             </section>
 
             <section className="grid grid-cols-2 md:grid-cols-3 gap-3">
-               <BrutalistCard variant="purple" className="flex flex-col justify-between min-h-[6.5rem] p-3">
+               <BrutalistCard variant="white" className="flex flex-col justify-between min-h-[6.5rem] p-3">
                   <span className="text-[10px] font-black uppercase opacity-60">Price</span>
                   <div>
                      <span className="text-xl font-black">{creator.price}</span>
@@ -83,7 +83,7 @@ export const Profile: React.FC<{ onBuy: () => void; onBack: () => void; onSettin
                   </div>
                </BrutalistCard>
 
-               <BrutalistCard variant="green" className="flex flex-col justify-between min-h-[6.5rem] p-3">
+               <BrutalistCard variant="white" className="flex flex-col justify-between min-h-[6.5rem] p-3">
                   <span className="text-[10px] font-black uppercase opacity-60">Holders</span>
                   <div>
                      <span className="text-xl font-black">1,248</span>
@@ -91,11 +91,11 @@ export const Profile: React.FC<{ onBuy: () => void; onBack: () => void; onSettin
                   </div>
                </BrutalistCard>
 
-               <BrutalistCard variant="yellow" className="flex flex-col justify-between min-h-[6.5rem] p-3 col-span-2 md:col-span-1">
+               <BrutalistCard variant="white" className="flex flex-col justify-between min-h-[6.5rem] p-3 col-span-2 md:col-span-1">
                   <span className="text-[10px] font-black uppercase opacity-60">Growth</span>
                   <div>
-                     <div className="w-full h-2 bg-white border-2 border-border-dark rounded-full overflow-hidden">
-                        <div className="w-[75%] h-full bg-clout-green border-r border-border-dark"></div>
+                     <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                        <div className="w-[75%] h-full bg-clout-green"></div>
                      </div>
                      <p className="mt-2 text-[10px] font-bold opacity-70">75% Clout Score</p>
                   </div>
@@ -126,7 +126,7 @@ export const Profile: React.FC<{ onBuy: () => void; onBack: () => void; onSettin
                      type="button"
                      onClick={shareProfile}
                      aria-label="Share profile"
-                     className="w-14 h-14 bg-white border-2 border-border-dark rounded-xl flex items-center justify-center hard-shadow-sm press-interaction shrink-0"
+                     className="w-14 h-14 bg-white border border-slate-200 rounded-xl flex items-center justify-center hard-shadow-sm press-interaction shrink-0"
                   >
                      <Share2 size={24} />
                   </button>
@@ -134,10 +134,10 @@ export const Profile: React.FC<{ onBuy: () => void; onBack: () => void; onSettin
             </section>
 
             <section className="pt-2">
-               <div className="flex justify-between border-b-2 border-border-dark mb-4">
-                  <button type="button" className="flex-1 pb-3 border-b-4 border-border-dark font-black text-xs uppercase">Posts</button>
-                  <button type="button" onClick={() => alert('Holders list coming soon!')} className="flex-1 pb-3 border-b-4 border-transparent font-black text-xs uppercase opacity-30 px-2">Holders</button>
-                  <button type="button" onClick={() => alert('Stats coming soon!')} className="flex-1 pb-3 border-b-4 border-transparent font-black text-xs uppercase opacity-30 px-2">About</button>
+               <div className="flex justify-between border-b border-slate-200 mb-4">
+                  <button type="button" className="flex-1 pb-3 border-b-2 border-border-dark font-black text-xs uppercase">Posts</button>
+                  <button type="button" onClick={() => alert('Holders list coming soon!')} className="flex-1 pb-3 border-b-2 border-transparent font-black text-xs uppercase opacity-40 px-2">Holders</button>
+                  <button type="button" onClick={() => alert('Stats coming soon!')} className="flex-1 pb-3 border-b-2 border-transparent font-black text-xs uppercase opacity-40 px-2">About</button>
                </div>
 
                <div className="space-y-3">
@@ -151,7 +151,7 @@ export const Profile: React.FC<{ onBuy: () => void; onBack: () => void; onSettin
                            </div>
                         </div>
                         {post.image && (
-                           <div className="rounded-lg border-2 border-border-dark overflow-hidden aspect-video hard-shadow-sm">
+                           <div className="rounded-lg border border-slate-200 overflow-hidden aspect-video hard-shadow-sm">
                               <img src={post.image} alt="content" className="w-full h-full object-cover" />
                            </div>
                         )}

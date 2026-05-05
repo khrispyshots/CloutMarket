@@ -22,9 +22,9 @@ export const Signup: React.FC<{ onComplete: () => void }> = ({ onComplete }) => 
       <header className="w-full px-6 h-24 flex items-center justify-between max-w-2xl mx-auto">
         <div className="w-12"></div>
         <div className="flex gap-3">
-          <div className="h-2 w-10 rounded-full bg-clout-purple border-2 border-border-dark"></div>
-          <div className="h-2 w-6 rounded-full bg-slate-200 border-2 border-slate-300"></div>
-          <div className="h-2 w-6 rounded-full bg-slate-200 border-2 border-slate-300"></div>
+          <div className="h-2 w-10 rounded-full bg-border-dark"></div>
+          <div className="h-2 w-6 rounded-full bg-slate-200"></div>
+          <div className="h-2 w-6 rounded-full bg-slate-200"></div>
         </div>
         <div className="w-12"></div>
       </header>
@@ -44,13 +44,13 @@ export const Signup: React.FC<{ onComplete: () => void }> = ({ onComplete }) => 
               <p className="text-slate-600 font-bold text-lg">Connect your social identity to start trading.</p>
             </div>
 
-            <BrutalistCard variant="purple" className="flex flex-col items-center py-12 space-y-6">
-              <div className="w-24 h-24 bg-white border-2 border-border-dark rounded-2xl flex items-center justify-center hard-shadow-sm rotate-3">
+            <BrutalistCard variant="white" className="flex flex-col items-center py-12 space-y-6">
+              <div className="w-24 h-24 bg-slate-50 border border-slate-200 rounded-2xl flex items-center justify-center hard-shadow-sm rotate-3">
                 <Twitter size={48} className="fill-current text-[#1DA1F2]" />
               </div>
               <div className="space-y-1">
                 <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">Official Verification</p>
-                <div className="h-1 w-12 bg-clout-yellow mx-auto rounded-full"></div>
+                <div className="h-1 w-12 bg-border-dark mx-auto rounded-full"></div>
               </div>
             </BrutalistCard>
 
@@ -79,8 +79,8 @@ export const Signup: React.FC<{ onComplete: () => void }> = ({ onComplete }) => 
               </StickerButton>
             </div>
 
-            <BrutalistCard variant="green" className="flex items-start gap-4 p-5 text-left bg-[#E8F5E9]">
-              <div className="w-12 h-12 rounded-full bg-white border-2 border-border-dark flex items-center justify-center shrink-0">
+            <BrutalistCard variant="white" className="flex items-start gap-4 p-5 text-left bg-white">
+              <div className="w-12 h-12 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center shrink-0">
                 <ShieldCheck size={24} className="text-clout-green" />
               </div>
               <div>
@@ -102,9 +102,8 @@ export const Signup: React.FC<{ onComplete: () => void }> = ({ onComplete }) => 
             className="flex flex-col items-center justify-center space-y-8"
           >
             <div className="relative">
-              <div className="absolute inset-0 bg-clout-yellow blur-2xl opacity-20 rounded-full animate-pulse"></div>
-              <div className="w-32 h-32 rounded-3xl border-4 border-border-dark bg-white hard-shadow flex items-center justify-center relative z-10">
-                <Loader2 size={64} className="animate-spin text-clout-yellow" strokeWidth={3} />
+              <div className="w-32 h-32 rounded-3xl border border-slate-200 bg-white hard-shadow flex items-center justify-center relative z-10">
+                <Loader2 size={64} className="animate-spin text-border-dark" strokeWidth={3} />
               </div>
             </div>
             <div className="text-center space-y-2">
@@ -119,7 +118,7 @@ export const Signup: React.FC<{ onComplete: () => void }> = ({ onComplete }) => 
             animate={{ scale: 1, opacity: 1 }}
             className="flex flex-col items-center justify-center space-y-8"
           >
-            <div className="w-32 h-32 rounded-full border-4 border-clout-green bg-white hard-shadow flex items-center justify-center">
+            <div className="w-32 h-32 rounded-full border border-clout-green bg-white hard-shadow flex items-center justify-center">
               <CheckCircle2 size={64} className="text-clout-green" />
             </div>
             <div className="text-center space-y-2">

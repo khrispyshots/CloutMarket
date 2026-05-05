@@ -1,17 +1,17 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { BrutalistCard, StickerButton } from '../components/UI';
-import { PartyPopper, Star, ArrowRight, Zap, Target, Trophy } from 'lucide-react';
+import { Star, ArrowRight, Zap, Target, Trophy } from 'lucide-react';
 
 export const OnboardingWelcome: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
   return (
     <div className="bg-clout-bg flex flex-col font-sans">
       <header className="px-6 h-24 flex items-center justify-between max-w-2xl mx-auto w-full">
-        <span className="font-black italic text-2xl tracking-tighter">CM <span className="text-clout-yellow text-4xl">.</span></span>
+        <span className="font-black italic text-2xl tracking-tighter">CloutMarket</span>
         <div className="flex gap-3">
-          <div className="h-2 w-10 rounded-full bg-clout-purple border-2 border-border-dark"></div>
-          <div className="h-2 w-10 rounded-full bg-clout-yellow border-2 border-border-dark"></div>
-          <div className="h-2 w-10 rounded-full bg-clout-green border-2 border-border-dark"></div>
+          <div className="h-2 w-10 rounded-full bg-border-dark"></div>
+          <div className="h-2 w-10 rounded-full bg-slate-300"></div>
+          <div className="h-2 w-10 rounded-full bg-clout-green"></div>
         </div>
       </header>
 
@@ -22,10 +22,7 @@ export const OnboardingWelcome: React.FC<{ onComplete: () => void }> = ({ onComp
           className="w-full space-y-12"
         >
           <div className="space-y-6 relative">
-            <div className="absolute -top-12 left-1/2 -translate-x-1/2 opacity-20">
-              <PartyPopper size={120} className="text-clout-yellow" />
-            </div>
-            <div className="inline-flex h-20 w-20 items-center justify-center rounded-3xl bg-clout-green border-2 border-border-dark hard-shadow rotate-3 relative z-10">
+            <div className="inline-flex h-20 w-20 items-center justify-center rounded-3xl bg-clout-green border border-white hard-shadow rotate-3 relative z-10">
               <Trophy size={40} className="text-white" strokeWidth={3} />
             </div>
             <div className="space-y-2">
@@ -35,14 +32,14 @@ export const OnboardingWelcome: React.FC<{ onComplete: () => void }> = ({ onComp
           </div>
 
           <BrutalistCard className="w-full bg-white p-10 text-center space-y-6 relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-2 bg-clout-yellow"></div>
+            <div className="absolute top-0 left-0 w-full h-2 bg-border-dark"></div>
 
             <div className="space-y-1">
               <span className="text-[11px] font-black uppercase tracking-[0.3em] text-slate-400">Genesis Reward</span>
               <h2 className="text-6xl font-black tracking-tighter text-slate-900">+500 PTS</h2>
             </div>
 
-            <div className="inline-flex items-center gap-3 bg-clout-yellow border-2 border-border-dark rounded-full px-8 py-3 hard-shadow-sm rotate-1">
+            <div className="inline-flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-full px-8 py-3 hard-shadow-sm rotate-1">
               <Star size={20} fill="currentColor" strokeWidth={3} />
               <span className="font-black text-base uppercase italic">Genesis Badge</span>
             </div>
@@ -52,23 +49,23 @@ export const OnboardingWelcome: React.FC<{ onComplete: () => void }> = ({ onComp
                 <span>Level Progress</span>
                 <span className="text-clout-green">Alpha Phase</span>
               </div>
-              <div className="h-8 w-full bg-slate-50 border-2 border-border-dark rounded-2xl p-1 relative overflow-hidden">
+              <div className="h-8 w-full bg-slate-50 border border-slate-200 rounded-2xl p-1 relative overflow-hidden">
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: '40%' }}
                   transition={{ duration: 1.5, ease: "easeOut" }}
-                  className="h-full bg-clout-green border-r-2 border-border-dark rounded-xl"
+                  className="h-full bg-clout-green rounded-xl"
                 />
               </div>
             </div>
           </BrutalistCard>
 
           <div className="grid grid-cols-2 gap-4">
-            <BrutalistCard variant="purple" className="flex flex-col items-center gap-2 py-6 bg-[#f8f0ff] border-dashed">
+            <BrutalistCard variant="white" className="flex flex-col items-center gap-2 py-6 bg-white border-dashed">
               <Zap size={24} className="text-clout-purple" strokeWidth={3} />
               <span className="text-[10px] font-black uppercase tracking-widest">Early Access</span>
             </BrutalistCard>
-            <BrutalistCard variant="green" className="flex flex-col items-center gap-2 py-6 bg-[#f0fff4] border-dashed">
+            <BrutalistCard variant="white" className="flex flex-col items-center gap-2 py-6 bg-white border-dashed">
               <Target size={24} className="text-clout-green" strokeWidth={3} />
               <span className="text-[10px] font-black uppercase tracking-widest">Airdrop Ready</span>
             </BrutalistCard>
@@ -85,7 +82,7 @@ export const OnboardingWelcome: React.FC<{ onComplete: () => void }> = ({ onComp
         </motion.div>
       </main>
 
-      <footer className="h-20 flex items-center justify-center border-t-2 border-border-dark/5">
+      <footer className="h-20 flex items-center justify-center border-t border-slate-200">
         <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-300">Permanent decentralized registration</p>
       </footer>
     </div>

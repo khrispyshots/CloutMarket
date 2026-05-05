@@ -29,11 +29,12 @@ export default function App() {
       case Screen.Splash:
         return <Splash onComplete={() => navigate(Screen.Signup)} onLogin={() => navigate(Screen.Feed)} />;
       case Screen.Signup:
-        return <Signup onComplete={() => navigate(Screen.Onboarding_Handle)} />;
+        return <Signup onComplete={() => navigate(Screen.Onboarding_Welcome)} />;
       case Screen.Onboarding_Handle:
         return <OnboardingHandle onComplete={() => navigate(Screen.Onboarding_Welcome)} onBack={() => navigate(Screen.Signup)} />;
       case Screen.Onboarding_Welcome:
         return <OnboardingWelcome onComplete={() => navigate(Screen.Feed)} />;
+
       case Screen.Feed:
         return <Feed onCreatorSelect={() => navigate(Screen.Profile)} onInvest={() => navigate(Screen.BuyToken)} />;
       case Screen.Discover:

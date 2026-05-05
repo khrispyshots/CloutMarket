@@ -4,14 +4,14 @@
 @theme {
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
 
-  --color-clout-yellow: #FFE500;
-  --color-clout-green: #00FF85;
-  --color-clout-purple: #8B5CF6;
-  --color-clout-pink: #FF4D94;
-  --color-clout-blue: #3B82F6;
-  --color-clout-bg: #F8F9FA;
+  --color-clout-yellow: #F4C430;
+  --color-clout-green: #16A66A;
+  --color-clout-purple: #E8E4FF;
+  --color-clout-pink: #FFF1F4;
+  --color-clout-blue: #DDEBFF;
+  --color-clout-bg: #F6F7F4;
   --color-on-surface: #0F172A;
-  --color-border-dark: #000000;
+  --color-border-dark: #151718;
 }
 
 @layer base {
@@ -36,20 +36,20 @@
 
 @layer utilities {
   .hard-shadow {
-    box-shadow: 4px 4px 0px 0px rgba(15, 23, 42, 1);
+    box-shadow: 0 14px 40px rgba(15, 23, 42, 0.08);
   }
 
   .hard-shadow-sm {
-    box-shadow: 2px 2px 0px 0px rgba(15, 23, 42, 1);
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.07);
   }
 
   .press-interaction {
-    @apply transition-all active:translate-x-[2px] active:translate-y-[2px] active:shadow-none;
+    @apply transition-all active:scale-[0.98];
   }
 
   /** Space for fixed bottom nav + home indicator */
   .pb-nav {
-    padding-bottom: calc(5.75rem + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(7.5rem + env(safe-area-inset-bottom, 0px));
   }
 }
 
@@ -61,7 +61,4 @@
 * {
   -ms-overflow-style: none;
   scrollbar-width: none;
-}
-
-scrollbar-width: none;
 }

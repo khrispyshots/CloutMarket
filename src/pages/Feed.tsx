@@ -139,30 +139,30 @@ export const Feed: React.FC<{ onCreatorSelect: () => void; onInvest: () => void 
             <p className="text-slate-500 font-bold text-sm font-sans">Trade social influence today.</p>
          </div>
 
-         <BrutalistCard variant="yellow" className="flex justify-between items-center gap-3 p-3 sm:p-4 mb-3">
+         <BrutalistCard variant="white" className="flex justify-between items-center gap-3 p-3 sm:p-4 mb-3">
             <div className="space-y-0.5 min-w-0">
                <span className="text-[9px] font-black uppercase tracking-widest opacity-60">Your Clout Score</span>
                <div className="flex items-baseline gap-2 flex-wrap">
                   <span className="text-xl sm:text-2xl font-black tabular-nums">{formatClout(state.cloutPoints)}</span>
-                  <span className="text-[10px] font-bold text-clout-green bg-border-dark px-1 rounded">live</span>
+                  <span className="text-[10px] font-bold text-white bg-clout-green px-1.5 py-0.5 rounded-full">Live</span>
                </div>
                <p className="text-[9px] font-bold text-slate-600 leading-tight">
                   Today +{Math.round(state.dailyPointsEarned)} / {DAILY_POINTS_CAP} pts cap
                </p>
             </div>
-            <div className="bg-white border-2 border-border-dark p-1.5 rounded-full hard-shadow-sm shrink-0">
+            <div className="bg-white border border-slate-200 p-1.5 rounded-full hard-shadow-sm shrink-0">
                <Avatar size="sm" src={ME_AVATAR} alt="Your profile" />
             </div>
          </BrutalistCard>
 
          <div className="flex gap-2 overflow-x-auto pb-2 -mx-3 px-3 sm:-mx-4 sm:px-4 scrollbar-hide mb-3 snap-x snap-mandatory" role="tablist" aria-label="Feed filters">
-            <button type="button" aria-selected className="snap-start shrink-0 whitespace-nowrap px-4 py-2 bg-clout-yellow border-2 border-border-dark rounded-full font-black text-[10px] uppercase hard-shadow-sm press-interaction">
+            <button type="button" aria-selected className="snap-start shrink-0 whitespace-nowrap px-4 py-2 bg-border-dark text-white border border-border-dark rounded-full font-black text-[10px] uppercase hard-shadow-sm press-interaction">
                Trending
             </button>
-            <button type="button" aria-selected={false} className="snap-start shrink-0 whitespace-nowrap px-4 py-2 bg-white border-2 border-border-dark rounded-full font-black text-[10px] uppercase text-slate-500 hover:bg-slate-50 press-interaction">
+            <button type="button" aria-selected={false} className="snap-start shrink-0 whitespace-nowrap px-4 py-2 bg-white border border-slate-200 rounded-full font-black text-[10px] uppercase text-slate-500 hover:bg-slate-50 press-interaction">
                Following
             </button>
-            <button type="button" aria-selected={false} className="snap-start shrink-0 whitespace-nowrap px-4 py-2 bg-white border-2 border-border-dark rounded-full font-black text-[10px] uppercase text-slate-500 hover:bg-slate-50 press-interaction">
+            <button type="button" aria-selected={false} className="snap-start shrink-0 whitespace-nowrap px-4 py-2 bg-white border border-slate-200 rounded-full font-black text-[10px] uppercase text-slate-500 hover:bg-slate-50 press-interaction">
                New
             </button>
          </div>
@@ -171,7 +171,7 @@ export const Feed: React.FC<{ onCreatorSelect: () => void; onInvest: () => void 
             {allPosts.map((post) => (
                <BrutalistCard
                   key={post.id}
-                  variant={post.creatorId === '3' ? 'purple' : post.creatorId === '1' ? 'green' : 'white'}
+                  variant="white"
                   className="p-4 space-y-3"
                >
                   <div className="flex justify-between items-start gap-2">
@@ -200,7 +200,7 @@ export const Feed: React.FC<{ onCreatorSelect: () => void; onInvest: () => void 
                   </div>
 
                   {post.image && (
-                     <div className="rounded-lg border-2 border-border-dark overflow-hidden h-36 hard-shadow-sm">
+                     <div className="rounded-lg border border-slate-200 overflow-hidden h-36 hard-shadow-sm">
                         <img src={post.image} alt="" className="w-full h-full object-cover" loading="lazy" />
                      </div>
                   )}
@@ -252,7 +252,7 @@ export const Feed: React.FC<{ onCreatorSelect: () => void; onInvest: () => void 
             onClick={() => setComposeOpen(true)}
             aria-label="Compose post"
             className={cn(
-               'fixed z-40 w-14 h-14 bg-clout-yellow rounded-full border-2 border-border-dark flex items-center justify-center hard-shadow press-interaction right-4 bottom-[calc(6rem+env(safe-area-inset-bottom,0px))] sm:right-8 transition-opacity',
+               'fixed z-40 w-14 h-14 bg-border-dark text-white rounded-full border border-border-dark flex items-center justify-center hard-shadow press-interaction right-4 bottom-[calc(5.5rem+env(safe-area-inset-bottom,0px))] sm:right-8 transition-opacity',
                composeOpen && 'opacity-0 pointer-events-none'
             )}
          >
@@ -276,7 +276,7 @@ export const Feed: React.FC<{ onCreatorSelect: () => void; onInvest: () => void 
                      animate={{ y: 0, opacity: 1 }}
                      exit={{ y: 24, opacity: 0 }}
                      transition={{ type: 'spring', damping: 28, stiffness: 320 }}
-                     className="w-full max-w-lg bg-clout-bg border-2 border-border-dark rounded-2xl hard-shadow p-3 sm:p-4 max-h-[min(90dvh,28rem)] sm:max-h-[min(85dvh,32rem)] flex flex-col gap-3 overflow-y-auto"
+                     className="w-full max-w-lg bg-clout-bg border border-slate-200 rounded-2xl hard-shadow p-3 sm:p-4 max-h-[min(90dvh,28rem)] sm:max-h-[min(85dvh,32rem)] flex flex-col gap-3 overflow-y-auto"
                      onClick={(e) => e.stopPropagation()}
                   >
                      <div className="flex items-center justify-between gap-2">
@@ -287,7 +287,7 @@ export const Feed: React.FC<{ onCreatorSelect: () => void; onInvest: () => void 
                            type="button"
                            aria-label="Close"
                            onClick={() => setComposeOpen(false)}
-                           className="w-10 h-10 rounded-xl border-2 border-border-dark bg-white flex items-center justify-center press-interaction hard-shadow-sm"
+                           className="w-10 h-10 rounded-xl border border-slate-200 bg-white flex items-center justify-center press-interaction hard-shadow-sm"
                         >
                            <X size={20} />
                         </button>
@@ -299,7 +299,7 @@ export const Feed: React.FC<{ onCreatorSelect: () => void; onInvest: () => void 
                         placeholder="What is happening on the market?"
                         rows={5}
                         maxLength={280}
-                        className="w-full min-h-[8rem] resize-y rounded-xl border-2 border-border-dark bg-white p-3 text-sm font-medium text-slate-800 outline-none focus:ring-2 focus:ring-clout-yellow/80"
+                        className="w-full min-h-[8rem] resize-y rounded-xl border border-slate-200 bg-white p-3 text-sm font-medium text-slate-800 outline-none focus:ring-2 focus:ring-border-dark/15"
                      />
                      <div className="flex justify-between items-center text-[10px] font-bold text-slate-500">
                         <span>{280 - draft.length} left</span>
