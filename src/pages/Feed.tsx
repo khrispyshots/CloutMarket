@@ -344,7 +344,7 @@ export const Feed: React.FC<{
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-3 sm:p-4 bg-black/50 overscroll-contain"
+                  className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-3 sm:p-4 pt-16 sm:pt-4 bg-black/50 overscroll-contain"
                   onClick={() => setComposeOpen(false)}
                >
                   <motion.div
@@ -385,7 +385,7 @@ export const Feed: React.FC<{
                         onClick={publishPost}
                         disabled={!draft.trim()}
                         variant={draft.trim() ? 'primary' : 'outline'}
-                        className="h-12 text-sm"
+                        className="h-12 text-sm shrink-0 mb-4 sm:mb-0"
                         rightIcon={<SendHorizontal size={18} strokeWidth={3} />}
                      >
                         Send post
