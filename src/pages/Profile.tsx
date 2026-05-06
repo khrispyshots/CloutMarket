@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { cn, copyTextToClipboard } from '../lib/utils';
 import { useCloutMarket } from '../engine/CloutMarketContext';
+import { getSpotPrice } from '../engine/bondingCurve';
 
 const parseCount = (c: string): number => {
    if (c.endsWith('k')) return parseFloat(c) * 1000;
@@ -70,6 +71,7 @@ export const Profile: React.FC<{
    const holders = isMe ? 1 : Math.max(1, Math.round(state.pulse[creator.id]?.buyerCount ?? 8));
    const supplyPct = Math.min(100, Math.max(1, (supply / 10000) * 100));
    const changeIsPositive = !creator.change.trim().startsWith('-');
+   const displayedSharePrice = `$${getSpotPrice(supply).toFixed(2)}`;
 
    const toggleLike = (id: string) => {
       setLikes(prev => {
@@ -131,7 +133,7 @@ export const Profile: React.FC<{
                <BrutalistCard variant="white" className="flex flex-col justify-between min-h-[6.5rem] p-3">
                   <span className="text-[10px] font-black uppercase opacity-60">Share price</span>
                   <div>
-                     <span className="text-xl font-black">{creator.price}</span>
+                     <span className="text-xl font-black">{displayedSharePrice}</span>
                      <p className={cn('text-[10px] font-bold flex items-center gap-1', changeIsPositive ? 'text-clout-green' : 'text-red-500')}>
                         <TrendingUp size={12} /> {creator.change}
                      </p>

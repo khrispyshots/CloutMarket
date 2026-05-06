@@ -6,3 +6,9 @@ coverage/
 *.log
 .env*
 !.env.example
+contracts/
+*.md
+how-to.md
+brief.md
+docs/
+ 

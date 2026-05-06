@@ -3,7 +3,8 @@ import { BrutalistCard, StickerButton, Avatar } from '../components/UI';
 import { ArrowLeft, ShoppingCart, TrendingUp, CircleDollarSign } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { useCloutMarket } from '../engine/CloutMarketContext';
-import { CREATOR_FEE_SHARE, FEE_BUY_PCT, TRADE_COOLDOWN_MS } from '../engine/config';
+import { CREATOR_FEE_SHARE, FEE_BUY_PCT, INITIAL_OWNED_SHARES, TRADE_COOLDOWN_MS } from '../engine/config';
+import { getBuyCost, getSharesForBuyAmount, getSpotPrice } from '../engine/bondingCurve';
 import { CREATORS } from '../constants';
 
 export const BuyToken: React.FC<{ creatorId: string; onBack: () => void; onComplete: () => void }> = ({ creatorId, onBack, onComplete }) => {
@@ -12,12 +13,17 @@ export const BuyToken: React.FC<{ creatorId: string; onBack: () => void; onCompl
    const [asset, setAsset] = useState<'CELO' | 'cUSD'>('CELO');
    const creator = CREATORS.find((item) => item.id === creatorId) ?? CREATORS[2];
 
-   const spot = state.tokenSpotPrice;
+   const currentSupply = state.shareSupply[creator.id] ?? INITIAL_OWNED_SHARES;
+   const spot = getSpotPrice(currentSupply);
    const usd = parseFloat(amount);
    const usdValid = Number.isFinite(usd) && usd > 0;
-   const shareAmount = usdValid ? (usd / spot).toFixed(4) : '0.00';
    const feeUsd = usdValid ? usd * FEE_BUY_PCT : 0;
    const creatorShare = usdValid ? usd * CREATOR_FEE_SHARE : 0;
+   const curveBudget = usdValid ? Math.max(0, usd - feeUsd - creatorShare) : 0;
+   const sharesOut = getSharesForBuyAmount(currentSupply, curveBudget);
+   const curveCost = getBuyCost(currentSupply, sharesOut);
+   const shareAmount = usdValid ? sharesOut.toFixed(4) : '0.00';
+   const averagePrice = sharesOut > 0 ? curveCost / sharesOut : 0;
    const inCooldown = state.lastTradeAt != null && Date.now() - state.lastTradeAt < TRADE_COOLDOWN_MS;
 
    return (
@@ -36,7 +42,7 @@ export const BuyToken: React.FC<{ creatorId: string; onBack: () => void; onCompl
                   <h2 className="text-xl font-black">@{creator.handle}</h2>
                   <div className="flex items-center gap-1.5 text-[10px] font-black uppercase text-slate-500 tracking-wider">
                      <TrendingUp size={12} strokeWidth={3} />
-                     Bonding curve spot ${spot.toFixed(2)} / share
+                     Curve spot ${spot.toFixed(2)} / share
                   </div>
                </div>
             </BrutalistCard>
@@ -110,6 +116,14 @@ export const BuyToken: React.FC<{ creatorId: string; onBack: () => void; onCompl
                   <span className="tracking-wide shrink">Creator fee ({(CREATOR_FEE_SHARE * 100).toFixed(1)}%)</span>
                   <span className="font-black text-clout-green tabular-nums">${creatorShare.toFixed(2)}</span>
                </div>
+               <div className="flex justify-between text-[11px] font-bold text-slate-500 font-sans uppercase gap-2">
+                  <span className="tracking-wide shrink">Curve purchase</span>
+                  <span className="font-black text-border-dark tabular-nums">${curveCost.toFixed(2)}</span>
+               </div>
+               <div className="flex justify-between text-[11px] font-bold text-slate-500 font-sans uppercase gap-2">
+                  <span className="tracking-wide shrink">Average share price</span>
+                  <span className="font-black text-border-dark tabular-nums">${averagePrice.toFixed(2)}</span>
+               </div>
                <div className="flex justify-between text-[11px] font-bold text-slate-500 font-sans uppercase">
                   <span className="tracking-widest">Network</span>
                   <span className="font-black">~$0.002</span>
@@ -138,7 +152,7 @@ export const BuyToken: React.FC<{ creatorId: string; onBack: () => void; onCompl
                }
                rightIcon={<ShoppingCart size={20} />}
             >
-               {usdValid ? `Buy $${usd.toFixed(2)} of shares` : 'Enter amount'}
+               {usdValid ? `Buy ${sharesOut.toFixed(4)} shares` : 'Enter amount'}
             </StickerButton>
          </div>
       </div>

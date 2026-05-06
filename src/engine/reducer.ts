@@ -14,10 +14,9 @@ import {
   POINTS_REFERRAL,
   POINTS_REPOST_BASE,
   POINTS_SELL_MAX,
-  PRICE_BUY_IMPACT,
-  PRICE_SELL_IMPACT,
   TRADE_COOLDOWN_MS,
 } from './config';
+import { getBuyCost, getSellReturn, getSharesForBuyAmount, getSpotPrice } from './bondingCurve';
 import type { CloutEvent, CreatorPulse, EngineState } from './types';
 
 export function dayKeyFrom(ts = Date.now()): string {
@@ -96,7 +95,7 @@ export function createInitialEngineState(): EngineState {
     dailyPointsEarned: 0,
     actionStamps: {},
     lastTradeAt: null,
-    tokenSpotPrice: 14.2,
+    tokenSpotPrice: getSpotPrice(1288),
     shareSupply: { me: INITIAL_OWNED_SHARES, '1': 842, '2': 611, '3': 1288 },
     shareHoldings: { me: INITIAL_OWNED_SHARES, '3': 1 },
     platformFeesUsd: 0,
@@ -181,6 +180,11 @@ export function reduceEngine(state: EngineState, event: CloutEvent, now = Date.n
     case 'BuyToken': {
       const fee = event.usdAmount * FEE_BUY_PCT;
       const creatorCut = event.usdAmount * CREATOR_FEE_SHARE;
+      const curveBudget = Math.max(0, event.usdAmount - fee - creatorCut);
+      const currentSupply = s.shareSupply[event.creatorId] ?? INITIAL_OWNED_SHARES;
+      const sharesOut = getSharesForBuyAmount(currentSupply, curveBudget);
+      const curveCost = getBuyCost(currentSupply, sharesOut);
+      const nextSupply = currentSupply + sharesOut;
       const cooldownMul = s.lastTradeAt && now - s.lastTradeAt < TRADE_COOLDOWN_MS ? 0.35 : 1;
       const buyPts = Math.min(220, event.usdAmount * POINTS_BUY_PER_USD * cooldownMul);
       s = awardPoints(s, buyPts, now);
@@ -196,15 +200,15 @@ export function reduceEngine(state: EngineState, event: CloutEvent, now = Date.n
         ...s,
         lastTradeAt: now,
         platformFeesUsd: s.platformFeesUsd + fee,
-        shareSupply: { ...s.shareSupply, [event.creatorId]: (s.shareSupply[event.creatorId] ?? 1) + event.usdAmount / s.tokenSpotPrice },
-        shareHoldings: { ...s.shareHoldings, [event.creatorId]: (s.shareHoldings[event.creatorId] ?? 0) + event.usdAmount / s.tokenSpotPrice },
+        shareSupply: { ...s.shareSupply, [event.creatorId]: nextSupply },
+        shareHoldings: { ...s.shareHoldings, [event.creatorId]: (s.shareHoldings[event.creatorId] ?? 0) + sharesOut },
         creatorAccruedUsd: { ...s.creatorAccruedUsd, [event.creatorId]: (s.creatorAccruedUsd[event.creatorId] ?? 0) + creatorCut },
-        tokenSpotPrice: s.tokenSpotPrice + event.usdAmount * PRICE_BUY_IMPACT,
+        tokenSpotPrice: getSpotPrice(nextSupply),
         pulse: bumpPulse(
           s.pulse,
           event.creatorId,
           {
-            investmentUsd: p.investmentUsd + event.usdAmount,
+            investmentUsd: p.investmentUsd + curveCost,
             buyerCount: p.buyerCount + 1,
             velocity: p.velocity + 0.2,
             engagement: p.engagement + 3,
@@ -215,7 +219,12 @@ export function reduceEngine(state: EngineState, event: CloutEvent, now = Date.n
       return s;
     }
     case 'SellToken': {
-      const fee = event.usdEstimate * FEE_SELL_PCT;
+      const currentSupply = s.shareSupply[event.creatorId] ?? INITIAL_OWNED_SHARES;
+      const heldShares = s.shareHoldings[event.creatorId] ?? 0;
+      const sharesIn = Math.min(event.tokenAmount, currentSupply, heldShares);
+      const grossReturn = getSellReturn(currentSupply, sharesIn);
+      const fee = grossReturn * FEE_SELL_PCT;
+      const nextSupply = Math.max(INITIAL_OWNED_SHARES, currentSupply - sharesIn);
       const pts = Math.min(POINTS_SELL_MAX, 1 + event.tokenAmount * 0.02);
       s = awardPoints(s, pts, now);
       const p = s.pulse[event.creatorId] ?? {
@@ -230,10 +239,10 @@ export function reduceEngine(state: EngineState, event: CloutEvent, now = Date.n
         ...s,
         lastTradeAt: now,
         platformFeesUsd: s.platformFeesUsd + fee,
-        shareSupply: { ...s.shareSupply, [event.creatorId]: Math.max(1, (s.shareSupply[event.creatorId] ?? 1) - event.tokenAmount) },
-        shareHoldings: { ...s.shareHoldings, [event.creatorId]: Math.max(0, (s.shareHoldings[event.creatorId] ?? 0) - event.tokenAmount) },
-        tokenSpotPrice: Math.max(0.5, s.tokenSpotPrice - event.usdEstimate * PRICE_SELL_IMPACT),
-        pulse: bumpPulse(s.pulse, event.creatorId, { investmentUsd: Math.max(0, p.investmentUsd - event.usdEstimate * 0.3), velocity: Math.max(0.1, p.velocity - 0.05) }, now),
+        shareSupply: { ...s.shareSupply, [event.creatorId]: nextSupply },
+        shareHoldings: { ...s.shareHoldings, [event.creatorId]: Math.max(0, heldShares - sharesIn) },
+        tokenSpotPrice: getSpotPrice(nextSupply),
+        pulse: bumpPulse(s.pulse, event.creatorId, { investmentUsd: Math.max(0, p.investmentUsd - grossReturn * 0.3), velocity: Math.max(0.1, p.velocity - 0.05) }, now),
       };
       return s;
     }

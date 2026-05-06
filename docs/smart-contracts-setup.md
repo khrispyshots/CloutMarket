@@ -1,5 +1,7 @@
 # Smart Contracts Setup For CloutMarket
 
+Current implementation note: the repo now includes Remix-ready contracts in `contracts/` and a deployment guide in `how-to.md`. Use that guide for the active deployment path. The Hardhat notes below are retained as optional future tooling guidance only.
+
 CloutMarket should not put every social action on-chain. The smart contracts should own money, tradable shares, supply, fees, and creator claims. The backend should own posts, likes, comments, rankings, notifications, and fast product data.
 
 ## Recommended Contract Stack
